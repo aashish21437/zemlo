@@ -1,70 +1,112 @@
+"use client"
+
 import React from 'react';
-import { ArrowRight, Shield, Zap, Globe } from 'lucide-react'; // You may need to run: npm install lucide-react
+import { Globe, Mail, Moon, Sun, ArrowDown, Zap, Shield, Cpu } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans">
-      {/* --- Navigation --- */}
-      <nav className="flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
-        <div className="text-2xl font-bold tracking-tighter text-indigo-600">
-          ZEMLO
-        </div>
-        <div className="hidden md:flex space-x-8 font-medium text-slate-600">
-          <a href="#features" className="hover:text-indigo-600 transition">Features</a>
-          <a href="#" className="hover:text-indigo-600 transition">About</a>
-          <a href="#" className="hover:text-indigo-600 transition">Contact</a>
-        </div>
-        <button className="bg-slate-900 text-white px-5 py-2 rounded-full font-medium hover:bg-slate-800 transition">
-          Launch App
-        </button>
-      </nav>
+    <div className="relative min-h-screen bg-background text-foreground transition-colors">
 
-      {/* --- Hero Section --- */}
-      <header className="relative px-8 pt-20 pb-32 max-w-7xl mx-auto text-center">
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-          The future of <span className="text-indigo-600">Zemlo</span> starts here.
-        </h1>
-        <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-          Building high-performance web applications with Next.js. 
-          Fast, secure, and deployed globally on zemlo.in.
-        </p>
-        <div className="flex flex-col md:flex-row justify-center gap-4">
-          <button className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition">
-            Get Started <ArrowRight size={20} />
-          </button>
-          <button className="bg-white border-2 border-slate-200 px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 transition">
-            View Documentation
-          </button>
-        </div>
-      </header>
+      <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        <nav className="flex items-center gap-8 px-2 py-2 rounded-full bg-zinc-950/90 dark:bg-zinc-50/90 backdrop-blur-lg ring-1 ring-white/10 dark:ring-black/10 transition-all duration-500">
 
-      {/* --- Features Grid --- */}
-      <section id="features" className="bg-slate-50 py-24 px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-12">
-            <FeatureCard 
-              icon={<Zap className="text-indigo-600" />}
-              title="Lightning Fast"
-              description="Optimized with Next.js 16 and Turbopack for the fastest load times possible."
-            />
-            <FeatureCard 
-              icon={<Shield className="text-indigo-600" />}
-              title="Secure by Default"
-              description="Enterprise-grade security and SSL protection live on zemlo.in."
-            />
-            <FeatureCard 
-              icon={<Globe className="text-indigo-600" />}
-              title="Global Scale"
-              description="Deploy your application to the edge and reach users anywhere in milliseconds."
-            />
+          {/* Logo / Globe Icon */}
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-background dark:bg-black text-black dark:text-white shadow-sm">
+            <Globe size={18} strokeWidth={2.5} />
           </div>
-        </div>
-      </section>
 
-      {/* --- Footer --- */}
-      <footer className="py-12 border-t border-slate-100 text-center text-slate-500">
-        <p>© 2026 Zemlo. All rights reserved.</p>
-      </footer>
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center px-4 gap-8">
+            <a href="#hero" className="text-[13px] font-medium text-foreground dark:text-zinc-500 hover:text-white dark:hover:text-black transition-colors">Work</a>
+            <a href="#team" className="text-[13px] font-medium text-foreground dark:text-zinc-500 hover:text-white dark:hover:text-black transition-colors">Team</a>
+            <a href="#contact" className="text-[13px] font-medium text-foreground dark:text-zinc-500 hover:text-white dark:hover:text-black transition-colors">Contact</a>
+                        <ThemeToggle />
+
+
+          {/* Email Pill Button */}
+          <a
+            href="mailto:aashish@zemlo.in"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-background dark:bg-black text-black dark:text-white text-[13px] font-bold hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all shadow-md"
+          >
+            <Mail size={14} strokeWidth={2.5} />
+            aashish@zemlo.in
+          </a>
+          </div>
+        </nav>
+      </div>
+      <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+        {/* ... (Your redesigned black pill navbar code is already here) ... */}
+      </div>
+
+      <main>
+        {/* --- NEW HERO SECTION (image_4.png style) --- */}
+        <section className="pt-40 pb-20 px-6 sm:px-10 lg:px-16 container mx-auto">
+
+          {/* Top Status Area - Matches [image_4.png] layout */}
+          <div className="flex justify-between items-start mb-20 text-xs tracking-tighter text-muted-foreground/90 font-medium">
+            <div className="text-right">
+              {/* Could be an actual date/status */}
+              <span>Aug 27, 2024</span><br />
+              <span>9:29:08 AM</span>
+            </div>
+            <div className="flex items-center gap-1.5 pt-1">
+              <span className="relative flex h-2.5 w-2.5">
+                {/* Ping/Pulse animation for the status dot */}
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-inner"></span>
+              </span>
+              <span>Available for new project</span>
+            </div>
+          </div>
+
+          {/* Core Content Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
+
+            {/* COLUMN 1 & 2: Main Header (Playfair Serif Font) */}
+            <div className="md:col-span-2 space-y-12">
+              <h1 className="text-5xl md:text-8xl font-black font-serif tracking-tighter leading-[0.95] text-foreground transition-colors duration-300">
+                Designing software that works effortlessly.
+              </h1>
+
+              {/* Social Icons (matching the layout in image_4.png) */}
+              <div className="flex gap-4 items-center text-foreground dark:text-zinc-500">
+                {/* ... Add Lucide icons like Globe, Mail, LinkedIn ... */}
+              </div>
+            </div>
+
+            {/* COLUMN 3: Profile & Intro Text (Geist Sans Font) */}
+            <div className="space-y-12 pt-1 md:pt-4">
+              {/* Optional Profile Placeholder */}
+              <div className="h-20 w-20 rounded-xl bg-background dark:bg-zinc-800 border border-border" />
+
+              {/* Refined intro text, matching the width in image_4.png */}
+              <p className="text-base font-medium leading-relaxed text-muted-foreground/80 max-w-sm">
+                Hi Nazar Ali, a freelance UI Designer based in Indonesia. I collaborate with companies to craft digital interfaces that are integral to achieving their future goals and driving success.
+              </p>
+
+              {/* Discover Link with Icon */}
+              <a href="#discover" className="inline-flex items-center gap-2.5 text-sm font-bold text-zinc-900 dark:text-zinc-50 hover:underline transition-all">
+                Discover <ArrowDown size={14} className="opacity-70" />
+              </a>
+            </div>
+          </div>
+
+          {/* Fixed Floating Action Pill (Pasting this logic at bottom of main) */}
+          <div className="fixed bottom-10 left-0 right-0 z-40 flex justify-center px-4">
+            <a href="mailto:aashish@zemlo.in" className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-zinc-950/95 dark:bg-zinc-50 backdrop-blur-sm shadow-2xl text-white dark:text-black text-sm font-bold hover:bg-zinc-800 dark:hover:bg-background transition-all">
+              <Mail size={16} />
+              Reach out via email
+            </a>
+          </div>
+
+        </section>
+
+        {/* --- REST OF THE PAGE --- */}
+        {/* Team, Footer, etc. (They now look very professional below the clean hero) */}
+      </main>
     </div>
   );
 }
@@ -72,7 +114,7 @@ export default function Home() {
 // Small helper component for the features
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+    <div className="bg-background p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
       <div className="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center mb-6">
         {icon}
       </div>

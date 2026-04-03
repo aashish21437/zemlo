@@ -1,9 +1,37 @@
 @import "tailwindcss";
 
-/* ... keep your shadcn variables here ... */
+@layer base {
+  :root {
+    /* Soft Off-White Background */
+    --background: 0 0% 98%; 
+    /* Zinc 900 - Soft Charcoal (#18181b) */
+    --foreground: 240 5.9% 10%; 
+    
+    --card: 0 0% 100%;
+    --card-foreground: 240 5.9% 10%;
+    --border: 240 5.9% 90%; 
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%; 
+  }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
+  .dark {
+    /* Background becomes the soft Zinc 900 Charcoal */
+    --background: 240 5.9% 10%; 
+    /* Text becomes the soft Off-White */
+    --foreground: 0 0% 98%; 
+    
+    --card: 240 5.9% 10%;
+    --card-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+  }
+}
+
+@layer base {
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
 }
