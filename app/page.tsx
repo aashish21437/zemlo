@@ -47,11 +47,7 @@ export default function Home() {
 
           {/* Top Status Area - Matches [image_4.png] layout */}
           <div className="flex justify-between items-start mb-20 text-xs tracking-tighter text-muted-foreground/90 font-medium">
-            <div className="text-right">
-              {/* Could be an actual date/status */}
-              <span>Aug 27, 2024</span><br />
-              <span>9:29:08 AM</span>
-            </div>
+
             <div className="flex items-center gap-1.5 pt-1">
               <span className="relative flex h-2.5 w-2.5">
                 {/* Ping/Pulse animation for the status dot */}
@@ -84,7 +80,7 @@ export default function Home() {
 
               {/* Refined intro text, matching the width in image_4.png */}
               <p className="text-base font-medium leading-relaxed text-muted-foreground/80 max-w-sm">
-                Hi Nazar Ali, a freelance UI Designer based in Indonesia. I collaborate with companies to craft digital interfaces that are integral to achieving their future goals and driving success.
+                Hi Aashish Chauhan, a freelance Website Developer based in India. I collaborate with companies to craft digital tools that are integral to achieving their future goals and driving success.
               </p>
 
               {/* Discover Link with Icon */}
