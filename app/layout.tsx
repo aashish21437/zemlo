@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "../components/ui/theme-provider";
 import "./globals.css";
+import Footer from "@/components/ui/Footer";
 
 export const metadata: Metadata = {
   title: "Zemlo | Next-Gen Web Solutions",
@@ -28,6 +29,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <Footer />
       </body>
     </html>
   );
