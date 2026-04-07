@@ -21,13 +21,13 @@ export function ThemeToggle() {
         <Button
             variant="ghost"
             size="icon"
-            className="flex items-center justify-center hover:bg-transparent"
+            className="flex items-center justify-center cursor-pointer hover:bg-transparent"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
         >
             {resolvedTheme === "dark" ? (
-                <Moon className="h-[1.2rem] w-[1.2rem] text-foreground" />
+                <Moon className="h-[1.2rem] w-[1.2rem] text-zinc-900" />
             ) : (
-                <Sun className="h-[1.2rem] w-[1.2rem] text-foreground" />
+                <Sun className="h-[1.2rem] w-[1.2rem] text-zinc-900" />
             )}
             <span className="sr-only">Toggle theme</span>
         </Button>

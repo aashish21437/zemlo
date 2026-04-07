@@ -19,10 +19,10 @@ export default function Home() {
           </div>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center px-4 gap-8">
-            <a href="#hero" className="text-[13px] font-medium text-foreground dark:text-zinc-500 hover:text-white dark:hover:text-black transition-colors">Work</a>
-            <a href="#team" className="text-[13px] font-medium text-foreground dark:text-zinc-500 hover:text-white dark:hover:text-black transition-colors">Team</a>
-            <a href="#contact" className="text-[13px] font-medium text-foreground dark:text-zinc-500 hover:text-white dark:hover:text-black transition-colors">Contact</a>
+          <div className="hidden md:flex items-center px-4 gap-15">
+            <a href="#hero" className="text-[13px] font-medium text-foreground dark:text-zinc-900 hover:text-white dark:hover:text-black transition-colors ">Work</a>
+            <a href="#team" className="text-[13px] font-medium text-foreground dark:text-zinc-900 hover:text-white dark:hover:text-black transition-colors">Team</a>
+            <a href="#contact" className="text-[13px] font-medium text-foreground dark:text-zinc-900 hover:text-white dark:hover:text-black transition-colors">Contact</a>
             <ThemeToggle />
 
 

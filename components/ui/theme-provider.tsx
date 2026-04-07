@@ -9,15 +9,14 @@ export function ThemeProvider({
 }: React.ComponentProps<typeof NextThemesProvider>) {
   const [mounted, setMounted] = React.useState(false)
 
-  // useEffect only runs on the client after the first render
   React.useEffect(() => {
     setMounted(true)
   }, [])
 
-  // If not mounted, we render a "fragment" so the server-side HTML
-  // does not contain any of the theme-provider's injected scripts.
+  // IMPORTANT: We do not render the Provider at all until mounted.
+  // This prevents the script tag from entering the Next.js render stream.
   if (!mounted) {
-    return <>{children}</>
+    return <div style={{ visibility: 'hidden' }}>{children}</div>
   }
 
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>
