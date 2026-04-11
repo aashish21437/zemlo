@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { registerAgent, getAgentById, updateAgent } from '@/app/qreg/actions'; 
-import { ChevronLeft, Save, Building2, User, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
+import { ChevronLeft, Building2, User, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
 
-// 1. MOVE INTERFACE OUTSIDE: This defines the shape of your data
+// Explicitly define the Agent shape for TypeScript
 interface AgentData {
   _id: string;
   companyName?: string;
@@ -18,7 +18,7 @@ interface AgentData {
 
 export default function AgentDetailPage() {
   const params = useParams();
-  const id = params?.id as string; // Safer access for Vercel
+  const id = params?.id as string;
   const router = useRouter();
   const isNew = id === 'new';
   
@@ -32,7 +32,6 @@ export default function AgentDetailPage() {
     address: '',
   });
 
-  // 2. DATA FETCHING LOGIC
   useEffect(() => {
     async function loadAgent() {
       if (isNew) {
@@ -42,25 +41,29 @@ export default function AgentDetailPage() {
 
       if (id) {
         setFetching(true);
-        // Cast the result to 'any' or 'AgentData' to satisfy TypeScript
-        const currentAgent = await getAgentById(id) as any;
-        
-        if (currentAgent) {
-          setFormData({
-            company: currentAgent.companyName || '',
-            agentName: currentAgent.agentName || '',
-            email: currentAgent.email || '',
-            phone: currentAgent.phone || '',
-            address: currentAgent.address || '',
-          });
+        try {
+          // Cast to any to bypass strict property checks during the Vercel build
+          const currentAgent = await getAgentById(id) as any;
+          
+          if (currentAgent) {
+            setFormData({
+              company: currentAgent.companyName || '',
+              agentName: currentAgent.agentName || '',
+              email: currentAgent.email || '',
+              phone: currentAgent.phone || '',
+              address: currentAgent.address || '',
+            });
+          }
+        } catch (error) {
+          console.error("Error loading agent:", error);
+        } finally {
+          setFetching(false);
         }
-        setFetching(false);
       }
     }
     loadAgent();
   }, [id, isNew]);
 
-  // 3. SAVE LOGIC
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -68,12 +71,7 @@ export default function AgentDetailPage() {
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => data.append(key, value));
 
-    let res;
-    if (isNew) {
-      res = await registerAgent(data);
-    } else {
-      res = await updateAgent(id, data);
-    }
+    const res = isNew ? await registerAgent(data) : await updateAgent(id, data);
     
     setLoading(false);
     if (res.success) {
@@ -119,7 +117,6 @@ export default function AgentDetailPage() {
               value={formData.company} 
               onChange={e => setFormData({...formData, company: e.target.value})} 
               className="col-span-2 bg-zinc-50 border border-zinc-200 rounded-md py-2 px-4 text-sm outline-none focus:bg-white focus:border-[#0070d2] uppercase font-bold" 
-              placeholder="e.g. MAKE MY TRIP"
             />
           </div>
 
@@ -130,7 +127,6 @@ export default function AgentDetailPage() {
               value={formData.agentName} 
               onChange={e => setFormData({...formData, agentName: e.target.value})} 
               className="col-span-2 bg-zinc-50 border border-zinc-200 rounded-md py-2 px-4 text-sm outline-none focus:bg-white focus:border-[#0070d2]" 
-              placeholder="Full Name"
             />
           </div>
 
@@ -142,7 +138,6 @@ export default function AgentDetailPage() {
               value={formData.email} 
               onChange={e => setFormData({...formData, email: e.target.value})} 
               className="col-span-2 bg-zinc-50 border border-zinc-200 rounded-md py-2 px-4 text-sm outline-none focus:bg-white focus:border-[#0070d2]" 
-              placeholder="email@company.com"
             />
           </div>
 
@@ -153,7 +148,6 @@ export default function AgentDetailPage() {
               value={formData.phone} 
               onChange={e => setFormData({...formData, phone: e.target.value})} 
               className="col-span-2 bg-zinc-50 border border-zinc-200 rounded-md py-2 px-4 text-sm outline-none focus:bg-white focus:border-[#0070d2]" 
-              placeholder="+91..."
             />
           </div>
 
@@ -165,7 +159,6 @@ export default function AgentDetailPage() {
               value={formData.address} 
               onChange={e => setFormData({...formData, address: e.target.value})} 
               className="col-span-2 bg-zinc-50 border border-zinc-200 rounded-md py-2 px-4 text-sm outline-none focus:bg-white focus:border-[#0070d2] resize-none" 
-              placeholder="Full mailing address"
             />
           </div>
         </form>
