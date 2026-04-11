@@ -8,7 +8,12 @@ import UserStatus from "./UserStatus";
 export default function Navbar() {
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-      <nav className="flex items-center gap-4 md:gap-8 px-3 py-2 rounded-full bg-zinc-950/90 dark:bg-zinc-50/90 backdrop-blur-lg ring-1 ring-white/10 dark:ring-black/10 transition-all duration-500">
+      <nav 
+      
+      className="flex items-center gap-4 md:gap-8 px-3 py-2 rounded-full bg-zinc-950/40 dark:bg-zinc-50/40 backdrop-blur-sm ring-1 ring-white/10 dark:ring-black/10 transition-all duration-500"
+      
+      
+      >
         
         {/* Logo / Globe Icon */}
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-background dark:bg-black text-black dark:text-white shadow-sm">
