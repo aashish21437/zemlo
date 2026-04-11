@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Navbar from "@/components/Navbar";
 
 export function QregNav() {
   const pathname = usePathname();
@@ -21,7 +22,9 @@ export function QregNav() {
   `;
 
   return (
-    <nav className="flex gap-10 border-b border-zinc-200 mb-10 overflow-x-auto no-scrollbar">
+    <>
+                  <Navbar />
+    <nav className="mt-8 flex gap-10 border-b border-zinc-200 mb-10 overflow-x-auto no-scrollbar">
       <Link href="/qreg" className={linkStyles('/qreg')}>
         Agent Registry
       </Link>
@@ -29,5 +32,6 @@ export function QregNav() {
         Query Management
       </Link>
     </nav>
+    </>
   );
 }

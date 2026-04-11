@@ -1,3 +1,5 @@
+//app/qreg/layout.tsx
+
 import { QregNav } from "@/components/qreg/qreg-nav";
 
 export default function QregLayout({

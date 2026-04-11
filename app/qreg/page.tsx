@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { getAgents } from '@/app/qreg/actions';
 import { Plus, Search, Building2, Loader2 } from 'lucide-react';
 
+
 export default function AgentRegistryPage() {
   const [agents, setAgents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,9 @@ export default function AgentRegistryPage() {
   }, []);
 
   return (
+    
     <div className="max-w-screen-2xl mx-auto">
+
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Agent Registry</h1>

@@ -45,12 +45,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- FEATURED TOOL SECTION --- */}
-        <SightseeingSection />
-
-        {/* --- CRM / SALES ENGINE SECTION --- */}
-        <CRMSection />
-
         {/* --- CONTACT PILL --- */}
         <div className="fixed bottom-10 left-0 right-0 z-40 flex justify-center px-4">
           <a

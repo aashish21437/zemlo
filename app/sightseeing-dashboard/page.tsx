@@ -1,118 +1,106 @@
-import { dbConnect } from '@/lib/db'; // This now exists as a named export!
+import { dbConnect } from '@/lib/db';
 import Sightseeing from '@/models/Sightseeing';
 import Link from 'next/link';
+import Navbar from "@/components/Navbar";
 
-// 1. Define the TypeScript Interface for your Spot data
+
 interface SightseeingSpot {
   _id: string;
-  who_what?: {
-    name_en?: string;
-    tagline?: string;
-    category_primary?: string;
-    unesco_status?: boolean;
-  };
-  where?: {
-    hierarchy?: {
-      prefecture?: string;
-      municipality?: string;
-    };
-  };
-  ticketing?: {
-    pricing?: {
-      adult?: number;
-    };
-  };
-  vibe?: {
-    primary?: string;
-  };
-  facilities?: {
-    photography_allowed?: boolean;
-  };
+  sightseeing_id: number;
+  name_en: string;
+  category_primary: string;
+  municipality: string;
+  adult_price: number;
+  createdAt: Date;
 }
 
 export default async function SightseeingDashboard() {
   await dbConnect();
-  
-  // 2. Cast the MongoDB result to our Interface
-  // Using .lean() makes the data a plain JS object, which is better for TS
+
   const spots = (await Sightseeing.find({})
-    .sort({ createdAt: -1 })
+    .sort({ sightseeing_id: -1 })
     .lean()) as unknown as SightseeingSpot[];
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4">
+    <div className="min-h-screen bg-background text-foreground py-16 px-6">
       <div className="max-w-7xl mx-auto">
-        
-        <div className="flex justify-between items-center mb-10">
+              <Navbar />
+
+        {/* HEADER SECTION */}
+        <div className="flex justify-between items-end mb-12 border-b border-border pb-8">
           <div>
-            <h1 className="text-3xl font-black text-slate-900">Sightseeing Dashboard</h1>
-            <p className="text-slate-500">Managing {spots.length} entries in Atlas Cloud</p>
+            <h1 className="text-4xl font-black uppercase italic tracking-tighter">
+              Database <span className="text-muted-foreground not-italic font-light">Index</span>
+            </h1>
+            <p className="text-muted-foreground mt-2 font-medium italic text-sm">
+              {spots.length} destinations currently synced to Master Engine
+            </p>
           </div>
-          <Link 
-            href="/add-sightseeings" 
-            className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg"
-          >
-            + Add New Spot
-          </Link>
+
+          <div className="flex items-center gap-4">
+            {/* BULK BUTTON: Outlined Style */}
+            <Link
+              href="/sightseeing-dashboard/bulk"
+              className="px-8 py-4 rounded-full font-black uppercase tracking-widest text-[10px] border border-foreground hover:bg-muted/10 transition-all"
+            >
+              Bulk Registration
+            </Link>
+
+            {/* REGISTER BUTTON: Solid Black Style (Matching the Bulk look but inverted) */}
+            <Link
+              href="/sightseeing-dashboard/new"
+              className="bg-foreground text-background px-8 py-4 rounded-full font-black uppercase tracking-widest text-[10px] border border-foreground hover:opacity-90 transition-all"
+            >
+              + Register Spot
+            </Link>
+          </div>
         </div>
 
         {/* DATA TABLE */}
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
-              <thead className="bg-slate-50 border-b border-slate-200">
-                <tr>
-                  <th className="p-4 text-xs font-black uppercase text-slate-500">Spot Name</th>
-                  <th className="p-4 text-xs font-black uppercase text-slate-500">Location</th>
-                  <th className="p-4 text-xs font-black uppercase text-slate-500">Category</th>
-                  <th className="p-4 text-xs font-black uppercase text-slate-500">Price (Adult)</th>
-                  <th className="p-4 text-xs font-black uppercase text-slate-500">Vibe</th>
-                  <th className="p-4 text-xs font-black uppercase text-slate-500">Status</th>
+              <thead>
+                <tr className="bg-muted/20 border-b border-border">
+                  <th className="p-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">ID</th>
+                  <th className="p-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Destination Name</th>
+                  <th className="p-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Category</th>
+                  <th className="p-6 text-[10px] font-black uppercase tracking-widest text-muted-foreground text-right">Adult Price</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-border">
                 {spots.map((spot) => (
-                  <tr key={spot._id.toString()} className="hover:bg-slate-50 transition-colors group">
-                    <td className="p-4">
-                      <div className="font-bold text-slate-900">{spot.who_what?.name_en}</div>
-                      <div className="text-xs text-slate-400">{spot.who_what?.tagline || 'No tagline'}</div>
+                  <tr key={spot._id.toString()} className="hover:bg-muted/10 transition-colors group">
+                    <td className="p-6 font-mono text-sm font-bold text-primary italic">
+                      #{spot.sightseeing_id}
                     </td>
-                    <td className="p-4">
-                      <div className="text-sm text-slate-600">{spot.where?.hierarchy?.prefecture}</div>
-                      <div className="text-xs text-slate-400">{spot.where?.hierarchy?.municipality}</div>
+                    <td className="p-6">
+                      <Link
+                        href={`/sightseeing-dashboard/${spot.sightseeing_id}`}
+                        className="font-bold text-lg hover:underline underline-offset-8 decoration-2"
+                      >
+                        {spot.name_en}
+                      </Link>
                     </td>
-                    <td className="p-4">
-                      <span className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-bold border border-blue-100">
-                        {spot.who_what?.category_primary}
+                    <td className="p-6">
+                      <span className="px-3 py-1 bg-foreground/5 rounded-full text-[10px] font-black uppercase tracking-widest border border-foreground/10">
+                        {spot.category_primary}
                       </span>
                     </td>
-                    <td className="p-4 font-mono text-sm text-slate-700">
-                      ¥{spot.ticketing?.pricing?.adult?.toLocaleString() || '0'}
-                    </td>
-                    <td className="p-4">
-                      <span className={`text-xs font-medium ${spot.vibe?.primary === 'Spiritual' ? 'text-purple-600' : 'text-slate-500'}`}>
-                        {spot.vibe?.primary || 'N/A'}
-                      </span>
-                    </td>
-                    <td className="p-4">
-                      <div className="flex items-center space-x-2">
-                        {spot.who_what?.unesco_status && (
-                          <span title="UNESCO World Heritage" className="text-amber-500 text-lg">🏛️</span>
-                        )}
-                        {spot.facilities?.photography_allowed && (
-                          <span title="Photography Allowed" className="text-emerald-500 text-lg">📸</span>
-                        )}
-                      </div>
+                    <td className="p-6 font-bold text-right">
+                      ¥{spot.adult_price?.toLocaleString() || '0'}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          
+
           {spots.length === 0 && (
-            <div className="p-20 text-center text-slate-400">
-              No entries found. Go add some magic to the database!
+            <div className="p-20 text-center">
+              <div className="text-muted-foreground font-bold italic uppercase tracking-widest text-xs opacity-40">
+                No Records Found
+              </div>
             </div>
           )}
         </div>

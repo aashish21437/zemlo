@@ -22,7 +22,7 @@ export default function Home() {
         {/* Contact Pill */}
         <div className="fixed bottom-10 left-0 right-0 z-40 flex justify-center px-4">
           <a
-            href="mailto:aashish@zemlo.in"
+            href="mailto:founder@zemlo.in"
             className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-zinc-950/95 dark:bg-zinc-50 backdrop-blur-sm shadow-2xl text-white dark:text-black text-sm font-bold hover:scale-105 transition-all"
           >
             <Mail size={16} />
