@@ -1,33 +1,57 @@
-import { MongoClient, MongoClientOptions } from 'mongodb';
+import mongoose from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
 }
 
-const uri = process.env.MONGODB_URI;
-const options: MongoClientOptions = {};
+const MONGODB_URI = process.env.MONGODB_URI;
 
+// Use a global variable to cache the connection in development
+let cached = (global as any).mongoose;
+
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
+
+export async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      return mongoose;
+    });
+  }
+
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
+  }
+
+  return cached.conn;
+}
+
+// Keep your existing clientPromise logic below for other tools
+import { MongoClient, MongoClientOptions } from 'mongodb';
+const options: MongoClientOptions = {};
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
-// Define a type for the global object to handle the Mongo promise
-interface CustomGlobal extends Global {
-  _mongoClientPromise?: Promise<MongoClient>;
-}
-
-declare const global: CustomGlobal;
-
 if (process.env.NODE_ENV === 'development') {
-  // In development, use a global variable to prevent multiple connections 
-  // during Hot Module Replacement (HMR).
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+  if (!(global as any)._mongoClientPromise) {
+    client = new MongoClient(MONGODB_URI, options);
+    (global as any)._mongoClientPromise = client.connect();
   }
-  clientPromise = global._mongoClientPromise;
+  clientPromise = (global as any)._mongoClientPromise;
 } else {
-  // In production, it's best to not use a global variable.
-  client = new MongoClient(uri, options);
+  client = new MongoClient(MONGODB_URI, options);
   clientPromise = client.connect();
 }
 

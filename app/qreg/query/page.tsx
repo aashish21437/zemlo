@@ -22,7 +22,7 @@ export default function QueryRegistrationPage() {
           <h2 className="text-3xl font-serif font-bold tracking-tight">Query Management</h2>
           <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1">Live Tour Requests</p>
         </div>
-        <QueryForm onRefresh={loadQueries} />
+        <QueryForm/>
       </div>
       <hr className="border-border/50" />
       <QueryTable queries={queries} />

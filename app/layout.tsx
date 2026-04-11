@@ -9,28 +9,18 @@ export const metadata: Metadata = {
   description: "High-performance applications built with Next.js and shadcn/ui.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+// app/layout.tsx
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    // CRITICAL: suppressHydrationWarning must be here
     <html lang="en" suppressHydrationWarning>
-      {/* Add suppressHydrationWarning here as well */}
-      <body 
-        className="antialiased min-h-screen bg-background font-sans" 
-        suppressHydrationWarning
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <head />
+      {/* ALSO add it to body for extra safety in Next.js 16 */}
+      <body suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
-        <Footer />
       </body>
     </html>
-  );
+  )
 }
