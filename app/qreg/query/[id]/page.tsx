@@ -41,11 +41,11 @@ export default function QueryDetailPage() {
   useEffect(() => {
     async function init() {
       try {
-        const agentsData = await getAgents();
+        // 1. Fetch Agents and cast to any array for safety
+        const agentsData = await getAgents() as any[];
         setAllAgents(agentsData);
 
         if (isNew) {
-            // Reset for new entries
             setFormData(prev => ({ ...prev, status: 'Query Received' }));
             setSelectedCompany(null);
             setSearchTerm('');
@@ -54,7 +54,10 @@ export default function QueryDetailPage() {
         }
 
         if (id) {
-          const query = await getQueryById(id as string);
+          setFetching(true);
+          // 2. Fetch Query and cast to any to stop property errors
+          const query = await getQueryById(id as string) as any;
+          
           if (query) {
             setFormData({
               owner: query.owner || '',
@@ -78,7 +81,11 @@ export default function QueryDetailPage() {
             }
           }
         }
-      } catch (error) { console.error(error); } finally { setFetching(false); }
+      } catch (error) { 
+        console.error(error); 
+      } finally { 
+        setFetching(false); 
+      }
     }
     init();
   }, [id, isNew]);
@@ -92,14 +99,13 @@ export default function QueryDetailPage() {
     if (!selectedCompany) return alert("Please search and select a Company Account first.");
     
     setLoading(true);
-    // Payload preparation
     const payload = {
         ...formData,
         nights: calculatedNights,
         agentCode: selectedCompany.agentNumber,
         agentName: formData.contactName,
         agentEmail: formData.email,
-        guests: formData.pax // Ensure this matches your server action key
+        guests: formData.pax
     };
 
     let res;
@@ -123,7 +129,7 @@ export default function QueryDetailPage() {
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to permanentely delete this query?")) return;
     setLoading(true);
-    const res = await deleteQuery(id as string);
+    const res = await deleteQuery(id as string) as any;
     setLoading(false);
     if (res.success) {
       router.push('/qreg/query');
@@ -259,7 +265,7 @@ export default function QueryDetailPage() {
                 </div>
                 {showAgentResults && searchTerm && !selectedCompany && (
                   <div className="absolute z-50 w-full mt-1 bg-white border border-zinc-200 rounded shadow-xl max-h-48 overflow-y-auto">
-                    {allAgents.filter(a => a.companyName.toLowerCase().includes(searchTerm.toLowerCase()) || a.agentNumber.includes(searchTerm)).map(agent => (
+                    {allAgents.filter(a => a.companyName?.toLowerCase().includes(searchTerm.toLowerCase()) || a.agentNumber?.includes(searchTerm)).map(agent => (
                       <div key={agent._id} onClick={() => { setSelectedCompany(agent); setSearchTerm(`${agent.companyName} ${agent.agentNumber}`); setShowAgentResults(false); }} className="p-3 text-xs hover:bg-zinc-50 cursor-pointer flex justify-between items-center border-b border-zinc-100 last:border-0">
                         <span className="font-bold uppercase text-zinc-700">{agent.companyName}</span>
                         <span className="font-mono text-zinc-400">{agent.agentNumber}</span>
