@@ -28,7 +28,7 @@ export default function Navbar() {
             href="/sightseeing-dashboard" 
             className="text-[13px] font-medium text-white dark:text-zinc-900 hover:opacity-70 transition-opacity"
           >
-            Work
+            Database
           </Link>
 
           {/* CRM -> Qreg */}
