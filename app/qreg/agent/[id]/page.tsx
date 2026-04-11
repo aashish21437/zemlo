@@ -2,17 +2,28 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-// Added getAgentById and updateAgent to the imports
 import { registerAgent, getAgentById, updateAgent } from '@/app/qreg/actions'; 
 import { ChevronLeft, Save, Building2, User, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
 
+// 1. MOVE INTERFACE OUTSIDE: This defines the shape of your data
+interface AgentData {
+  _id: string;
+  companyName?: string;
+  agentName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  agentNumber?: string;
+}
+
 export default function AgentDetailPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params?.id as string; // Safer access for Vercel
   const router = useRouter();
   const isNew = id === 'new';
   
   const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(!isNew); // Track initial data fetch
+  const [fetching, setFetching] = useState(!isNew);
   const [formData, setFormData] = useState({
     company: '',
     agentName: '',
@@ -21,7 +32,7 @@ export default function AgentDetailPage() {
     address: '',
   });
 
-  // 1. DATA FETCHING LOGIC (Must be inside the component)
+  // 2. DATA FETCHING LOGIC
   useEffect(() => {
     async function loadAgent() {
       if (isNew) {
@@ -31,8 +42,8 @@ export default function AgentDetailPage() {
 
       if (id) {
         setFetching(true);
-        // This calls the direct DB fetch using the ID from the URL
-        const currentAgent = await getAgentById(id as string);
+        // Cast the result to 'any' or 'AgentData' to satisfy TypeScript
+        const currentAgent = await getAgentById(id) as any;
         
         if (currentAgent) {
           setFormData({
@@ -49,7 +60,7 @@ export default function AgentDetailPage() {
     loadAgent();
   }, [id, isNew]);
 
-  // 2. SAVE LOGIC (Handles both Create and Update)
+  // 3. SAVE LOGIC
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -61,8 +72,7 @@ export default function AgentDetailPage() {
     if (isNew) {
       res = await registerAgent(data);
     } else {
-      // Logic for updating existing records
-      res = await updateAgent(id as string, data);
+      res = await updateAgent(id, data);
     }
     
     setLoading(false);
@@ -76,7 +86,7 @@ export default function AgentDetailPage() {
 
   if (fetching) return (
     <div className="flex items-center justify-center min-h-screen">
-      <Loader2 className="animate-spin text-zinc-300" size={40} />
+      <Loader2 className="animate-spin text-[#0070d2]" size={40} />
     </div>
   );
 
