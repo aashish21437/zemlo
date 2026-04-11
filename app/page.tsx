@@ -9,7 +9,7 @@ import CRMSection from "@/components/CRMSection"; // Import the new section
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-background text-foreground transition-colors">
-      
+
       <Navbar />
 
       <main>
@@ -32,8 +32,9 @@ export default function Home() {
               </h1>
             </div>
 
-            <div className="space-y-12 pt-1 md:pt-4">
-              <div className="h-20 w-20 rounded-xl bg-background dark:bg-zinc-800 border border-border" />
+            <div className="space-y-4 pt-1 md:pt-4">
+              <div/>
+              <img className="h-40 w-40 rounded-xl bg-background dark:bg-zinc-800 border border-border" src="ashish.jpg" alt="" />
               <p className="text-base font-medium leading-relaxed text-muted-foreground/80 max-w-sm">
                 Hi, I&apos;m Aashish Chauhan, a freelance Website Developer based in India. I collaborate with companies to craft digital tools that drive success.
               </p>
@@ -52,8 +53,8 @@ export default function Home() {
 
         {/* --- CONTACT PILL --- */}
         <div className="fixed bottom-10 left-0 right-0 z-40 flex justify-center px-4">
-          <a 
-            href="mailto:aashish@zemlo.in" 
+          <a
+            href="mailto:aashish@zemlo.in"
             className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-zinc-950/95 dark:bg-zinc-50 backdrop-blur-sm shadow-2xl text-white dark:text-black text-sm font-bold hover:scale-105 transition-all"
           >
             <Mail size={16} />
