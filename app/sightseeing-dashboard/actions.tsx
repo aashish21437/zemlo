@@ -1,5 +1,6 @@
 "use server";
 
+import mongoose from "mongoose";
 import { dbConnect } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -8,7 +9,6 @@ import { checkPermission } from "@/lib/check-permissions";
 
 /**
  * FEATURE 1: SINGLE SAVE (REGISTRATION & UPDATE)
- * Used by the individual form console.
  */
 export async function saveSightseeing(formData: FormData) {
   const idFromUrl = formData.get("current_id") as string;
@@ -17,26 +17,32 @@ export async function saveSightseeing(formData: FormData) {
   // Check dynamic permissions
   if (isNew) {
     if (!(await checkPermission('sightsee_add'))) {
-        throw new Error("Unauthorized: Registration permission required");
+      throw new Error("Unauthorized: Registration permission required");
     }
   } else {
     if (!(await checkPermission('sightsee_edit_delete'))) {
-        throw new Error("Unauthorized: Edit permission required");
+      throw new Error("Unauthorized: Edit permission required");
     }
   }
 
-  const mongoose = await dbConnect();
+  // Connect and get the raw DB object
+  await dbConnect();
   const db = mongoose.connection.db;
-  if (!db) throw new Error("Database connection failed");
+
+  if (!db) {
+    throw new Error("Database connection established but DB object is missing");
+  }
+
   let finalID: number;
 
   if (isNew) {
-    // 1. Get next ID from counter
-    const counter = await db.collection("counters").findOneAndUpdate(
+    // 1. Get next ID from counter - Using (db as any) to bypass Vercel type errors
+    const counter = await (db as any).collection("counters").findOneAndUpdate(
       { _id: "sightseeing_id" },
       { $inc: { seq: 1 } },
       { upsert: true, returnDocument: "after" }
     );
+
     finalID = counter?.seq || 1000;
 
     // 2. Insert new record using Mongoose Profile
@@ -67,24 +73,27 @@ export async function saveSightseeing(formData: FormData) {
 
 /**
  * FEATURE 2: BULK REGISTER
- * Used by the CSV Upload component.
  */
 export async function bulkRegisterSightseeings(data: any[]) {
   if (!(await checkPermission('sightsee_bulk'))) {
     throw new Error("Unauthorized: Bulk upload permission required");
   }
-  const mongoose = await dbConnect();
+
+  await dbConnect();
   const db = mongoose.connection.db;
-  if (!db) throw new Error("Database connection failed");
+
+  if (!db) {
+    throw new Error("Database connection failed");
+  }
 
   const count = data.length;
   if (count === 0) return { success: false, error: "No data" };
 
   // 1. Reserve a block of IDs for the entire batch
-  const counter = await db.collection("counters").findOneAndUpdate(
+  const counter = await (db as any).collection("counters").findOneAndUpdate(
     { _id: "sightseeing_id" },
     { $inc: { seq: count } },
-    { upsert: true, returnDocument: "before" } // Get the current tail
+    { upsert: true, returnDocument: "before" }
   );
 
   const startingID = (counter?.seq || 1000) + 1;
@@ -105,13 +114,17 @@ export async function bulkRegisterSightseeings(data: any[]) {
   return { success: true, count: result.length };
 }
 
+/**
+ * FEATURE 3: DELETE
+ */
 export async function deleteSightseeing(id: number) {
   if (!(await checkPermission('sightsee_edit_delete'))) {
     throw new Error("Unauthorized: Delete permission required");
   }
+
   await dbConnect();
 
-  // Remove the record based on the custom sightseeing_id using Mongoose Profile
+  // Remove the record based on the custom sightseeing_id
   await Sightseeing.deleteOne({ sightseeing_id: id });
 
   revalidatePath("/sightseeing-dashboard");
