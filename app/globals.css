@@ -34,6 +34,10 @@
   }
 }
 
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
 /* --- PRINT / PDF EXPORT STYLES --- */
 @media print {
   @page {

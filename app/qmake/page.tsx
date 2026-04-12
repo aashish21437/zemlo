@@ -6,7 +6,7 @@ import { Search, Plus, ExternalLink, Loader2 } from 'lucide-react';
 import { getAllActiveQueries } from './actions';
 
 export default function QMakeHome() {
-  const [queries, setQueries] = useState<string[]>([]);
+  const [queries, setQueries] = useState<{id: string, name: string}[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -20,7 +20,10 @@ export default function QMakeHome() {
     load();
   }, []);
 
-  const filteredQueries = queries.filter(q => q.includes(searchTerm));
+  const filteredQueries = queries.filter(q => 
+    q.id.includes(searchTerm) || 
+    q.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-white pt-20 pb-20 px-4 md:px-10">
@@ -47,7 +50,7 @@ export default function QMakeHome() {
             <button 
               onClick={() => {
                 const newId = prompt("Enter New Query ID:");
-                if(newId) router.push(`/qmake/${newId}`);
+                if(newId) router.push(`/qmake/${String(newId).padStart(5, '0')}`);
               }}
               className="bg-zinc-900 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-zinc-800 transition-all flex items-center gap-2 shadow-sm"
             >
@@ -62,7 +65,7 @@ export default function QMakeHome() {
             <thead>
               <tr className="bg-zinc-50 border-b border-zinc-200">
                 <th className="px-6 py-4 font-bold text-zinc-600 w-24 uppercase tracking-tighter">S.No</th>
-                <th className="px-6 py-4 font-bold text-zinc-600 uppercase tracking-tighter">Query Reference ID</th>
+                <th className="px-6 py-4 font-bold text-zinc-600 uppercase tracking-tighter">Query Name</th>
                 <th className="px-6 py-4 font-bold text-zinc-600 uppercase tracking-tighter">System Status</th>
                 <th className="px-6 py-4 font-bold text-zinc-600 text-right uppercase tracking-tighter">Action</th>
               </tr>
@@ -78,14 +81,14 @@ export default function QMakeHome() {
                   </td>
                 </tr>
               ) : filteredQueries.length > 0 ? (
-                filteredQueries.map((id, index) => (
+                filteredQueries.map((q, index) => (
                   <tr 
-                    key={id} 
+                    key={q.id} 
                     className="hover:bg-zinc-50/80 transition-colors cursor-pointer group"
-                    onClick={() => router.push(`/qmake/${id}`)}
+                    onClick={() => router.push(`/qmake/${String(q.id).padStart(5, '0')}`)}
                   >
                     <td className="px-6 py-4 text-zinc-400 font-mono text-xs">{String(index + 1).padStart(2, '0')}</td>
-                    <td className="px-6 py-4 font-bold text-zinc-900 text-base italic tracking-tight">#{id}</td>
+                    <td className="px-6 py-4 font-bold text-zinc-900 text-sm tracking-tight">{q.name}</td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-widest bg-green-50 text-green-700 border border-green-100">
                         Operational

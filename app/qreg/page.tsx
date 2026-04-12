@@ -25,8 +25,8 @@ export default function AgentRegistryPage() {
 
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Agent Registry</h1>
-          <p className="text-sm text-zinc-500">Manage your partner companies and contact persons.</p>
+          <h1 className="text-3xl font-black font-sans tracking-tight text-zinc-900">Agent Registry</h1>
+          <p className="text-sm font-medium text-zinc-500 mt-2">Manage your partner companies and contact persons.</p>
         </div>
         
         {/* The Button to lead to the new page */}
@@ -66,7 +66,7 @@ export default function AgentRegistryPage() {
   {/* CLICKABLE COMPANY NAME */}
   <td className="px-6 py-4">
     <Link 
-      href={`/qreg/agent/${agent._id}`} 
+      href={`/qreg/agent/${agent.agentNumber}`} 
       className="text-sm font-bold text-[#0070d2] hover:underline uppercase tracking-tight"
     >
       {agent.companyName}
@@ -83,7 +83,7 @@ export default function AgentRegistryPage() {
 
   <td className="px-6 py-4 text-right">
     <Link 
-      href={`/qreg/agent/${agent._id}`} 
+      href={`/qreg/agent/${agent.agentNumber}`} 
       className="text-[10px] font-bold text-zinc-400 hover:text-zinc-900 uppercase bg-zinc-100 px-2 py-1 rounded"
     >
       Edit

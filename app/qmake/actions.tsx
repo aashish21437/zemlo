@@ -2,70 +2,86 @@
 
 import { dbConnect } from "@/lib/db";
 import Itinerary from "@/models/Itinerary";
-import Sightseeing from "@/models/Sightseeing"; // <--- ADD THIS LINE
+import Sightseeing from "@/models/Sightseeing";
+import Query from "@/models/Query";
 import { revalidatePath } from "next/cache";
 
-// ... rest of your functions
-
-
-
-
-// FETCH: Get existing options for the query
+// 1. FETCH: Get existing options for a specific query
 export async function getItineraries(queryId: string) {
   await dbConnect();
-  const data = await Itinerary.find({ query_id: queryId }).sort({ createdAt: 1 });
+  const paddedId = String(queryId).padStart(5, '0');
+  const unpaddedId = String(parseInt(queryId, 10));
+  const data = await Itinerary.find({ query_id: { $in: [paddedId, unpaddedId, queryId] } }).sort({ createdAt: 1 });
   return JSON.parse(JSON.stringify(data));
 }
 
-// CREATE: Add a new option (a, b, c...)
+// 1.5. FETCH: Get Title of Query
+export async function getQueryTitle(queryId: string) {
+  await dbConnect();
+  const paddedId = String(queryId).padStart(5, '0');
+  const query = await Query.findOne({ queryNumber: paddedId }).select("queryName").lean();
+  return query ? (query as any).queryName : `Query #${paddedId}`;
+}
+
+// 2. CREATE: Add a new option (a, b, c...)
+// Updated to include the new Excel-style fields by default
 export async function createItinerary(queryId: string, code: string, name: string) {
   await dbConnect();
+  const paddedId = String(queryId).padStart(5, '0');
   const newItin = await Itinerary.create({
-    query_id: queryId,
+    query_id: paddedId,
     itinerary_code: code,
     version_name: name,
     days: [
-        { stay: "", activities: [], notes: "" },
-        { stay: "", activities: [], notes: "" }
+      { 
+        date: "", 
+        vehicle: "ALPHARD PVT", 
+        guide: "ENGLISH SPEAKING GUIDE", 
+        serviceTime: "10HRS", 
+        stayingCity: "", 
+        hotelName: "", 
+        activities: [], 
+        meals: { breakfast: true, lunch: false, dinner: false } 
+      }
     ]
   });
-  revalidatePath(`/qmake/${queryId}`);
+  revalidatePath(`/qmake/${paddedId}`);
   return JSON.parse(JSON.stringify(newItin));
 }
 
-// Add this to app/qmake/actions.ts
-// export async function getAllActiveQueries() {
-//   await dbConnect();
-//   // This finds all itineraries, groups them by query_id, 
-//   // and brings back the unique list of queries you've worked on.
-//   const activeQueries = await Itinerary.distinct("query_id");
-//   return activeQueries;
-// }
-
-// app/qmake/actions.ts
+// 3. FETCH: Get unique Query IDs we have worked on
 export async function getAllActiveQueries() {
   await dbConnect();
-  // Get unique IDs from the itineraries we've actually started
   const activeQueries = await Itinerary.distinct("query_id");
-  return activeQueries; 
+  
+  const paddedQueryIds = activeQueries.map(id => String(id).padStart(5, '0'));
+
+  const queryDocs = await Query.find({ queryNumber: { $in: paddedQueryIds } }).select("queryNumber queryName").lean();
+  
+  const queryMap = new Map(queryDocs.map(q => [(q as any).queryNumber, (q as any).queryName]));
+
+  return activeQueries.map(id => {
+    const paddedId = String(id).padStart(5, '0');
+    return {
+      id: paddedId,
+      name: queryMap.get(paddedId) || `Query #${paddedId}`
+    };
+  });
 }
 
+// 4. SEARCH: Sightseeing Database
 export async function searchSightseeing(query: string) {
   try {
     await dbConnect();
-    
     if (!query || query.length < 2) return [];
 
-    // 'i' makes it case-insensitive
     const results = await Sightseeing.find({
       name_en: { $regex: query, $options: "i" }
     })
-    .select("name_en adult_price category_primary municipality") // Only pull what we need
+    .select("name_en adult_price category_primary municipality")
     .limit(10)
     .lean();
 
-    console.log(`Search for "${query}" found ${results.length} items`);
-    
     return JSON.parse(JSON.stringify(results));
   } catch (error) {
     console.error("Search Action Error:", error);
@@ -73,60 +89,53 @@ export async function searchSightseeing(query: string) {
   }
 }
 
-
+// 5. SAVE: Sync the Excel-Builder data to MongoDB
 export async function saveItineraryData(itineraryCode: string, days: any[]) {
   try {
     await dbConnect();
 
-    // Find the itinerary by its unique code (e.g., 0001a) and update the days array
-    const updated = await Itinerary.findOneAndUpdate(
+    const formattedDays = days.map(day => ({
+      date: day.date || "",
+      vehicle: day.vehicle || "NONE",
+      guide: day.guide || "NONE",
+      serviceTime: day.serviceTime || "",
+      stayingCity: day.stayingCity || "",
+      hotelName: day.hotelName || "",
+      activities: day.activities || [],
+      meals: {
+        breakfast: day.meals?.breakfast ?? true,
+        lunch: day.meals?.lunch ?? false,
+        dinner: day.meals?.dinner ?? false,
+      }
+    }));
+
+    const result = await Itinerary.findOneAndUpdate(
       { itinerary_code: itineraryCode },
-      { $set: { days: days } },
-      { new: true, upsert: true } // upsert creates it if it doesn't exist
+      { 
+        $set: { 
+          days: formattedDays,
+          updatedAt: new Date() 
+        } 
+      },
+      { upsert: true, new: true }
     );
 
-    // This clears the Next.js cache so the updated data shows up everywhere
-    revalidatePath(`/qmake/${itineraryCode}`);
-    
-    return { success: true, data: JSON.parse(JSON.stringify(updated)) };
+    revalidatePath(`/qmake`);
+    return { success: true, data: JSON.parse(JSON.stringify(result)) };
   } catch (error) {
     console.error("Database Save Error:", error);
-    throw new Error("Failed to save itinerary data");
+    throw new Error("Failed to sync itinerary with database");
   }
 }
 
-// Add this to app/qmake/actions.ts
-
+// 6. FETCH: Get a single itinerary by its code
 export async function getItineraryByCode(itineraryCode: string) {
-  try {
-    await dbConnect();
-    
-    // Find the specific itinerary (e.g., "0001a")
-    const data = await Itinerary.findOne({ itinerary_code: itineraryCode }).lean();
-
-    if (!data) {
-      return null;
-    }
-
-    // We use JSON.parse(JSON.stringify()) to strip out Mongoose-specific 
-    // metadata that Next.js can't pass from Server to Client
-    return JSON.parse(JSON.stringify(data));
-  } catch (error) {
-    console.error("Error fetching itinerary by code:", error);
-    return null;
-  }
-}
-
-// app/qmake/actions.ts
-
-// This function fetches the specific data needed for the PDF
-export async function getItineraryForPDF(itineraryCode: string) {
   try {
     await dbConnect();
     const data = await Itinerary.findOne({ itinerary_code: itineraryCode }).lean();
     return data ? JSON.parse(JSON.stringify(data)) : null;
   } catch (error) {
-    console.error("PDF Data Fetch Error:", error);
+    console.error("Get Itinerary Error:", error);
     return null;
   }
 }

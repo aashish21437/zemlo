@@ -39,7 +39,7 @@ export function QueryTable({ queries }: { queries: any[] }) {
             <tr key={q._id} className="hover:bg-zinc-50 transition-colors group">
               <td className="px-4 py-4">
                 <Link 
-                  href={`/qreg/query/${q._id}`} 
+                  href={`/qreg/query/${q.queryNumber}`} 
                   className="text-[11px] font-mono font-bold text-[#0070d2] hover:underline block"
                 >
                   {q.queryName}

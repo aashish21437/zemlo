@@ -3,14 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Hash, Layers, ExternalLink, Loader2 } from 'lucide-react';
-import { getItineraries, createItinerary } from '../actions';
+import { getItineraries, createItinerary, getQueryTitle } from '../actions';
 
 export default function ItinerarySelector() {
   const params = useParams();
   const router = useRouter();
-  const queryId = params.id as string;
+  const queryId = String(params.id).padStart(5, '0');
   
   const [itineraries, setItineraries] = useState<any[]>([]);
+  const [queryName, setQueryName] = useState<string>(`#${queryId}`);
   const [isCreating, setIsCreating] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -18,6 +19,8 @@ export default function ItinerarySelector() {
     async function load() {
       const data = await getItineraries(queryId);
       setItineraries(data);
+      const title = await getQueryTitle(queryId);
+      setQueryName(title);
       setLoading(false);
     }
     load();
@@ -62,7 +65,7 @@ export default function ItinerarySelector() {
             <div>
               <h1 className="text-xl font-bold text-zinc-900 tracking-tight">Itinerary Options</h1>
               <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-widest">
-                Parent Query: <span className="text-zinc-900">#{queryId}</span>
+                Parent Query: <span className="text-zinc-900">{queryName}</span>
               </p>
             </div>
           </div>

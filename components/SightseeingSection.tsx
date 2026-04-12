@@ -13,7 +13,7 @@ export default function SightseeingSection() {
           <h2 className="text-sm font-black uppercase tracking-widest text-muted-foreground mb-4">
             Featured Tool
           </h2>
-          <p className="text-3xl md:text-5xl font-serif tracking-tighter">
+          <p className="text-3xl md:text-5xl font-sans tracking-tighter">
             Sightseeing Database
           </p>
         </div>

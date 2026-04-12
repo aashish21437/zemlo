@@ -13,7 +13,7 @@ export default function CRMSection() {
           <h2 className="text-sm font-black uppercase tracking-widest text-blue-600 dark:text-blue-500 mb-4">
             Enterprise Solutions
           </h2>
-          <p className="text-3xl md:text-5xl font-serif tracking-tighter text-foreground">
+          <p className="text-3xl md:text-5xl font-sans tracking-tighter text-foreground">
             DMC Sales & Partner Engine
           </p>
         </div>

@@ -32,6 +32,13 @@ export default function Navbar() {
           </Link>
 
           <Link
+            href="/vehicle"
+            className="text-[13px] font-medium text-white dark:text-zinc-900 hover:opacity-70 transition-opacity"
+          >
+            Vehicles
+          </Link>
+
+          <Link
             href="/qmake"
             className="text-[13px] font-medium text-white dark:text-zinc-900 hover:opacity-70 transition-opacity"
           >

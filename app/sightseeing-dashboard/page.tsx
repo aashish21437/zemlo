@@ -29,8 +29,8 @@ export default async function SightseeingDashboard() {
         {/* HEADER SECTION */}
         <div className="flex justify-between items-end mb-12 border-b border-border pb-8">
           <div>
-            <h1 className="text-4xl font-black uppercase italic tracking-tighter">
-              Database <span className="text-muted-foreground not-italic font-light">Index</span>
+            <h1 className="text-4xl font-black font-sans uppercase italic tracking-tighter">
+              Database <span className="text-muted-foreground not-italic font-sans font-light">Index</span>
             </h1>
             <p className="text-muted-foreground mt-2 font-medium italic text-sm">
               {spots.length} destinations currently synced to Master Engine

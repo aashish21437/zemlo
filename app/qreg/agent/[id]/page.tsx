@@ -68,17 +68,23 @@ export default function AgentDetailPage() {
     e.preventDefault();
     setLoading(true);
     
-    const data = new FormData();
-    Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+    try {
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => data.append(key, value));
 
-    const res = isNew ? await registerAgent(data) : await updateAgent(id, data);
-    
-    setLoading(false);
-    if (res.success) {
-      router.push('/qreg');
-      router.refresh();
-    } else {
-      alert(res.error);
+      const res = isNew ? await registerAgent(data) : await updateAgent(id, data);
+      
+      setLoading(false);
+      if (res?.success) {
+        alert("Agent saved successfully!");
+        router.push('/qreg');
+      } else {
+        alert(res?.error || "Error saving agent");
+      }
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      alert("An unexpected error occurred while saving.");
     }
   };
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 // import { saveSightseeing, deleteSightseeing } from "../actions";
 import { DeleteButton } from "./DeleteButton";
 import { saveSightseeing } from "../actions";
+import Sightseeing from "@/models/Sightseeing";
 
 export default async function SightseeingPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -14,11 +15,10 @@ export default async function SightseeingPage({ params }: { params: Promise<{ id
   let existingData = null;
 
   if (!isNew) {
-    const mongoose = await dbConnect();
-    const db = mongoose.connection.db;
-    existingData = await db?.collection("sightseeings").findOne({ 
+    await dbConnect();
+    existingData = await Sightseeing.findOne({ 
       sightseeing_id: parseInt(id) 
-    });
+    }).lean();
   }
 
   return (
@@ -35,7 +35,7 @@ export default async function SightseeingPage({ params }: { params: Promise<{ id
         </Link>
 
         <header className="mb-10 border-b border-border pb-6">
-          <h1 className="text-3xl font-black uppercase italic tracking-tighter">
+          <h1 className="text-3xl font-black font-sans uppercase tracking-tighter">
             {isNew ? "New Registration" : `Console / ID: ${id}`}
           </h1>
         </header>

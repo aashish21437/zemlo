@@ -2,44 +2,44 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, MapPin, Search, Save, Trash2, Loader2, Check, Hash, FileDown } from 'lucide-react';
+import { ArrowLeft, Save, Trash2, Loader2, Search, FileDown, X, Utensils } from 'lucide-react';
 import { searchSightseeing, saveItineraryData, getItineraryByCode } from '../../actions';
-import { generateItineraryPDF } from '@/lib/generatePDF';
 
-export default function ItineraryBuilder() {
-  const params = useParams();
+export default function ExcelStyleBuilder() {
+  const { id, itineraryCode } = useParams();
   const router = useRouter();
-  const { id, itineraryCode } = params;
 
-  const [days, setDays] = useState<any[]>([
-    { stay: "", activities: [], notes: "" },
-    { stay: "", activities: [], notes: "" }
-  ]);
-  
+  const [days, setDays] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [activeSearchDay, setActiveSearchDay] = useState<number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [showSavedToast, setShowSavedToast] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [activeSearchDay, setActiveSearchDay] = useState<number | null>(null);
 
+  // --- 1. DATA INITIALIZATION ---
   useEffect(() => {
     async function load() {
-      if (!itineraryCode) return;
-      try {
-        const data = await getItineraryByCode(itineraryCode as string);
-        if (data && data.days && data.days.length > 0) {
-          setDays(data.days);
-        }
-      } catch (err) {
-        console.error("Load error:", err);
-      } finally {
-        setLoading(false);
+      const data = await getItineraryByCode(itineraryCode as string);
+      if (data?.days?.length > 0) {
+        setDays(data.days);
+      } else {
+        setDays([{ 
+          date: "", 
+          vehicle: "ALPHARD PVT", 
+          guide: "ENGLISH SPEAKING GUIDE",
+          serviceTime: "10HRS", 
+          stayingCity: "", 
+          hotelName: "", 
+          activities: [], 
+          meals: { breakfast: true, lunch: false, dinner: false } 
+        }]);
       }
+      setLoading(false);
     }
     load();
   }, [itineraryCode]);
 
+  // --- 2. SEARCH DEBOUNCE ---
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
       if (searchQuery.length > 1) {
@@ -52,8 +52,41 @@ export default function ItineraryBuilder() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
 
+  // --- 3. LOGIC HANDLERS ---
+  const updateDay = (index: number, field: string, value: any) => {
+    const newDays = [...days];
+    // Handle nested object updates for 'meals.breakfast' etc.
+    if (field.includes('.')) {
+      const [obj, key] = field.split('.');
+      if (!newDays[index][obj]) newDays[index][obj] = {};
+      newDays[index][obj][key] = value;
+    } else {
+      newDays[index][field] = value;
+    }
+    setDays(newDays);
+  };
+
+  const handleDateChange = (index: number, newDate: string) => {
+    const newDays = [...days];
+    newDays[index].date = newDate;
+    resequenceDates(newDays);
+  };
+
+  const resequenceDates = (allDays: any[]) => {
+    if (!allDays[0]?.date) return;
+    for (let i = 1; i < allDays.length; i++) {
+      const prevDate = new Date(allDays[i - 1].date);
+      if (!isNaN(prevDate.getTime())) {
+        prevDate.setDate(prevDate.getDate() + 1);
+        allDays[i].date = prevDate.toISOString().split('T')[0];
+      }
+    }
+    setDays([...allDays]);
+  };
+
   const addActivity = (dayIndex: number, spot: any) => {
     const newDays = [...days];
+    if (!newDays[dayIndex].activities) newDays[dayIndex].activities = [];
     newDays[dayIndex].activities.push(spot);
     setDays(newDays);
     setSearchQuery("");
@@ -67,155 +100,235 @@ export default function ItineraryBuilder() {
     setDays(newDays);
   };
 
+  const removeDay = (index: number) => {
+    if (days.length <= 1) return;
+    if (confirm(`Remove Day ${index + 1}?`)) {
+      const newDays = days.filter((_, i) => i !== index);
+      resequenceDates(newDays);
+    }
+  };
+
+  const addNewDay = () => {
+    const lastDay = days[days.length - 1];
+    let nextDate = "";
+    if (lastDay?.date) {
+      const d = new Date(lastDay.date);
+      d.setDate(d.getDate() + 1);
+      nextDate = d.toISOString().split('T')[0];
+    }
+    setDays([...days, { 
+      date: nextDate, 
+      vehicle: lastDay?.vehicle || "ALPHARD PVT", 
+      guide: lastDay?.guide || "ENGLISH SPEAKING GUIDE",
+      serviceTime: lastDay?.serviceTime || "10HRS", 
+      stayingCity: lastDay?.stayingCity || "", 
+      hotelName: lastDay?.hotelName || "", 
+      activities: [],
+      meals: { breakfast: true, lunch: false, dinner: false }
+    }]);
+  };
+
   const handleSave = async () => {
     setIsSaving(true);
     try {
       await saveItineraryData(itineraryCode as string, days);
-      setShowSavedToast(true);
-      setTimeout(() => setShowSavedToast(false), 3000);
+      alert("Plan Saved Successfully!");
     } catch (err) {
-      console.error("Save Error:", err);
+      alert("Error saving plan");
     } finally {
       setIsSaving(false);
     }
   };
 
-  const handleDownloadPDF = () => {
-    generateItineraryPDF(id as string, itineraryCode as string, days, totalCost);
-  };
+  // --- 4. MODULAR COLUMN RENDERERS ---
 
-  const totalCost = days.reduce((sum, day) => {
-    return sum + day.activities.reduce((dSum: number, act: any) => dSum + (act.adult_price || 0), 0);
-  }, 0);
-
-  if (loading) return (
-    <div className="flex h-screen items-center justify-center bg-white">
-      <Loader2 className="animate-spin text-black" size={32} />
-    </div>
+  const renderDateCell = (day: any, dIdx: number) => (
+    <td className="border-r border-black p-3 text-center bg-zinc-50/50 relative">
+      <div className="flex items-center justify-center gap-2 mb-2">
+        <span className="font-black text-[12px]">DAY {dIdx + 1}</span>
+        <button onClick={() => removeDay(dIdx)} className="print:hidden text-red-500 hover:scale-110 transition-all">
+          <Trash2 size={14} />
+        </button>
+      </div>
+      <input 
+        type="date" 
+        value={day.date || ""} 
+        onChange={(e) => handleDateChange(dIdx, e.target.value)}
+        className="w-full bg-transparent border border-zinc-200 rounded p-1 text-[10px] font-black text-black text-center" 
+      />
+    </td>
   );
 
+  const renderVehicleCell = (day: any, dIdx: number) => (
+    <td className="border-r border-black p-3">
+      <label className="text-[8px] font-black text-zinc-400 block mb-1">VEHICLE TYPE</label>
+      <select value={day.vehicle || "NONE"} onChange={(e) => updateDay(dIdx, 'vehicle', e.target.value)}
+        className="w-full bg-transparent border-2 border-black p-1 outline-none font-black text-[10px] mb-2 uppercase">
+        <option>ALPHARD PVT</option>
+        <option>HIACE PVT</option>
+        <option>COASTER BUS</option>
+        <option>LARGE BUS</option>
+        <option>PUBLIC TRANSPORT</option>
+        <option>NONE</option>
+      </select>
+      <label className="text-[8px] font-black text-zinc-400 block mb-1 mt-2">STAYING CITY</label>
+      <input 
+        placeholder="e.g. TOKYO" 
+        value={day.stayingCity || ""} 
+        onChange={(e) => updateDay(dIdx, 'stayingCity', e.target.value.toUpperCase())}
+        className="w-full p-1 border-b border-zinc-200 outline-none font-black text-black text-[9px] uppercase placeholder:text-zinc-300" 
+      />
+    </td>
+  );
+
+  const renderGuideCell = (day: any, dIdx: number) => (
+    <td className="border-r border-black p-3">
+      <label className="text-[8px] font-black text-zinc-400 block mb-1">GUIDE SERVICE</label>
+      <select value={day.guide || "NONE"} onChange={(e) => updateDay(dIdx, 'guide', e.target.value)}
+        className="w-full bg-transparent border-2 border-black p-1 outline-none font-black text-[10px] uppercase">
+        <option>ENGLISH SPEAKING GUIDE</option>
+        <option>THAI SPEAKING GUIDE</option>
+        <option>DRIVER ONLY</option>
+        <option>ASSISTANT ONLY</option>
+        <option>NONE / SELF-GUIDED</option>
+      </select>
+    </td>
+  );
+
+  const renderItineraryCell = (day: any, dIdx: number) => (
+    <td className="border-r border-black p-3 bg-white min-w-[420px]">
+      <div className="flex justify-between items-start gap-4">
+        {/* Activity List */}
+        <div className="flex-1 space-y-1.5">
+          {day.activities?.map((act: any, aIdx: number) => (
+            <div key={aIdx} className="flex items-center justify-between py-1 border-b border-zinc-100 last:border-0 group">
+              <span className="font-bold text-black text-[10px] uppercase">• {act.name_en}</span>
+              <button 
+                onClick={() => removeActivity(dIdx, aIdx)} 
+                className="text-red-400 hover:text-red-600 px-1 transition-colors print:hidden"
+              >
+                <X size={12}/>
+              </button>
+            </div>
+          ))}
+          {(!day.activities || day.activities.length === 0) && (
+            <p className="text-[9px] text-zinc-300 italic">No activities added...</p>
+          )}
+        </div>
+
+        {/* MEAL MATRIX (B / L / D) */}
+        <div className="flex flex-col items-center gap-1 border-l border-zinc-200 pl-3">
+          <span className="text-[8px] font-black text-zinc-400 uppercase mb-1">Meals</span>
+          {['breakfast', 'lunch', 'dinner'].map((meal) => (
+            <label key={meal} className="flex items-center gap-2 cursor-pointer group">
+              <span className="text-[9px] font-black uppercase text-zinc-500 group-hover:text-black">{meal[0]}</span>
+              <input 
+                type="checkbox" 
+                checked={day.meals?.[meal] || false}
+                onChange={(e) => updateDay(dIdx, `meals.${meal}`, e.target.checked)}
+                className="w-3.5 h-3.5 accent-black cursor-pointer border-black" 
+              />
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div className="relative print:hidden mt-4">
+        <div className="flex items-center gap-2 border-2 border-black p-1.5 bg-zinc-50">
+          <Search size={14} className="text-black" />
+          <input 
+            onFocus={() => { setActiveSearchDay(dIdx); setSearchQuery(""); }}
+            onChange={(e) => setSearchQuery(e.target.value)} 
+            value={activeSearchDay === dIdx ? searchQuery : ""}
+            placeholder="SEARCH & ADD SPOT..." 
+            className="w-full bg-transparent border-none text-[10px] font-black italic outline-none text-black uppercase" 
+          />
+        </div>
+
+        {activeSearchDay === dIdx && searchResults.length > 0 && (
+          <div className="absolute top-full left-0 w-full bg-white border-2 border-black z-50 shadow-2xl max-h-60 overflow-y-auto">
+            {searchResults.map((spot: any) => (
+              <button 
+                key={spot._id} 
+                type="button" 
+                onClick={() => addActivity(dIdx, spot)}
+                className="w-full p-2 text-left hover:bg-black hover:text-white text-[10px] font-bold border-b border-zinc-100 uppercase text-black"
+              >
+                {spot.name_en} — <span className="text-[8px] opacity-70">{spot.municipality}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </td>
+  );
+
+  // --- 5. MAIN RENDER ---
+  if (loading) return <div className="h-screen flex items-center justify-center bg-white"><Loader2 className="animate-spin text-black" size={40} /></div>;
+
   return (
-    <div className="min-h-screen bg-white pt-20 pb-40 px-4 md:px-10 text-black">
-      <div className="max-w-[98%] mx-auto">
+    <div className="min-h-screen bg-white text-black p-4 font-sans uppercase">
+      <div className="max-w-full mx-auto">
         
-        {/* HEADER & NAV */}
-        <div className="flex justify-between items-center mb-6 pb-6 border-b border-zinc-200">
-          <div className="flex items-center gap-6">
-            <button onClick={() => router.back()} className="p-2 hover:bg-zinc-100 rounded-full transition-colors text-black">
-              <ArrowLeft size={20} />
+        {/* HEADER */}
+        <div className="flex justify-between items-center border-b-2 border-black pb-4 mb-4 print:hidden">
+          <div className="flex items-center gap-4">
+            <button onClick={() => router.back()} className="hover:bg-zinc-100 p-2 rounded-full transition-all">
+              <ArrowLeft size={20}/>
             </button>
             <div>
-              <h1 className="text-xl font-bold text-black tracking-tight uppercase italic">
-                Itinerary Builder <span className="text-zinc-300 not-italic font-light">[{itineraryCode}]</span>
-              </h1>
-              <p className="text-[11px] text-black font-bold uppercase tracking-widest">Linked Query: #{id}</p>
+              <h1 className="font-bold text-xl italic tracking-tighter">Master Itinerary Engine</h1>
+              <p className="text-[10px] font-black text-zinc-400">Ref: {itineraryCode}</p>
             </div>
           </div>
-          
-          <div className="flex items-center gap-4 bg-zinc-50 px-6 py-3 rounded-lg border border-zinc-200">
-            <div className="text-right border-r border-zinc-200 pr-6 mr-2">
-              <p className="text-[9px] font-black text-black uppercase tracking-widest leading-none">Estimate Total</p>
-              <p className="text-xl font-black italic text-black">¥{totalCost.toLocaleString()}</p>
-            </div>
-            
-            <div className="flex gap-2">
-              <button 
-                onClick={handleDownloadPDF} 
-                className="bg-white text-black border border-black px-4 py-2 rounded text-[10px] font-black uppercase tracking-widest hover:bg-zinc-100 flex items-center gap-2 transition-all"
-              >
-                <FileDown size={14} strokeWidth={3} /> Download PDF
-              </button>
-
-              <button 
-                onClick={handleSave} 
-                disabled={isSaving}
-                className="bg-black text-white px-6 py-2 rounded text-[10px] font-black uppercase tracking-widest hover:bg-zinc-800 disabled:opacity-50 flex items-center gap-2 transition-all shadow-sm"
-              >
-                {isSaving ? <Loader2 className="animate-spin" size={14} /> : <Save size={14} />}
-                {isSaving ? "Saving..." : "Save Plan"}
-              </button>
-            </div>
+          <div className="flex gap-2">
+            <button onClick={() => window.print()} className="border-2 border-black px-4 py-1 text-[10px] font-black flex items-center gap-2 hover:bg-zinc-50 transition-colors">
+              <FileDown size={14}/> PDF PREVIEW
+            </button>
+            <button 
+              onClick={handleSave} 
+              disabled={isSaving} 
+              className="bg-black text-white px-6 py-1 text-[10px] font-black hover:bg-zinc-800 disabled:opacity-50 transition-colors"
+            >
+              {isSaving ? "Saving..." : "Save Master Plan"}
+            </button>
           </div>
         </div>
 
-        {/* WORKSPACE TABLE */}
-        <div className="border border-zinc-200 rounded-lg overflow-hidden shadow-sm bg-white">
-          <table className="w-full text-left text-sm border-collapse">
+        {/* DATA TABLE */}
+        <div className="border-2 border-black">
+          <table className="w-full border-collapse text-[11px]">
             <thead>
-              <tr className="bg-zinc-50 border-b border-zinc-200">
-                <th className="px-6 py-4 font-bold text-black w-24 uppercase tracking-tighter"><Hash size={14}/></th>
-                <th className="px-6 py-4 font-bold text-black w-64 uppercase tracking-tighter">Stay Location</th>
-                <th className="px-6 py-4 font-bold text-black uppercase tracking-tighter">Day Sightseeing & Activities</th>
+              <tr className="bg-zinc-100 border-b-2 border-black text-center font-black">
+                <th className="border-r border-black p-2 w-24">DATE</th>
+                <th className="border-r border-black p-2 w-44">VEHICLE / CITY</th>
+                <th className="border-r border-black p-2 w-48">GUIDE SERVICE</th>
+                <th className="border-r border-black p-2 w-20">TIME</th>
+                <th className="border-r border-black p-2">ITINERARY / MEALS</th>
+                <th className="p-2 w-72">HOTEL (OR SIMILAR)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-200">
+            <tbody className="divide-y divide-black">
               {days.map((day, dIdx) => (
-                <tr key={dIdx} className="align-top group hover:bg-zinc-50/50 transition-colors">
-                  <td className="px-6 py-8">
-                    <span className="text-4xl font-black italic text-zinc-200 group-hover:text-black transition-colors">0{dIdx + 1}</span>
+                <tr key={dIdx} className="align-top hover:bg-zinc-50/50 transition-colors group/row">
+                  {renderDateCell(day, dIdx)}
+                  {renderVehicleCell(day, dIdx)}
+                  {renderGuideCell(day, dIdx)}
+                  <td className="border-r border-black p-3 text-center">
+                    <input 
+                      value={day.serviceTime || ""} 
+                      onChange={(e) => updateDay(dIdx, 'serviceTime', e.target.value)}
+                      className="w-full text-center p-1 bg-transparent border-none outline-none font-mono font-bold text-black" 
+                    />
                   </td>
-                  <td className="px-6 py-8">
-                    <div className="flex items-center gap-3 bg-white p-3 rounded border border-zinc-300 focus-within:border-black transition-all">
-                      <MapPin size={14} className="text-black" />
-                      <input 
-                        placeholder="STAYING CITY" 
-                        value={day.stay || ""}
-                        onChange={(e) => {
-                          const newDays = [...days];
-                          newDays[dIdx].stay = e.target.value;
-                          setDays(newDays);
-                        }}
-                        className="bg-transparent border-none focus:ring-0 text-[10px] font-black uppercase tracking-widest w-full outline-none text-black placeholder:text-zinc-400" 
-                      />
-                    </div>
-                  </td>
-                  <td className="px-6 py-8">
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {day.activities.map((act: any, aIdx: number) => (
-                        <div key={aIdx} className="flex items-center gap-3 bg-white border border-black px-3 py-2 rounded shadow-sm hover:bg-zinc-50 transition-all">
-                          <div>
-                            <p className="text-[8px] font-black text-black uppercase leading-none">{act.category_primary}</p>
-                            <p className="text-xs font-bold text-black">{act.name_en}</p>
-                          </div>
-                          <span className="text-[10px] font-mono font-bold text-black italic">¥{act.adult_price}</span>
-                          <button onClick={() => removeActivity(dIdx, aIdx)} className="text-zinc-400 hover:text-black transition-colors">
-                            <Trash2 size={12} />
-                          </button>
-                        </div>
-                      ))}
-                      {day.activities.length === 0 && (
-                        <p className="text-[10px] font-bold text-zinc-400 italic py-2">No activities added for this day...</p>
-                      )}
-                    </div>
-
-                    <div className="relative max-w-xl">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={14} />
-                      <input 
-                        value={activeSearchDay === dIdx ? searchQuery : ""}
-                        onFocus={() => setActiveSearchDay(dIdx)}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="SEARCH MASTER DATABASE..." 
-                        className="w-full pl-10 pr-4 py-2 bg-zinc-50 border border-zinc-300 rounded text-[10px] font-black uppercase tracking-widest focus:bg-white focus:border-black outline-none transition-all text-black placeholder:text-zinc-400"
-                      />
-                      
-                      {activeSearchDay === dIdx && searchResults.length > 0 && (
-                        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-black rounded shadow-2xl z-50 overflow-hidden animate-in fade-in zoom-in-95">
-                          {searchResults.map((spot) => (
-                            <button 
-                              key={spot._id}
-                              onClick={() => addActivity(dIdx, spot)}
-                              className="w-full flex justify-between items-center p-3 hover:bg-zinc-100 text-left border-b border-zinc-100 last:border-0 text-black"
-                            >
-                              <div>
-                                <p className="font-bold text-[11px] uppercase tracking-tight">{spot.name_en}</p>
-                                <p className="text-[8px] font-black text-zinc-500 uppercase">{spot.municipality}</p>
-                              </div>
-                              <span className="text-[9px] font-black bg-black text-white px-2 py-1 rounded italic">¥{spot.adult_price}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                  {renderItineraryCell(day, dIdx)}
+                  <td className="p-3">
+                    <textarea 
+                      placeholder="HOTEL NAME & ROOM TYPE..."
+                      value={day.hotelName || ""} 
+                      onChange={(e) => updateDay(dIdx, 'hotelName', e.target.value)}
+                      className="w-full h-32 bg-transparent border-2 border-zinc-100 p-2 outline-none font-bold text-[10px] resize-none leading-relaxed text-black focus:border-black uppercase" 
+                    />
                   </td>
                 </tr>
               ))}
@@ -223,11 +336,12 @@ export default function ItineraryBuilder() {
           </table>
         </div>
 
-        {showSavedToast && (
-          <div className="fixed bottom-10 right-10 bg-black text-white px-6 py-3 rounded font-black uppercase text-[10px] tracking-widest shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 z-50">
-            <Check size={14} className="text-green-400" strokeWidth={4} /> Database Synchronized
-          </div>
-        )}
+        <button 
+          onClick={addNewDay} 
+          className="mt-6 w-full py-5 border-4 border-dashed border-zinc-200 font-black text-zinc-400 hover:text-black hover:border-black transition-all rounded-xl print:hidden text-sm"
+        >
+          + Initialize Next Itinerary Row (Day {days.length + 1})
+        </button>
       </div>
     </div>
   );

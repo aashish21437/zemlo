@@ -1,7 +1,10 @@
 "use server"
 
 import { ObjectId } from 'mongodb';
-import clientPromise from "@/lib/db";
+import { revalidatePath } from 'next/cache';
+import clientPromise, { dbConnect } from "@/lib/db";
+import Agent from "@/models/Agent";
+import Query from "@/models/Query";
 
 const DB_NAME = "zemlo";
 
@@ -9,9 +12,7 @@ const DB_NAME = "zemlo";
 
 export async function registerAgent(formData: FormData) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME); 
-    const collection = db.collection("agents");
+    await dbConnect();
 
     const companyName = (formData.get("company") as string).trim();
     const agentName = (formData.get("agentName") as string).trim();
@@ -19,16 +20,16 @@ export async function registerAgent(formData: FormData) {
     const phone = (formData.get("phone") as string).trim();
     const address = (formData.get("address") as string).trim();
 
-    const existing = await collection.findOne({ 
+    const existing = await Agent.findOne({ 
       companyName: { $regex: new RegExp(`^${companyName}$`, "i") } 
     });
     
     if (existing) return { error: "This company is already registered." };
 
-    const count = await collection.countDocuments();
+    const count = await Agent.countDocuments();
     const agentNumber = (count + 1).toString().padStart(4, '0');
 
-    await collection.insertOne({
+    await Agent.create({
       agentNumber,
       companyName,
       agentName,
@@ -36,9 +37,9 @@ export async function registerAgent(formData: FormData) {
       phone,
       address,
       status: "active",
-      createdAt: new Date(),
     });
 
+    revalidatePath('/qreg');
     return { success: true, agentNumber };
   } catch (e: any) {
     return { error: "Database Error. Check your connection." };
@@ -47,10 +48,9 @@ export async function registerAgent(formData: FormData) {
 
 export async function getAgents() {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const agents = await db.collection("agents").find({}).sort({ createdAt: -1 }).toArray();
-    return agents.map(agent => ({ ...agent, _id: agent._id.toString() }));
+    await dbConnect();
+    const agents = await Agent.find({}).sort({ createdAt: -1 }).lean();
+    return agents.map((agent: any) => ({ ...agent, _id: agent._id.toString() }));
   } catch (e) {
     return [];
   }
@@ -60,12 +60,10 @@ export async function getAgents() {
 
 export async function registerQuery(formData: FormData) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const collection = db.collection("queries");
+    await dbConnect();
 
     // 1. Generate 5-digit Query Number
-    const count = await collection.countDocuments();
+    const count = await Query.countDocuments();
     const queryNumber = (count + 1).toString().padStart(5, '0');
 
     // 2. Extract Data
@@ -96,11 +94,11 @@ export async function registerQuery(formData: FormData) {
       agentCode,
       agentName: formData.get("contactName"),
       guests: parseInt(pax as string),
-      status: formData.get("status") || "Query Received",
-      createdAt: new Date(),
+      status: formData.get("status") || "Query Received"
     };
 
-    await collection.insertOne(data);
+    await Query.create(data);
+    revalidatePath('/qreg/query');
     return { success: true, queryNumber, queryName };
   } catch (e) {
     console.error(e);
@@ -109,18 +107,23 @@ export async function registerQuery(formData: FormData) {
 }
 
 export async function getQueries() {
-  const client = await clientPromise;
-  const db = client.db(DB_NAME);
-  const data = await db.collection("queries").find({}).sort({ createdAt: -1 }).toArray();
-  return data.map(q => ({ ...q, _id: q._id.toString() }));
+  await dbConnect();
+  const data = await Query.find({}).sort({ createdAt: -1 }).lean();
+  return data.map((q: any) => ({ ...q, _id: q._id.toString() }));
 }
 
 export async function getQueryById(id: string) {
   if (!id || id === 'new') return null;
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const query = await db.collection("queries").findOne({ _id: new ObjectId(id) });
+    await dbConnect();
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
+    let query: any;
+    if (isObjectId) {
+      query = await Query.findById(id).lean();
+    }
+    if (!query) {
+      query = await Query.findOne({ queryNumber: id }).lean();
+    }
     if (!query) return null;
     return { ...query, _id: query._id.toString() };
   } catch (e) {
@@ -130,8 +133,7 @@ export async function getQueryById(id: string) {
 
 export async function updateQuery(id: string, updateData: any) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
+    await dbConnect();
     
     const { _id, ...data } = updateData;
 
@@ -144,11 +146,9 @@ export async function updateQuery(id: string, updateData: any) {
     // Update Name: 00009 ASAHI 0004 JAPAN 1704 6N7D X 3 PAX
     data.queryName = `${data.queryNumber} ASAHI ${data.agentCode} JAPAN ${ddmm} ${nights}N${days}D X ${data.pax} PAX`;
 
-    await db.collection("queries").updateOne(
-      { _id: new ObjectId(id) },
-      { $set: { ...data, updatedAt: new Date() } }
-    );
-    return { success: true };
+    await Query.findByIdAndUpdate(id, data);
+    revalidatePath('/qreg/query');
+    return { success: true, queryNumber: data.queryNumber };
   } catch (e) {
     console.error(e);
     return { error: "Update failed." };
@@ -158,9 +158,15 @@ export async function updateQuery(id: string, updateData: any) {
 // 1. Add getAgentById so we can fetch specific agent data
 export async function getAgentById(id: string) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const agent = await db.collection("agents").findOne({ _id: new ObjectId(id) });
+    await dbConnect();
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
+    let agent: any;
+    if (isObjectId) {
+      agent = await Agent.findById(id).lean();
+    }
+    if (!agent) {
+      agent = await Agent.findOne({ agentNumber: id }).lean();
+    }
     if (!agent) return null;
     return { ...agent, _id: agent._id.toString() };
   } catch (e) {
@@ -172,8 +178,7 @@ export async function getAgentById(id: string) {
 // 2. Add updateAgent so we can save changes to an existing agent
 export async function updateAgent(id: string, formData: FormData) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
+    await dbConnect();
     
     // Map the FormData back to the database fields
     const updateData = {
@@ -182,14 +187,11 @@ export async function updateAgent(id: string, formData: FormData) {
       email: (formData.get("email") as string).trim(),
       phone: (formData.get("phone") as string).trim(),
       address: (formData.get("address") as string).trim(),
-      updatedAt: new Date(),
     };
 
-    await db.collection("agents").updateOne(
-      { _id: new ObjectId(id) },
-      { $set: updateData }
-    );
+    await Agent.findByIdAndUpdate(id, updateData);
     
+    revalidatePath('/qreg');
     return { success: true };
   } catch (e) {
     console.error("Update Agent Error:", e);
@@ -199,14 +201,11 @@ export async function updateAgent(id: string, formData: FormData) {
 
 export async function deleteQuery(id: string) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
+    await dbConnect();
     
-    const result = await db.collection("queries").deleteOne({ 
-      _id: new ObjectId(id) 
-    });
+    const result = await Query.findByIdAndDelete(id);
 
-    if (result.deletedCount === 1) {
+    if (result) {
       return { success: true };
     } else {
       return { error: "Query not found or already deleted." };

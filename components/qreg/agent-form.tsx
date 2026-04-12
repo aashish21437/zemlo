@@ -43,11 +43,11 @@ export function AgentForm({ onRefresh }: { onRefresh: () => void }) {
             {result?.success ? (
               <div className="py-12 text-center space-y-4">
                 <CheckCircle2 size={64} className="mx-auto text-emerald-500 animate-bounce" />
-                <h2 className="text-3xl font-serif font-bold text-foreground">Agent {result.agentNumber} Registered</h2>
+                <h2 className="text-3xl font-sans font-bold text-foreground">Agent {result.agentNumber} Registered</h2>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
-                <h2 className="text-3xl font-serif font-bold mb-6 text-foreground">New Registration</h2>
+                <h2 className="text-3xl font-sans font-bold mb-6 text-foreground">New Registration</h2>
                 {result?.error && <div className="p-4 bg-red-500/10 text-red-500 rounded-xl text-sm font-bold border border-red-500/20">{result.error}</div>}
                 <input required name="company" className="w-full bg-zinc-500/5 border border-border rounded-xl py-3 px-4 outline-none focus:border-foreground" placeholder="Company Name" />
                 <input required name="agentName" className="w-full bg-zinc-500/5 border border-border rounded-xl py-3 px-4 outline-none focus:border-foreground" placeholder="Agent Name" />

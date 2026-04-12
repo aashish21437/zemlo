@@ -99,30 +99,42 @@ export default function QueryDetailPage() {
     if (!selectedCompany) return alert("Please search and select a Company Account first.");
     
     setLoading(true);
-    const payload = {
-        ...formData,
-        nights: calculatedNights,
-        agentCode: selectedCompany.agentNumber,
-        agentName: formData.contactName,
-        agentEmail: formData.email,
-        guests: formData.pax
-    };
+    try {
+      const payload = {
+          ...formData,
+          nights: calculatedNights,
+          agentCode: selectedCompany.agentNumber || "0000",
+          agentName: formData.contactName,
+          agentEmail: formData.email,
+          guests: formData.pax
+      };
 
-    let res;
-    if (isNew) {
-        const dataToSend = new FormData();
-        Object.entries(payload).forEach(([key, value]) => dataToSend.append(key, value.toString()));
-        res = await registerQuery(dataToSend);
-    } else {
-        res = await updateQuery(id as string, payload);
-    }
+      let res;
+      if (isNew) {
+          const dataToSend = new FormData();
+          Object.entries(payload).forEach(([key, value]) => {
+            dataToSend.append(key, value != null ? String(value) : '');
+          });
+          res = await registerQuery(dataToSend);
+      } else {
+          res = await updateQuery(id as string, payload);
+      }
 
-    setLoading(false);
-    if (!res.error) {
-        router.push('/qreg/query');
-        router.refresh();
-    } else {
-        alert(res.error);
+      setLoading(false);
+      if (!res?.error) {
+          alert("Query saved successfully!");
+          if (isNew) {
+              router.push('/qreg/query');
+          } else {
+              router.push(`/qreg/query/${res?.queryNumber || formData.queryNumber || id}`);
+          }
+      } else {
+          alert(res.error);
+      }
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      alert("An unexpected error occurred while saving.");
     }
   };
 

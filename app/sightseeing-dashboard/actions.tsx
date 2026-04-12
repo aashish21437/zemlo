@@ -3,6 +3,7 @@
 import { dbConnect } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import Sightseeing from "@/models/Sightseeing";
 
 /**
  * FEATURE 1: SINGLE SAVE (REGISTRATION & UPDATE)
@@ -26,28 +27,24 @@ export async function saveSightseeing(formData: FormData) {
     );
     finalID = counter?.seq || 1000;
 
-    // 2. Insert new record
-    await db.collection("sightseeings").insertOne({
+    // 2. Insert new record using Mongoose Profile
+    await Sightseeing.create({
       sightseeing_id: finalID,
       name_en: formData.get("name_en"),
       category_primary: formData.get("category_primary"),
       municipality: formData.get("municipality"),
       adult_price: Number(formData.get("adult_price")),
-      createdAt: new Date(),
     });
   } else {
-    // 1. Update existing record
+    // 1. Update existing record using Mongoose Profile
     finalID = parseInt(idFromUrl);
-    await db.collection("sightseeings").updateOne(
+    await Sightseeing.findOneAndUpdate(
       { sightseeing_id: finalID },
       {
-        $set: {
-          name_en: formData.get("name_en"),
-          category_primary: formData.get("category_primary"),
-          municipality: formData.get("municipality"),
-          adult_price: Number(formData.get("adult_price")),
-          updatedAt: new Date(),
-        },
+        name_en: formData.get("name_en"),
+        category_primary: formData.get("category_primary"),
+        municipality: formData.get("municipality"),
+        adult_price: Number(formData.get("adult_price")),
       }
     );
   }
@@ -84,24 +81,20 @@ export async function bulkRegisterSightseeings(data: any[]) {
     category_primary: item.category_primary || "Modern",
     municipality: item.municipality || "",
     adult_price: Number(item.adult_price) || 0,
-    createdAt: new Date(),
   }));
 
-  // 3. Execute InsertMany
-  const result = await db.collection("sightseeings").insertMany(bulkEntries);
+  // 3. Execute InsertMany using Mongoose Profile
+  const result = await Sightseeing.insertMany(bulkEntries);
 
   revalidatePath("/sightseeing-dashboard");
-  return { success: true, count: result.insertedCount };
+  return { success: true, count: result.length };
 }
 
 export async function deleteSightseeing(id: number) {
-  const mongoose = await dbConnect();
-  const db = mongoose.connection.db;
+  await dbConnect();
 
-  if (!db) throw new Error("Database connection failed");
-
-  // Remove the record based on the custom sightseeing_id
-  await db.collection("sightseeings").deleteOne({ sightseeing_id: id });
+  // Remove the record based on the custom sightseeing_id using Mongoose Profile
+  await Sightseeing.deleteOne({ sightseeing_id: id });
 
   revalidatePath("/sightseeing-dashboard");
   redirect("/sightseeing-dashboard");
