@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Save, Trash2, Loader2, Search, FileDown, X, Utensils } from 'lucide-react';
-import { searchSightseeing, saveItineraryData, getItineraryByCode } from '../../actions';
+import { searchSightseeing, saveItineraryData, getItineraryByCode, getVehicleResources } from '../../actions';
 
 export default function ExcelStyleBuilder() {
   const { id, itineraryCode } = useParams();
@@ -15,6 +15,9 @@ export default function ExcelStyleBuilder() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [activeSearchDay, setActiveSearchDay] = useState<number | null>(null);
+  
+  // Dynamic Registry Data
+  const [vehicleResources, setVehicleResources] = useState<{types: string[], cities: string[]}>({ types: [], cities: [] });
 
   // --- 1. DATA INITIALIZATION ---
   useEffect(() => {
@@ -36,7 +39,14 @@ export default function ExcelStyleBuilder() {
       }
       setLoading(false);
     }
+
+    async function loadResources() {
+      const res = await getVehicleResources();
+      setVehicleResources(res);
+    }
+
     load();
+    loadResources();
   }, [itineraryCode]);
 
   // --- 2. SEARCH DEBOUNCE ---
@@ -162,22 +172,33 @@ export default function ExcelStyleBuilder() {
   const renderVehicleCell = (day: any, dIdx: number) => (
     <td className="border-r border-black p-3">
       <label className="text-[8px] font-black text-zinc-400 block mb-1">VEHICLE TYPE</label>
-      <select value={day.vehicle || "NONE"} onChange={(e) => updateDay(dIdx, 'vehicle', e.target.value)}
-        className="w-full bg-transparent border-2 border-black p-1 outline-none font-black text-[10px] mb-2 uppercase">
-        <option>ALPHARD PVT</option>
-        <option>HIACE PVT</option>
-        <option>COASTER BUS</option>
-        <option>LARGE BUS</option>
+      <select 
+        value={day.vehicle || "NONE"} 
+        onChange={(e) => updateDay(dIdx, 'vehicle', e.target.value)}
+        className="w-full bg-transparent border-2 border-black p-1 outline-none font-black text-[10px] mb-2 uppercase"
+      >
+        <option value="NONE">SELECT VEHICLE...</option>
+        {vehicleResources.types.map(type => (
+          <option key={type} value={type}>{type}</option>
+        ))}
+        <hr className="my-1 border-black" />
         <option>PUBLIC TRANSPORT</option>
+        <option>SELF DRIVE</option>
         <option>NONE</option>
       </select>
       <label className="text-[8px] font-black text-zinc-400 block mb-1 mt-2">STAYING CITY</label>
       <input 
         placeholder="e.g. TOKYO" 
+        list="registry-cities"
         value={day.stayingCity || ""} 
         onChange={(e) => updateDay(dIdx, 'stayingCity', e.target.value.toUpperCase())}
-        className="w-full p-1 border-b border-zinc-200 outline-none font-black text-black text-[9px] uppercase placeholder:text-zinc-300" 
+        className="w-full p-1 border-b border-black outline-none font-black text-black text-[9px] uppercase placeholder:text-zinc-300" 
       />
+      <datalist id="registry-cities">
+        {vehicleResources.cities.map(city => (
+          <option key={city} value={city} />
+        ))}
+      </datalist>
     </td>
   );
 
@@ -315,11 +336,19 @@ export default function ExcelStyleBuilder() {
                   {renderVehicleCell(day, dIdx)}
                   {renderGuideCell(day, dIdx)}
                   <td className="border-r border-black p-3 text-center">
-                    <input 
+                    <select 
                       value={day.serviceTime || ""} 
                       onChange={(e) => updateDay(dIdx, 'serviceTime', e.target.value)}
-                      className="w-full text-center p-1 bg-transparent border-none outline-none font-mono font-bold text-black" 
-                    />
+                      className="w-full text-center p-1 bg-transparent border-none outline-none font-black text-[10px] text-black appearance-none cursor-pointer" 
+                    >
+                      <option value="">SERVICE...</option>
+                      <option value="10HRS">10HRS FIX</option>
+                      <option value="12HRS">12HRS FIX</option>
+                      <option value="AIRPORT TRANSFER">AIRPORT T/F</option>
+                      <option value="STATION TRANSFER">STATION T/F</option>
+                      <option value="OVERTIME">OVERTIME</option>
+                      <option value="OTHER">OTHER</option>
+                    </select>
                   </td>
                   {renderItineraryCell(day, dIdx)}
                   <td className="p-3">

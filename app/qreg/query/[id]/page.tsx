@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { registerQuery, getQueryById, updateQuery, getAgents, deleteQuery } from '@/app/qreg/actions';
-import { ChevronLeft, Loader2, Save, Search, User, Mail, Phone, Hash, Check, Trash2 } from 'lucide-react';
+import { ChevronLeft, Loader2, Save, Search, User, Mail, Phone, Hash, Check, Trash2, Calendar } from 'lucide-react';
 
 const STAGES = [
   "Query Received", "Acknowledged", "Quoted", "Follow Up", "Revision", 
@@ -193,6 +193,16 @@ export default function QueryDetailPage() {
           {!isNew && (
             <button type="button" onClick={handleDelete} disabled={loading} className="px-4 py-2.5 text-red-600 border border-red-200 bg-red-50 rounded-md text-xs font-bold hover:bg-red-100 flex items-center gap-2">
               <Trash2 size={14} /> Delete
+            </button>
+          )}
+
+          {!isNew && (
+            <button 
+              type="button" 
+              onClick={() => router.push(`/qmake/${formData.queryNumber}`)} 
+              className="px-6 py-2.5 bg-zinc-900 text-white rounded-md text-xs font-bold hover:bg-zinc-800 transition-all shadow-sm flex items-center gap-2"
+            >
+              <Calendar size={14} /> Itinerary
             </button>
           )}
 

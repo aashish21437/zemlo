@@ -4,6 +4,7 @@ import { dbConnect } from "@/lib/db";
 import Itinerary from "@/models/Itinerary";
 import Sightseeing from "@/models/Sightseeing";
 import Query from "@/models/Query";
+import Vehicle from "@/models/Vehicle";
 import { revalidatePath } from "next/cache";
 
 // 1. FETCH: Get existing options for a specific query
@@ -86,6 +87,24 @@ export async function searchSightseeing(query: string) {
   } catch (error) {
     console.error("Search Action Error:", error);
     return [];
+  }
+}
+
+// 4.5. FETCH: Vehicle Registry Resources
+export async function getVehicleResources() {
+  try {
+    await dbConnect();
+    const vehicleTypes = await Vehicle.distinct("vehicleType");
+    const cities = await Vehicle.distinct("city");
+    
+    // Sort them for the UI
+    return {
+      types: vehicleTypes.sort(),
+      cities: cities.sort()
+    };
+  } catch (error) {
+    console.error("Fetch Vehicle Resources Error:", error);
+    return { types: [], cities: [] };
   }
 }
 

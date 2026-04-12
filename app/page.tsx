@@ -3,13 +3,16 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero"; // Import your new component
+import Hero from "@/components/Hero";
 import SightseeingSection from "@/components/SightseeingSection";
 import CRMSection from "@/components/CRMSection";
+import SiteBackground from "@/components/SiteBackground";
 
 export default function Home() {
   return (
     <div className="relative min-h-screen bg-background text-foreground transition-colors">
+      {/* LightRays background — homepage only, dark mode only */}
+      <SiteBackground />
       <Navbar />
 
       <main>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Plus, Hash, Layers, ExternalLink, Loader2 } from 'lucide-react';
+import { ArrowLeft, Plus, Hash, Layers, ExternalLink, Loader2, Settings } from 'lucide-react';
 import { getItineraries, createItinerary, getQueryTitle } from '../actions';
 
 export default function ItinerarySelector() {
@@ -70,14 +70,22 @@ export default function ItinerarySelector() {
             </div>
           </div>
           
-          <button 
-            disabled={isCreating}
-            onClick={handleAddNew}
-            className="bg-zinc-900 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-zinc-800 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50"
-          >
-            {isCreating ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} strokeWidth={3} />}
-            ADD NEW OPTION
-          </button>
+          <div className="flex gap-4">
+            <button 
+              onClick={() => router.push(`/qreg/query/${queryId}`)}
+              className="px-5 py-2 border border-zinc-900 rounded-md text-sm font-bold text-zinc-900 hover:bg-zinc-50 transition-all flex items-center gap-2"
+            >
+              <Settings size={16} /> REGISTRY EDIT
+            </button>
+            <button 
+              disabled={isCreating}
+              onClick={handleAddNew}
+              className="bg-zinc-900 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-zinc-800 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50"
+            >
+              {isCreating ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} strokeWidth={3} />}
+              ADD NEW OPTION
+            </button>
+          </div>
         </div>
 
         {/* DATA TABLE */}

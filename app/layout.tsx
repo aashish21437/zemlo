@@ -26,7 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col min-h-screen">
+            {/* Fixed full-screen light rays — dark mode only */}
+            <div className="flex flex-col min-h-screen relative z-10">
               <main className="grow">
                 {children}
               </main>
