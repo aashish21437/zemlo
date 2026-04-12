@@ -14,7 +14,7 @@ export async function saveSightseeing(formData: FormData) {
   const idFromUrl = formData.get("current_id") as string;
   const isNew = idFromUrl === "new";
 
-  // Check dynamic permissions
+  // 1. Permission Check
   if (isNew) {
     if (!(await checkPermission('sightsee_add'))) {
       throw new Error("Unauthorized: Registration permission required");
@@ -25,18 +25,17 @@ export async function saveSightseeing(formData: FormData) {
     }
   }
 
-  // Connect and get the raw DB object
+  // 2. Establish Connection
   await dbConnect();
-  const db = mongoose.connection.db;
-
-  if (!db) {
-    throw new Error("Database connection established but DB object is missing");
-  }
 
   let finalID: number;
 
   if (isNew) {
-    // 1. Get next ID from counter - Using (db as any) to bypass Vercel type errors
+    // FIX: Define db directly inside the scope where it's used to satisfy Vercel worker
+    const db = mongoose.connection.db;
+    if (!db) throw new Error("Database connection failed");
+
+    // Get next ID from counter
     const counter = await (db as any).collection("counters").findOneAndUpdate(
       { _id: "sightseeing_id" },
       { $inc: { seq: 1 } },
@@ -45,7 +44,7 @@ export async function saveSightseeing(formData: FormData) {
 
     finalID = counter?.seq || 1000;
 
-    // 2. Insert new record using Mongoose Profile
+    // Insert new record using Mongoose Profile
     await Sightseeing.create({
       sightseeing_id: finalID,
       name_en: formData.get("name_en"),
@@ -54,7 +53,7 @@ export async function saveSightseeing(formData: FormData) {
       adult_price: Number(formData.get("adult_price")),
     });
   } else {
-    // 1. Update existing record using Mongoose Profile
+    // Update existing record using Mongoose Profile
     finalID = parseInt(idFromUrl);
     await Sightseeing.findOneAndUpdate(
       { sightseeing_id: finalID },
@@ -81,15 +80,12 @@ export async function bulkRegisterSightseeings(data: any[]) {
 
   await dbConnect();
   const db = mongoose.connection.db;
-
-  if (!db) {
-    throw new Error("Database connection failed");
-  }
+  if (!db) throw new Error("Database connection failed");
 
   const count = data.length;
   if (count === 0) return { success: false, error: "No data" };
 
-  // 1. Reserve a block of IDs for the entire batch
+  // Reserve a block of IDs for the entire batch
   const counter = await (db as any).collection("counters").findOneAndUpdate(
     { _id: "sightseeing_id" },
     { $inc: { seq: count } },
@@ -98,7 +94,7 @@ export async function bulkRegisterSightseeings(data: any[]) {
 
   const startingID = (counter?.seq || 1000) + 1;
 
-  // 2. Prepare the batch
+  // Prepare the batch
   const bulkEntries = data.map((item, index) => ({
     sightseeing_id: startingID + index,
     name_en: item.name_en,
@@ -107,7 +103,7 @@ export async function bulkRegisterSightseeings(data: any[]) {
     adult_price: Number(item.adult_price) || 0,
   }));
 
-  // 3. Execute InsertMany using Mongoose Profile
+  // Execute InsertMany using Mongoose Profile
   const result = await Sightseeing.insertMany(bulkEntries);
 
   revalidatePath("/sightseeing-dashboard");
@@ -123,8 +119,6 @@ export async function deleteSightseeing(id: number) {
   }
 
   await dbConnect();
-
-  // Remove the record based on the custom sightseeing_id
   await Sightseeing.deleteOne({ sightseeing_id: id });
 
   revalidatePath("/sightseeing-dashboard");
