@@ -23,7 +23,7 @@ export function QueryTable({ queries }: { queries: any[] }) {
 
   return (
     <div className="w-full overflow-x-auto border border-border rounded-xl bg-white shadow-sm">
-      <table className="w-full text-left border-collapse min-w-[1100px]">
+      <table className="w-full text-left border-collapse min-w-275">
         <thead>
           <tr className="bg-zinc-50 border-b border-zinc-200">
             <th className="px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Query Name</th>

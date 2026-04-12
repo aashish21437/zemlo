@@ -29,13 +29,13 @@ export function AgentTable({ agents }: { agents: Agent[] }) {
           </thead>
           <tbody className="divide-y divide-border/50 font-sans">
             {agents.map((agent) => (
-              <tr key={agent._id} className="hover:bg-zinc-500/[0.03] transition-colors group">
+              <tr key={agent._id} className="hover:bg-zinc-500/3 transition-colors group">
                 <td className="px-4 py-4 font-mono text-xs font-bold text-foreground/40 group-hover:text-foreground">{agent.agentNumber}</td>
                 <td className="px-4 py-4 text-sm font-bold">{agent.companyName}</td>
                 <td className="px-4 py-4 text-sm opacity-80">{agent.agentName}</td>
                 <td className="px-4 py-4 text-xs font-medium opacity-60">{agent.email}</td>
                 <td className="px-4 py-4 text-xs font-medium opacity-60">{agent.phone}</td>
-                <td className="px-4 py-4 text-[11px] opacity-40 truncate max-w-[200px]">{agent.address}</td>
+                <td className="px-4 py-4 text-[11px] opacity-40 truncate max-w-50">{agent.address}</td>
               </tr>
             ))}
             {agents.length === 0 && (

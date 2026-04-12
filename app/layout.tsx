@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
           >
             <div className="flex flex-col min-h-screen">
-              <main className="flex-grow">
+              <main className="grow">
                 {children}
               </main>
               <Footer />

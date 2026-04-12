@@ -190,7 +190,7 @@ export default function QueryDetailPage() {
         </div>
       </header>
 
-      <form id="queryForm" onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200 rounded-lg overflow-hidden shadow-sm items-start min-h-[500px]">
+      <form id="queryForm" onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200 rounded-lg overflow-hidden shadow-sm items-start min-h-125">
         
         {/* LEFT COLUMN: Query Info */}
         <div className="bg-white flex flex-col divide-y divide-zinc-100 h-full">
@@ -202,7 +202,7 @@ export default function QueryDetailPage() {
           </div>
 
           <div className="grid grid-cols-3 items-center p-4 gap-4">
-            <label className="text-[13px] text-zinc-600 font-bold text-[#0070d2]">Query Name</label>
+            <label className="text-[13px] text-zinc-600 font-bold">Query Name</label>
             <div className="col-span-2 text-xs font-mono font-bold text-zinc-900 bg-zinc-50 p-2 rounded border border-zinc-100">
                 {isNew ? "-- Auto Generated --" : formData.opportunityName}
             </div>

@@ -35,7 +35,7 @@ export function AgentForm({ onRefresh }: { onRefresh: () => void }) {
       </button>
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-background/80 backdrop-blur-md" onClick={() => setIsModalOpen(false)} />
           <div className="relative w-full max-w-xl bg-background border border-border rounded-[2.5rem] shadow-2xl p-8 md:p-10 animate-in zoom-in-95 duration-200">
             <button onClick={() => setIsModalOpen(false)} className="absolute right-6 top-6 p-2 rounded-full hover:bg-zinc-500/10"><X size={20} className="opacity-50" /></button>

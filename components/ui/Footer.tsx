@@ -59,7 +59,7 @@ const Footer = () => {
                     <FooterGroup
                         title="Connect"
                         links={[
-                            { label: 'GitHub', href: 'https://github.com/aashish' },
+                            { label: 'GitHub', href: 'https://github.com/aashish21437' },
                             { label: 'Twitter', href: '#' },
                             { label: 'Instagram', href: '#' }
                         ]}
@@ -67,7 +67,7 @@ const Footer = () => {
                     <FooterGroup
                         title="Support"
                         links={[
-                            { label: 'Email', href: 'mailto:aashish@zemlo.in' },
+                            { label: 'Email', href: 'mailto:founder@zemlo.in' },
                             { label: 'WhatsApp', href: '#' },
                             { label: 'Availability', href: '#' }
                         ]}

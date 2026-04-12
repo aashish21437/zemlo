@@ -44,7 +44,7 @@ export default async function SightseeingPage({ params }: { params: Promise<{ id
           
           <input type="hidden" name="current_id" value={id} />
 
-          <div className="bg-background border border-foreground/20 rounded-[2rem] p-10 shadow-sm">
+          <div className="bg-background border border-foreground/20 rounded-4xl p-10 shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
               
               {/* English Name */}

@@ -27,7 +27,7 @@ export default function SightseeingSection() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Large Feature Card */}
-        <div className="lg:col-span-2 group relative bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-800 transition-all hover:shadow-2xl">
+        <div className="lg:col-span-2 group relative bg-zinc-900 rounded-4xl overflow-hidden border border-zinc-800 transition-all hover:shadow-2xl">
           <div className="p-10 space-y-6">
             <div className="flex items-center gap-3">
               <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-black uppercase border border-blue-500/20">
@@ -53,7 +53,7 @@ export default function SightseeingSection() {
         </div>
 
         {/* Metrics Card */}
-        <Card className="rounded-[2.5rem] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-none p-10 flex flex-col justify-between min-h-[480px] transition-all duration-500">
+        <Card className="rounded-[2.5rem] bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-none p-10 flex flex-col justify-between min-h-120 transition-all duration-500">
           <div className="space-y-10">
             <div className="flex justify-between items-start">
               <div className="h-14 w-14 rounded-2xl bg-zinc-900 dark:bg-zinc-50 flex items-center justify-center text-zinc-50 dark:text-zinc-900 shadow-xl">

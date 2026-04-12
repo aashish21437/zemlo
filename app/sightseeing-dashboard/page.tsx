@@ -57,7 +57,7 @@ export default async function SightseeingDashboard() {
         </div>
 
         {/* DATA TABLE */}
-        <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-sm">
+        <div className="bg-card border border-border rounded-4xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
