@@ -5,8 +5,11 @@ import Link from 'next/link'; // Import Link
 import { Globe } from 'lucide-react';
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import UserStatus from "./UserStatus";
+import { useSession } from "next-auth/react";
 
 export default function Navbar() {
+  const { data: session } = useSession();
+
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
       <nav

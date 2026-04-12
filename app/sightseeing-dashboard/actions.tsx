@@ -4,18 +4,28 @@ import { dbConnect } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Sightseeing from "@/models/Sightseeing";
+import { checkPermission } from "@/lib/check-permissions";
 
 /**
  * FEATURE 1: SINGLE SAVE (REGISTRATION & UPDATE)
  * Used by the individual form console.
  */
 export async function saveSightseeing(formData: FormData) {
-  const mongoose = await dbConnect();
-  const db = mongoose.connection.db;
-  if (!db) throw new Error("Database connection failed");
-
   const idFromUrl = formData.get("current_id") as string;
   const isNew = idFromUrl === "new";
+
+  // Check dynamic permissions
+  if (isNew) {
+    if (!(await checkPermission('sightsee_add'))) {
+        throw new Error("Unauthorized: Registration permission required");
+    }
+  } else {
+    if (!(await checkPermission('sightsee_edit_delete'))) {
+        throw new Error("Unauthorized: Edit permission required");
+    }
+  }
+
+  const mongoose = await dbConnect();
   let finalID: number;
 
   if (isNew) {
@@ -58,6 +68,9 @@ export async function saveSightseeing(formData: FormData) {
  * Used by the CSV Upload component.
  */
 export async function bulkRegisterSightseeings(data: any[]) {
+  if (!(await checkPermission('sightsee_bulk'))) {
+    throw new Error("Unauthorized: Bulk upload permission required");
+  }
   const mongoose = await dbConnect();
   const db = mongoose.connection.db;
   if (!db) throw new Error("Database connection failed");
@@ -91,6 +104,9 @@ export async function bulkRegisterSightseeings(data: any[]) {
 }
 
 export async function deleteSightseeing(id: number) {
+  if (!(await checkPermission('sightsee_edit_delete'))) {
+    throw new Error("Unauthorized: Delete permission required");
+  }
   await dbConnect();
 
   // Remove the record based on the custom sightseeing_id using Mongoose Profile

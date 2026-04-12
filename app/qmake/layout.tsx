@@ -1,14 +1,14 @@
-import { QregNav } from "@/components/qreg/qreg-nav";
 import { checkPermission } from "@/lib/check-permissions";
 import { ShieldAlert } from "lucide-react";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
-export default async function QregLayout({
+export default async function QmakeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const hasAccess = await checkPermission('crm_view');
+  const hasAccess = await checkPermission('qmake_access');
 
   if (!hasAccess) {
     return (
@@ -19,7 +19,7 @@ export default async function QregLayout({
                 </div>
                 <h1 className="text-3xl font-black uppercase italic tracking-tighter">Module Locked</h1>
                 <p className="text-muted-foreground text-sm font-medium italic">
-                    You do not have permission to access the CRM & Query Registry. Contact admin for authorization.
+                    You do not have permission to access the Itinerary Builder (Query Maker). Contact admin for authorization.
                 </p>
                 <div className="pt-6 border-t border-border">
                     <Link href="/" className="px-8 py-3 bg-foreground text-background rounded-full font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all inline-block">
@@ -32,8 +32,8 @@ export default async function QregLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground pt-8 pb-20 px-6 lg:px-16 container mx-auto">
-      <QregNav />
+    <div className="min-h-screen">
+      <Navbar />
       <main>
         {children}
       </main>

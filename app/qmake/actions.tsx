@@ -6,9 +6,11 @@ import Sightseeing from "@/models/Sightseeing";
 import Query from "@/models/Query";
 import Vehicle from "@/models/Vehicle";
 import { revalidatePath } from "next/cache";
+import { checkPermission } from "@/lib/check-permissions";
 
 // 1. FETCH: Get existing options for a specific query
 export async function getItineraries(queryId: string) {
+  if (!(await checkPermission('qmake_access'))) return [];
   await dbConnect();
   const paddedId = String(queryId).padStart(5, '0');
   const unpaddedId = String(parseInt(queryId, 10));
@@ -18,6 +20,7 @@ export async function getItineraries(queryId: string) {
 
 // 1.5. FETCH: Get Title of Query
 export async function getQueryTitle(queryId: string) {
+  if (!(await checkPermission('qmake_access'))) return "Untitled Query";
   await dbConnect();
   const paddedId = String(queryId).padStart(5, '0');
   const query = await Query.findOne({ queryNumber: paddedId }).select("queryName").lean();
@@ -27,6 +30,9 @@ export async function getQueryTitle(queryId: string) {
 // 2. CREATE: Add a new option (a, b, c...)
 // Updated to include the new Excel-style fields by default
 export async function createItinerary(queryId: string, code: string, name: string) {
+  if (!(await checkPermission('qmake_versions'))) {
+    throw new Error("Unauthorized: Version creation permission required");
+  }
   await dbConnect();
   const paddedId = String(queryId).padStart(5, '0');
   const newItin = await Itinerary.create({
@@ -52,6 +58,7 @@ export async function createItinerary(queryId: string, code: string, name: strin
 
 // 3. FETCH: Get unique Query IDs we have worked on
 export async function getAllActiveQueries() {
+  if (!(await checkPermission('qmake_access'))) return [];
   await dbConnect();
   const activeQueries = await Itinerary.distinct("query_id");
   
@@ -72,6 +79,7 @@ export async function getAllActiveQueries() {
 
 // 4. SEARCH: Sightseeing Database
 export async function searchSightseeing(query: string) {
+  if (!(await checkPermission('qmake_access'))) return [];
   try {
     await dbConnect();
     if (!query || query.length < 2) return [];
@@ -92,6 +100,7 @@ export async function searchSightseeing(query: string) {
 
 // 4.5. FETCH: Vehicle Registry Resources
 export async function getVehicleResources() {
+  if (!(await checkPermission('qmake_access'))) return { types: [], cities: [] };
   try {
     await dbConnect();
     const vehicleTypes = await Vehicle.distinct("vehicleType");
@@ -110,6 +119,9 @@ export async function getVehicleResources() {
 
 // 5. SAVE: Sync the Excel-Builder data to MongoDB
 export async function saveItineraryData(itineraryCode: string, days: any[]) {
+  if (!(await checkPermission('qmake_edit_plan'))) {
+    throw new Error("Unauthorized: Plan editing permission required");
+  }
   try {
     await dbConnect();
 
@@ -149,6 +161,7 @@ export async function saveItineraryData(itineraryCode: string, days: any[]) {
 
 // 6. FETCH: Get a single itinerary by its code
 export async function getItineraryByCode(itineraryCode: string) {
+  if (!(await checkPermission('qmake_access'))) return null;
   try {
     await dbConnect();
     const data = await Itinerary.findOne({ itinerary_code: itineraryCode }).lean();

@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { dbConnect } from "@/lib/db";
 import Vehicle from "@/models/Vehicle";
+import { checkPermission } from '@/lib/check-permissions';
 
 // Helper: generate the next VP-XXXXX id
 async function generatePricingId(): Promise<string> {
@@ -22,6 +23,9 @@ function parsePrices(data: Record<string, string>) {
 }
 
 export async function getVehicles() {
+  if (!(await checkPermission('vehicle_view'))) {
+    throw new Error("Unauthorized: View permission required");
+  }
   await dbConnect();
   const vehicles = await Vehicle.find({}).sort({ createdAt: -1 }).lean();
   return vehicles.map((v: any) => ({ ...v, _id: v._id.toString() }));
@@ -41,6 +45,9 @@ export async function getVehicleById(id: string) {
 }
 
 export async function registerVehicle(formData: FormData) {
+  if (!(await checkPermission('vehicle_single_add'))) {
+    return { error: "Unauthorized: Registration permission required" };
+  }
   try {
     await dbConnect();
     const pricing_id = await generatePricingId();
@@ -67,6 +74,9 @@ export async function registerVehicle(formData: FormData) {
 }
 
 export async function updateVehicle(id: string, formData: FormData) {
+  if (!(await checkPermission('vehicle_edit'))) {
+    return { error: "Unauthorized: Edit permission required" };
+  }
   try {
     await dbConnect();
     const raw: Record<string, string> = {};
@@ -90,6 +100,9 @@ export async function updateVehicle(id: string, formData: FormData) {
 }
 
 export async function deleteVehicle(id: string) {
+  if (!(await checkPermission('vehicle_delete'))) {
+    return { error: "Unauthorized: Delete permission required" };
+  }
   try {
     await dbConnect();
     const result = await Vehicle.findByIdAndDelete(id);
@@ -105,6 +118,9 @@ export async function deleteVehicle(id: string) {
 }
 
 export async function bulkRegisterVehicles(rows: any[]) {
+  if (!(await checkPermission('vehicle_bulk_upload'))) {
+    return { error: "Unauthorized: Bulk upload permission required" };
+  }
   try {
     await dbConnect();
     const count = await Vehicle.countDocuments();

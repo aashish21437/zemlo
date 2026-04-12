@@ -5,12 +5,16 @@ import { revalidatePath } from 'next/cache';
 import clientPromise, { dbConnect } from "@/lib/db";
 import Agent from "@/models/Agent";
 import Query from "@/models/Query";
+import { checkPermission } from "@/lib/check-permissions";
 
 const DB_NAME = "zemlo";
 
 // --- AGENT ACTIONS ---
 
 export async function registerAgent(formData: FormData) {
+  if (!(await checkPermission('crm_create'))) {
+    return { error: "Unauthorized: Agent registration permission required" };
+  }
   try {
     await dbConnect();
 
@@ -47,6 +51,7 @@ export async function registerAgent(formData: FormData) {
 }
 
 export async function getAgents() {
+  if (!(await checkPermission('crm_view'))) return [];
   try {
     await dbConnect();
     const agents = await Agent.find({}).sort({ createdAt: -1 }).lean();
@@ -59,6 +64,9 @@ export async function getAgents() {
 // --- QUERY ACTIONS ---
 
 export async function registerQuery(formData: FormData) {
+  if (!(await checkPermission('crm_create'))) {
+    return { error: "Unauthorized: Query registration permission required" };
+  }
   try {
     await dbConnect();
 
@@ -107,12 +115,14 @@ export async function registerQuery(formData: FormData) {
 }
 
 export async function getQueries() {
+  if (!(await checkPermission('crm_view'))) return [];
   await dbConnect();
   const data = await Query.find({}).sort({ createdAt: -1 }).lean();
   return data.map((q: any) => ({ ...q, _id: q._id.toString() }));
 }
 
 export async function getQueryById(id: string) {
+  if (!(await checkPermission('crm_view'))) return null;
   if (!id || id === 'new') return null;
   try {
     await dbConnect();
@@ -132,6 +142,9 @@ export async function getQueryById(id: string) {
 }
 
 export async function updateQuery(id: string, updateData: any) {
+  if (!(await checkPermission('crm_edit'))) {
+    return { error: "Unauthorized: Query edit permission required" };
+  }
   try {
     await dbConnect();
     
@@ -157,6 +170,7 @@ export async function updateQuery(id: string, updateData: any) {
 
 // 1. Add getAgentById so we can fetch specific agent data
 export async function getAgentById(id: string) {
+  if (!(await checkPermission('crm_view'))) return null;
   try {
     await dbConnect();
     const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
@@ -177,6 +191,9 @@ export async function getAgentById(id: string) {
 
 // 2. Add updateAgent so we can save changes to an existing agent
 export async function updateAgent(id: string, formData: FormData) {
+  if (!(await checkPermission('crm_edit'))) {
+    return { error: "Unauthorized: Agent edit permission required" };
+  }
   try {
     await dbConnect();
     
@@ -200,6 +217,9 @@ export async function updateAgent(id: string, formData: FormData) {
 }
 
 export async function deleteQuery(id: string) {
+  if (!(await checkPermission('crm_delete'))) {
+    return { error: "Unauthorized: Query deletion permission required" };
+  }
   try {
     await dbConnect();
     

@@ -2,7 +2,8 @@ import { dbConnect } from '@/lib/db';
 import Sightseeing from '@/models/Sightseeing';
 import Link from 'next/link';
 import Navbar from "@/components/Navbar";
-
+import { checkPermission } from '@/lib/check-permissions';
+import { ShieldAlert } from 'lucide-react';
 
 interface SightseeingSpot {
   _id: string;
@@ -15,6 +16,29 @@ interface SightseeingSpot {
 }
 
 export default async function SightseeingDashboard() {
+  const hasAccess = await checkPermission('sightsee_view');
+  
+  if (!hasAccess) {
+    return (
+        <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-6">
+            <div className="max-w-md w-full text-center space-y-6">
+                <div className="h-20 w-20 bg-red-100 dark:bg-red-950/30 rounded-full flex items-center justify-center mx-auto text-red-500">
+                    <ShieldAlert size={40} />
+                </div>
+                <h1 className="text-3xl font-black uppercase italic tracking-tighter">Access Denied</h1>
+                <p className="text-muted-foreground text-sm font-medium italic">
+                    You do not have permission to view the Sightseeing Database. Please contact your administrator.
+                </p>
+                <div className="pt-6 border-t border-border">
+                    <Link href="/" className="px-8 py-3 bg-foreground text-background rounded-full font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all inline-block">
+                        Back to Home
+                    </Link>
+                </div>
+            </div>
+        </div>
+    );
+  }
+
   await dbConnect();
 
   const spots = (await Sightseeing.find({})
