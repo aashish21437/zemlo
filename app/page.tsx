@@ -15,7 +15,7 @@ export default function Home() {
       <SiteBackground />
       <Navbar />
 
-      <main>
+      <main className="relative z-10">
         {/* The clean, imported Hero component */}
         <Hero />
 

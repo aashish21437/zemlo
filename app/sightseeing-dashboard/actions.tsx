@@ -26,6 +26,8 @@ export async function saveSightseeing(formData: FormData) {
   }
 
   const mongoose = await dbConnect();
+  const db = mongoose.connection.db;
+  if (!db) throw new Error("Database connection failed");
   let finalID: number;
 
   if (isNew) {

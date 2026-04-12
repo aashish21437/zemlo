@@ -29,7 +29,7 @@ export default function Hero() {
           <p className="text-base font-medium leading-relaxed text-muted-foreground/80 max-w-sm">
             Hi, I&apos;m Aashish Chauhan, a freelance Website Developer based in India. I collaborate with companies to craft digital tools that drive success.
           </p>
-          <a href="#work" className="inline-flex items-center gap-2.5 text-sm font-bold text-zinc-900 dark:text-zinc-50 hover:underline transition-all">
+          <a href="#work" className="inline-flex items-center gap-2.5 text-sm font-bold text-foreground hover:underline transition-all">
             Discover <ArrowDown size={14} className="opacity-70" />
           </a>
         </div>
