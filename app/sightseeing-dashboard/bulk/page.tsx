@@ -106,12 +106,12 @@ export default function BulkRegistrationPage() {
         ) : (
           <div className="space-y-8">
             {/* ... existing preview table code ... */}
-            <div className="bg-card border border-border rounded-[2rem] overflow-hidden shadow-2xl">
+            <div className="bg-card border border-border rounded-4xl overflow-hidden shadow-2xl">
               <div className="p-8 border-b border-border flex justify-between items-center bg-muted/10">
                 <h3 className="font-black uppercase text-xs tracking-[0.2em]">Data Preview ({data.length} records)</h3>
                 <button onClick={() => setData([])} className="text-[10px] font-black uppercase text-red-500 hover:underline">Clear & Start Over</button>
               </div>
-              <div className="overflow-x-auto max-h-[500px]">
+              <div className="overflow-x-auto max-h-125">
                 <table className="w-full text-left border-collapse">
                   <thead className="sticky top-0 bg-card border-b border-border z-10">
                     <tr className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
@@ -136,7 +136,7 @@ export default function BulkRegistrationPage() {
             </div>
 
             {/* ACTION FOOTER */}
-            <div className="flex items-center justify-between bg-foreground text-background p-8 rounded-[2rem] shadow-2xl animate-in slide-in-from-bottom-4 duration-500">
+            <div className="flex items-center justify-between bg-foreground text-background p-8 rounded-4xl shadow-2xl animate-in slide-in-from-bottom-4 duration-500">
                <div className="flex items-center gap-4">
                 <div className="p-3 bg-background/20 rounded-xl">
                   <Database size={24} />

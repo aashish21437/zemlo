@@ -15,9 +15,7 @@
   }
 
   .dark {
-    /* Background becomes the soft Zinc 900 Charcoal */
     --background: 240 5.9% 10%; 
-    /* Text becomes the soft Off-White */
     --foreground: 0 0% 98%; 
     
     --card: 240 5.9% 10%;
@@ -33,5 +31,52 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     transition: background-color 0.4s ease, color 0.4s ease;
+  }
+}
+
+/* --- PRINT / PDF EXPORT STYLES --- */
+@media print {
+  @page {
+    margin: 10mm;
+    size: A4;
+  }
+
+  body {
+    background-color: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  /* Hide everything marked as print:hidden (buttons, nav, search) */
+  .print\:hidden,
+  button,
+  .relative.max-w-xl {
+    display: none !important;
+  }
+
+  /* Force table borders to appear in PDF */
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  th, td {
+    border: 1px solid #e4e4e7 !important; /* Zinc 200 */
+    padding: 12px !important;
+  }
+
+  /* Ensure input text (Staying City) is visible and black */
+  input {
+    border: none !important;
+    background: transparent !important;
+    color: black !important;
+    font-weight: bold !important;
+    padding: 0 !important;
+  }
+
+  /* Make the Day numbers (01, 02) solid black instead of light grey */
+  .text-zinc-100, .text-zinc-200 {
+    color: black !important;
+    opacity: 1 !important;
   }
 }
