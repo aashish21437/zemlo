@@ -3,9 +3,7 @@ import { ThemeProvider } from "../components/ui/theme-provider";
 import "./globals.css";
 import Footer from "@/components/ui/Footer";
 import SessionWrapper from "@/components/SessionWrapper";
-import { Outfit } from "next/font/google";
 
-const outfit = Outfit({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700", "800", "900"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "Zemlo | Next-Gen Web Solutions",
   description: "High-performance applications built with Next.js and shadcn/ui.",
@@ -14,7 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // CRITICAL: suppressHydrationWarning must be here for next-themes
-    <html lang="en" suppressHydrationWarning className={`${outfit.variable}`}>
+    <html lang="en" suppressHydrationWarning>
       <head />
       <body className="font-sans antialiased" suppressHydrationWarning>
         {/* 1. Wrap everything in SessionWrapper first */}
@@ -39,4 +37,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
