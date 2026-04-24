@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import { ThemeProvider } from "../components/ui/theme-provider";
 import "./globals.css";
 import Footer from "@/components/ui/Footer";
 import SessionWrapper from "@/components/SessionWrapper";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Zemlo | Next-Gen Web Solutions",
@@ -14,13 +17,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // CRITICAL: suppressHydrationWarning must be here for next-themes
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className="font-sans antialiased" suppressHydrationWarning>
+      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
         {/* 1. Wrap everything in SessionWrapper first */}
         <SessionWrapper>
           {/* 2. Then the ThemeProvider */}
-          <ThemeProvider 
-            attribute="class" 
-            defaultTheme="system" 
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >

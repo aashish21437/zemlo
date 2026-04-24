@@ -1,7 +1,6 @@
 import { checkPermission } from "@/lib/check-permissions";
 import { ShieldAlert } from "lucide-react";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
 
 export default async function QmakeLayout({
   children,
@@ -33,7 +32,6 @@ export default async function QmakeLayout({
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <main>
         {children}
       </main>

@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Hash, Layers, ExternalLink, Loader2, Settings } from 'lucide-react';
 import { getItineraries, createItinerary, getQueryTitle } from '../actions';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import Navbar from "@/components/Navbar";
 
 export default function ItinerarySelector() {
   const params = useParams();
@@ -50,18 +53,22 @@ export default function ItinerarySelector() {
   );
 
   return (
-    <div className="min-h-screen bg-white pt-20 pb-20 px-4 md:px-10">
-      <div className="max-w-[98%] mx-auto">
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-white pt-20 pb-20 px-4 md:px-10">
+        <div className="max-w-[98%] mx-auto">
         
         {/* TOP BAR / NAVIGATION */}
         <div className="flex justify-between items-center mb-6 pb-6 border-b border-zinc-200">
           <div className="flex items-center gap-6">
-            <button 
+            <Button 
+              variant="ghost"
+              size="icon"
               onClick={() => router.push('/qmake')}
-              className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
+              className="rounded-full"
             >
               <ArrowLeft size={20} className="text-zinc-600" />
-            </button>
+            </Button>
             <div>
               <h1 className="text-xl font-bold text-zinc-900 tracking-tight">Itinerary Options</h1>
               <p className="text-[11px] text-zinc-400 font-bold uppercase tracking-widest">
@@ -71,25 +78,26 @@ export default function ItinerarySelector() {
           </div>
           
           <div className="flex gap-4">
-            <button 
+            <Button 
+              variant="outline"
               onClick={() => router.push(`/qreg/query/${queryId}`)}
-              className="px-5 py-2 border border-zinc-900 rounded-md text-sm font-bold text-zinc-900 hover:bg-zinc-50 transition-all flex items-center gap-2"
+              className="border-zinc-900 text-zinc-900 font-bold"
             >
               <Settings size={16} /> REGISTRY EDIT
-            </button>
-            <button 
+            </Button>
+            <Button 
               disabled={isCreating}
               onClick={handleAddNew}
-              className="bg-zinc-900 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-zinc-800 transition-all flex items-center gap-2 shadow-sm disabled:opacity-50"
+              className="font-bold shadow-sm"
             >
               {isCreating ? <Loader2 className="animate-spin" size={16} /> : <Plus size={16} strokeWidth={3} />}
               ADD NEW OPTION
-            </button>
+            </Button>
           </div>
         </div>
 
         {/* DATA TABLE */}
-        <div className="border border-zinc-200 rounded-lg overflow-hidden shadow-sm">
+        <Card className="border-none rounded-lg overflow-hidden shadow-sm">
           <table className="w-full text-left text-sm border-collapse">
             <thead>
               <tr className="bg-zinc-50 border-b border-zinc-200">
@@ -123,9 +131,9 @@ export default function ItinerarySelector() {
                       {itin.version_name}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button className="text-zinc-300 group-hover:text-zinc-900 transition-colors font-black uppercase text-[10px] tracking-widest flex items-center gap-2 ml-auto border border-transparent group-hover:border-zinc-200 px-3 py-1 rounded">
+                      <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-[10px] text-zinc-400 group-hover:text-zinc-900 ml-auto">
                         Edit Plan <ExternalLink size={12} />
-                      </button>
+                      </Button>
                     </td>
                   </tr>
                 ))
@@ -138,7 +146,7 @@ export default function ItinerarySelector() {
               )}
             </tbody>
           </table>
-        </div>
+        </Card>
 
         {/* METRICS */}
         <div className="mt-6 flex justify-between items-center px-2">
@@ -151,5 +159,6 @@ export default function ItinerarySelector() {
         </div>
       </div>
     </div>
+    </>
   );
 }

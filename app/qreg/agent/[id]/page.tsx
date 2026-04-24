@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { registerAgent, getAgentById, updateAgent } from '@/app/qreg/actions'; 
 import { ChevronLeft, Building2, User, Mail, Phone, MapPin, Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 // Explicitly define the Agent shape for TypeScript
 interface AgentData {
@@ -97,23 +99,24 @@ export default function AgentDetailPage() {
   return (
     <div className="max-w-4xl mx-auto pb-20">
       <header className="flex justify-between items-center py-6 mb-10 border-b border-zinc-200">
-        <button onClick={() => router.push('/qreg')} className="flex items-center gap-2 text-sm text-zinc-500 hover:text-black transition-colors">
+        <Button variant="ghost" onClick={() => router.push('/qreg')} className="flex items-center gap-2 text-sm text-zinc-500 hover:text-black transition-colors">
           <ChevronLeft size={16} /> Back to Registry
-        </button>
-        <button 
+        </Button>
+        <Button 
           type="submit" 
           form="agentForm" 
           disabled={loading}
-          className="bg-[#0070d2] text-white px-10 py-2.5 rounded-md text-xs font-bold hover:bg-[#005fb2] disabled:opacity-50 transition-all shadow-sm"
+          className="px-10 py-2.5 rounded-md text-xs font-bold shadow-sm"
         >
           {loading ? <Loader2 className="animate-spin" size={16} /> : "Save Agent"}
-        </button>
+        </Button>
       </header>
 
-      <div className="bg-white border border-zinc-200 rounded-xl shadow-sm overflow-hidden">
-        <div className="p-4 bg-zinc-50/50 border-b border-zinc-200">
-          <h2 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Account Information</h2>
-        </div>
+      <Card className="border-none rounded-xl shadow-sm overflow-hidden p-0">
+        <CardHeader className="p-4 bg-zinc-50/50 border-b border-zinc-200">
+          <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Account Information</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
         
         <form id="agentForm" onSubmit={handleSave} className="divide-y divide-zinc-100">
           <div className="grid grid-cols-3 items-center p-6 gap-6">
@@ -168,7 +171,8 @@ export default function AgentDetailPage() {
             />
           </div>
         </form>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

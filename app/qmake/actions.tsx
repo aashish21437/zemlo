@@ -98,15 +98,13 @@ export async function searchSightseeing(query: string) {
   }
 }
 
-// 4.5. FETCH: Vehicle Registry Resources
+// 4.5. FETCH: Vehicle Registry Resources (unique types + cities)
 export async function getVehicleResources() {
   if (!(await checkPermission('qmake_access'))) return { types: [], cities: [] };
   try {
     await dbConnect();
     const vehicleTypes = await Vehicle.distinct("vehicleType");
     const cities = await Vehicle.distinct("city");
-    
-    // Sort them for the UI
     return {
       types: vehicleTypes.sort(),
       cities: cities.sort()
@@ -117,37 +115,55 @@ export async function getVehicleResources() {
   }
 }
 
-// 5. SAVE: Sync the Excel-Builder data to MongoDB
-export async function saveItineraryData(itineraryCode: string, days: any[]) {
+// 4.6. FETCH: Cascading vehicle options — vendors + price for a given type/city
+export async function getVehicleOptions(vehicleType?: string, city?: string) {
+  if (!(await checkPermission('qmake_access'))) return [];
+  try {
+    await dbConnect();
+    const filter: Record<string, any> = {};
+    if (vehicleType) filter.vehicleType = vehicleType;
+    if (city) filter.city = city;
+
+    const vehicles = await Vehicle.find(filter)
+      .select("vendorName vehicleType city prices")
+      .lean();
+
+    return JSON.parse(JSON.stringify(vehicles));
+  } catch (error) {
+    console.error("Fetch Vehicle Options Error:", error);
+    return [];
+  }
+}
+
+// 5. SAVE: Sync the flat Excel rows to MongoDB
+export async function saveItineraryData(itineraryCode: string, rows: any[]) {
   if (!(await checkPermission('qmake_edit_plan'))) {
     throw new Error("Unauthorized: Plan editing permission required");
   }
   try {
     await dbConnect();
 
-    const formattedDays = days.map(day => ({
-      date: day.date || "",
-      vehicle: day.vehicle || "NONE",
-      guide: day.guide || "NONE",
-      serviceTime: day.serviceTime || "",
-      stayingCity: day.stayingCity || "",
-      hotelName: day.hotelName || "",
-      activities: day.activities || [],
-      meals: {
-        breakfast: day.meals?.breakfast ?? true,
-        lunch: day.meals?.lunch ?? false,
-        dinner: day.meals?.dinner ?? false,
-      }
+    const formattedRows = rows.map(row => ({
+      date: row.date || '',
+      vehicle: row.vehicle || '',
+      vehicleCity: row.vehicleCity || '',
+      vendorName: row.vendorName || '',
+      vehicleServiceType: row.vehicleServiceType || '',
+      vehicleAmount: row.vehicleAmount ?? null,
+      guide: row.guide || '',
+      serviceTime: row.serviceTime || '',
+      sightseeingName: row.sightseeingName || '',   // legacy compat
+      sightseeings: Array.isArray(row.sightseeings) ? row.sightseeings : (row.sightseeingName ? [row.sightseeingName] : []),
+      mealBreakfast: row.mealBreakfast ?? false,
+      mealLunch: row.mealLunch ?? false,
+      mealDinner: row.mealDinner ?? false,
+      hotelName: row.hotelName || '',
+      stayingCity: row.stayingCity || '',
     }));
 
     const result = await Itinerary.findOneAndUpdate(
       { itinerary_code: itineraryCode },
-      { 
-        $set: { 
-          days: formattedDays,
-          updatedAt: new Date() 
-        } 
-      },
+      { $set: { rows: formattedRows, updatedAt: new Date() } },
       { upsert: true, new: true }
     );
 
@@ -169,5 +185,21 @@ export async function getItineraryByCode(itineraryCode: string) {
   } catch (error) {
     console.error("Get Itinerary Error:", error);
     return null;
+  }
+}
+
+// 7. DELETE: Remove an itinerary option by its code
+export async function deleteItinerary(itineraryCode: string, queryId: string) {
+  if (!(await checkPermission('qmake_versions'))) {
+    throw new Error("Unauthorized: Version management permission required");
+  }
+  try {
+    await dbConnect();
+    await Itinerary.findOneAndDelete({ itinerary_code: itineraryCode });
+    revalidatePath(`/qmake/${queryId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Delete Itinerary Error:", error);
+    throw new Error("Failed to delete itinerary");
   }
 }

@@ -1,0 +1,45 @@
+Project Implementation Plan
+Legacy CGI Integration & Security Showcase
+
+1. Project Objective
+To demonstrate a proof-of-concept (PoC) that retrieves Japanese transit routing data
+by programmatically interacting with the legacy hyperdia2.cgi endpoint. The project
+showcases skills in reverse engineering network requests, bypassing basic headerbased security, and parsing unstructured legacy HTML data.
+2. Target Endpoint Details
+Attribute Value
+Target URL https://www.hyperdia.com/cgi/search/en/hyperdia2.cgi
+Method POST
+Content-Type application/x-www-form-urlencoded
+Response Format HTML (Approx. 90-100 KB)
+3. Data Payload Requirements
+The following keys must be present in the POST body for a successful response:
+dep_node: Departure station (e.g., TOKYO)
+arv_node: Arrival station (e.g., KYOTO)
+year / month / day: Integer strings (YYYY, MM, DD)
+search_target: Must be set to "route"
+max_route: Integer (Typically 1 to 5)
+
+4. Security Bypass Implementation
+To prevent the server from rejecting the request, the "Referrer Policy" must be
+bypassed by spoofing the request headers. This demonstrates the vulnerability
+where the server trusts client-provided headers for authentication.
+headers = {
+ 'Host': 'www.hyperdia.com',
+ 'Origin': 'https://www.hyperdia.com',
+ 'Referer': 'https://www.hyperdia.com/en/',
+ 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+}
+5. Technical Architecture
+Phase 1: Extraction
+Use a backend language (Python suggested) to send the POST request. Ensure
+session persistence if the CGI script requires a preceding landing page cookie.
+Phase 2: Transformation (The "Scraper")
+Since the response is raw HTML, use BeautifulSoup4 to locate specific table cells (td)
+or divs containing route information.
+Logic: Filter for strings matching "Route 1", "Time", and "Fare".
+Phase 3: Presentation
+Convert the extracted data into a clean JSON object for your own application's UI.
+Security & Ethics Notice: This implementation is intended for educational and
+portfolio purposes. Ensure your app complies with rate-limiting (maximum 1-2
+calls per day as planned) to avoid being flagged as a Denial of Service (DoS)
+attempt. 

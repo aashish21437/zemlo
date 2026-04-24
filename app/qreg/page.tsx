@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getAgents } from '@/app/qreg/actions';
 import { Plus, Search, Building2, Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 
 export default function AgentRegistryPage() {
@@ -30,18 +32,17 @@ export default function AgentRegistryPage() {
         </div>
         
         {/* The Button to lead to the new page */}
-        <Link 
-          href="/qreg/agent/new" 
-          className="bg-[#0070d2] text-white px-6 py-2.5 rounded-md text-xs font-bold flex items-center gap-2 hover:bg-[#005fb2] transition-all shadow-sm"
-        >
-          <Plus size={16} /> Register Agent
-        </Link>
+        <Button asChild className="rounded-md px-6 py-2.5 text-xs font-bold shadow-sm">
+          <Link href="/qreg/agent/new">
+            <Plus size={16} /> Register Agent
+          </Link>
+        </Button>
       </div>
 
       {loading ? (
         <div className="flex justify-center py-20"><Loader2 className="animate-spin text-zinc-300" /></div>
       ) : (
-        <div className="bg-white border border-zinc-200 rounded-xl overflow-hidden shadow-sm">
+        <Card className="border-none rounded-xl overflow-hidden shadow-sm">
           <table className="w-full text-left border-collapse">
             <thead className="bg-zinc-50 border-b border-zinc-200">
               <tr>
@@ -82,18 +83,17 @@ export default function AgentRegistryPage() {
   </td>
 
   <td className="px-6 py-4 text-right">
-    <Link 
-      href={`/qreg/agent/${agent.agentNumber}`} 
-      className="text-[10px] font-bold text-zinc-400 hover:text-zinc-900 uppercase bg-zinc-100 px-2 py-1 rounded"
-    >
-      Edit
-    </Link>
+    <Button asChild variant="secondary" size="xs" className="text-[10px] font-bold text-zinc-400 hover:text-zinc-900 uppercase">
+      <Link href={`/qreg/agent/${agent.agentNumber}`}>
+        Edit
+      </Link>
+    </Button>
   </td>
 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </Card>
       )}
     </div>
   );

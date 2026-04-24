@@ -1,0 +1,2003 @@
+hyperdia2.cgi
+
+headers
+Request URL
+https://www.hyperdia.com/cgi/search/en/hyperdia2.cgi
+Request Method
+POST
+Status Code
+200 OK
+Remote Address
+52.195.130.174:443
+Referrer Policy
+strict-origin-when-cross-origin
+:authority
+www.hyperdia.com
+:method
+POST
+:path
+/cgi/search/en/hyperdia2.cgi
+:scheme
+https
+accept
+text/javascript, text/html, application/xml, text/xml, */*
+accept-encoding
+gzip, deflate, br, zstd
+accept-language
+en-US,en;q=0.9
+content-length
+261
+content-type
+application/x-www-form-urlencoded; charset=UTF-8
+cookie
+_ga=GA1.2.1748045013.1777056480; _gid=GA1.2.1252081633.1777056480; style=null; _gat=1; _ga_1KHYWSNLHF=GS2.2.s1777056480$o1$g1$t1777057620$j60$l0$h0
+origin
+https://www.hyperdia.com
+priority
+u=1, i
+referer
+https://www.hyperdia.com/cgi/en/search.html?dep_node=TOKYO&arv_node=KYOTO&via_node01=&via_node02=&via_node03=&year=2023&month=09&day=01&hour=00&minute=37&search_type=2&search_way=&transtime=undefined&sort=0&max_route=5&faretype=0&ship=off&lmlimit=null&search_target=route&facility=reserved&sum_target=7
+sec-ch-ua
+"Google Chrome";v="147", "Not.A/Brand";v="8", "Chromium";v="147"
+sec-ch-ua-mobile
+?0
+sec-ch-ua-platform
+"Windows"
+sec-fetch-dest
+empty
+sec-fetch-mode
+cors
+sec-fetch-site
+same-origin
+user-agent
+Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36
+x-prototype-version
+1.5.1
+x-requested-with
+XMLHttpRequest
+
+payload
+dep_node
+TOKYO
+arv_node
+KYOTO
+via_node01
+via_node02
+via_node03
+year
+2023
+month
+09
+day
+01
+hour
+00
+minute
+37
+search_type
+2
+search_way
+transtime
+undefined
+sort
+0
+max_route
+5
+faretype
+0
+ship
+off
+lmlimit
+null
+search_target
+route
+facility
+reserved
+sum_target
+7
+_
+
+preview
+<div class="jrp_ban">
+<parsererror style="display: block; white-space: pre; border: 2px solid #c77; padding: 0 1em 0 1em; margin: 1em; background-color: #fdd; color: black">…</parsererror>
+<a href="javascript:;" onclick="window.open( 'redirect_je.html', 'JapanExperience' ); return false;">…</a>
+</div>
+
+response 
+<div class="jrp_ban">
+<a href="javascript:;" onclick="window.open( 'redirect_je.html', 'JapanExperience' ); return false;"><img src="./../../images/banner/Hyperdia-banner-make-savings.jpg" alt="JapanRailPass" height="48" width="877"></a>
+</div>
+<div style="margin-bottom:5px; padding:0px 5px 5px 5px; color:#ff0000; background-color:#eeeeee;">
+			The search results below may contain some routes not suitable for Japan Rail Pass.
+			Please make inquiries to railroad companies or travel agencies regarding actual fares, actual seat-fees and whether you are able to use Japan Rail Pass or not. <br>
+<span style="font-weight:bold; color:#000000;">Note: Japan Rail Pass search feature is available in <a href="http://www.hyperdia.com/en/product/voice/">"HYPERDIA by VOICE"</a> for iOS and <a href="http://www.hyperdia.com/en/product/android/">"HYPERDIA for Android"</a>.</span>
+</div>
+<div class="title2">
+<div class="title_l">Route1</div>
+<div class="title_r">
+				Take time:
+				<span class="text_blue">131</span>
+				 Minutes&nbsp;
+				Transfer:
+				<span class="text_blue">0</span>
+				Times&nbsp;
+				Distance:
+				<span class="text_blue">513.6</span>
+				km&nbsp;
+				<br>
+				Total:&yen;
+						<span class="text_blue" id="fare_total1">14,170</span>(<span class="faretype_en_0">Ticket</span>Fare:&yen;
+						<span class="text_blue" id="fare_unqin1">8,360</span>&nbsp;
+				Seat Fee:&yen;
+				<span class="text_blue" id="fare_ryokin1">5,810</span>)&nbsp;
+				Commuting ticket(1mon:&yen;
+				<span class="text_blue">
+							---
+						</span>&nbsp;
+				3mon:&yen;
+				<span class="text_blue">
+						---
+					</span>&nbsp;
+				6mon:&yen;
+				<span class="text_blue">
+						---
+					</span>)
+			</div>
+<div class="title_r2" style="width:80px">
+<table>
+<tr>
+<td align="right" width="13" style="padding-right:1px;padding-top:2px;"><a href="#" onClick="changeTd(1);return false;"><img src="./../../images/icon_arrow2.gif" align="right" width="11" height="10"></a></td><td style="text-align:left;" nowrap="true"><a href="#" onClick="changeTd(1);return false;" style="display:none;font-size: 9px;" id="img11">
+				UsefulLink
+			</a><a href="#" onClick="changeTd(1);return false;" style="display:table-cell;font-size: 9px;" id="img12">
+				Commuting ticket
+			</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="keiro clearfix">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table">
+<tr>
+<td width="60" rowspan="2" class="th">Time</td><td colspan="2" rowspan="2" class="th">Route</td><td width="65" rowspan="2" class="th">Fare</td><td width="140" rowspan="2" class="th">Seat Fee</td><td colspan="3" class="th2" id="reg1" style="display:none">
+						Commuting ticket
+            		</td><td width="229" rowspan="2" class="th" id="link1">
+						UsefulLink
+					</td>
+</tr>
+<tr>
+<td width="75" class="th" id="reg_11" style="display:none">
+						1Month
+					</td><td width="75" class="th" id="reg_13" style="display:none">
+						3Month
+					</td><td width="75" class="th" id="reg_16" style="display:none">
+						6Month
+					</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_l">6 Min
+
+					</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_hatu_en.gif" alt="begin" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">TOKYO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('TOKYO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_111" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_113" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_116" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeLink_11" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6809482672702,139.7669120666401' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?TOKYO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6809482672702,&#10;					139.7669120666401,&#10;					'TOKYO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?TOKYO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002846/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[131 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon8">Shinkansen Nozomi Exp.</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;8,360</div>
+</div>
+</td><td class="td_w_c"><select name="rate_range[1]" style="width:130px" onchange="doOnRateChange(1)" onmouseover="FixWidth(this,1)" onfocus="FixWidth(this,2)"><option value="10680" title="green">Green seat:
+									&yen;10,680</option><option value="5810" title="reserved" selected>Reserved seat:
+									&yen;5,810</option><option value="4960" title="free">Unreserved seat:
+									&yen;4,960</option></select></td><td id="trainReg_111" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainReg_113" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainReg_116" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainLink_11" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_p">137 Min<br>
+</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_chaku_en.gif" alt="end" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">KYOTO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('KYOTO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_121" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_123" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_126" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeLink_12" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.98565313310233,135.75804198970008' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?KYOTO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.98565313310233,&#10;					135.75804198970008,&#10;					'KYOTO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?KYOTO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005491/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+</table>
+<input type="hidden" id="node_count1" value="2">
+</div>
+<div class="title2">
+<div class="title_l">Route2</div>
+<div class="title_r">
+				Take time:
+				<span class="text_blue">155</span>
+				 Minutes&nbsp;
+				Transfer:
+				<span class="text_blue">0</span>
+				Times&nbsp;
+				Distance:
+				<span class="text_blue">513.6</span>
+				km&nbsp;
+				<br>
+				Total:&yen;
+						<span class="text_blue" id="fare_total2">13,850</span>(<span class="faretype_en_0">Ticket</span>Fare:&yen;
+						<span class="text_blue" id="fare_unqin2">8,360</span>&nbsp;
+				Seat Fee:&yen;
+				<span class="text_blue" id="fare_ryokin2">5,490</span>)&nbsp;
+				Commuting ticket(1mon:&yen;
+				<span class="text_blue">
+							---
+						</span>&nbsp;
+				3mon:&yen;
+				<span class="text_blue">
+						---
+					</span>&nbsp;
+				6mon:&yen;
+				<span class="text_blue">
+						---
+					</span>)
+			</div>
+<div class="title_r2" style="width:80px">
+<table>
+<tr>
+<td align="right" width="13" style="padding-right:1px;padding-top:2px;"><a href="#" onClick="changeTd(2);return false;"><img src="./../../images/icon_arrow2.gif" align="right" width="11" height="10"></a></td><td style="text-align:left;" nowrap="true"><a href="#" onClick="changeTd(2);return false;" style="display:none;font-size: 9px;" id="img21">
+				UsefulLink
+			</a><a href="#" onClick="changeTd(2);return false;" style="display:table-cell;font-size: 9px;" id="img22">
+				Commuting ticket
+			</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="keiro clearfix">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table">
+<tr>
+<td width="60" rowspan="2" class="th">Time</td><td colspan="2" rowspan="2" class="th">Route</td><td width="65" rowspan="2" class="th">Fare</td><td width="140" rowspan="2" class="th">Seat Fee</td><td colspan="3" class="th2" id="reg2" style="display:none">
+						Commuting ticket
+            		</td><td width="229" rowspan="2" class="th" id="link2">
+						UsefulLink
+					</td>
+</tr>
+<tr>
+<td width="75" class="th" id="reg_21" style="display:none">
+						1Month
+					</td><td width="75" class="th" id="reg_23" style="display:none">
+						3Month
+					</td><td width="75" class="th" id="reg_26" style="display:none">
+						6Month
+					</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_l">15 Min
+
+					</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_hatu_en.gif" alt="begin" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">TOKYO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('TOKYO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_211" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_213" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_216" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeLink_21" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6809482672702,139.7669120666401' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?TOKYO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6809482672702,&#10;					139.7669120666401,&#10;					'TOKYO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?TOKYO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002846/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[155 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon8">Shinkansen Hikari Exp.</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;8,360</div>
+</div>
+</td><td class="td_w_c"><select name="rate_range[2]" style="width:130px" onchange="doOnRateChange(2)" onmouseover="FixWidth(this,1)" onfocus="FixWidth(this,2)"><option value="10360" title="green">Green seat:
+									&yen;10,360</option><option value="5490" title="reserved" selected>Reserved seat:
+									&yen;5,490</option><option value="4960" title="free">Unreserved seat:
+									&yen;4,960</option></select></td><td id="trainReg_211" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainReg_213" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainReg_216" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainLink_21" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_p">170 Min<br>
+</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_chaku_en.gif" alt="end" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">KYOTO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('KYOTO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_221" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_223" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_226" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeLink_22" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.98565313310233,135.75804198970008' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?KYOTO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.98565313310233,&#10;					135.75804198970008,&#10;					'KYOTO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?KYOTO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005491/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+</table>
+<input type="hidden" id="node_count2" value="2">
+</div>
+<div class="title2">
+<div class="title_l">Route3</div>
+<div class="title_r">
+				Take time:
+				<span class="text_blue">173</span>
+				 Minutes&nbsp;
+				Transfer:
+				<span class="text_blue">0</span>
+				Times&nbsp;
+				Distance:
+				<span class="text_blue">513.6</span>
+				km&nbsp;
+				<br>
+				Total:&yen;
+						<span class="text_blue" id="fare_total3">13,850</span>(<span class="faretype_en_0">Ticket</span>Fare:&yen;
+						<span class="text_blue" id="fare_unqin3">8,360</span>&nbsp;
+				Seat Fee:&yen;
+				<span class="text_blue" id="fare_ryokin3">5,490</span>)&nbsp;
+				Commuting ticket(1mon:&yen;
+				<span class="text_blue">
+							---
+						</span>&nbsp;
+				3mon:&yen;
+				<span class="text_blue">
+						---
+					</span>&nbsp;
+				6mon:&yen;
+				<span class="text_blue">
+						---
+					</span>)
+			</div>
+<div class="title_r2" style="width:80px">
+<table>
+<tr>
+<td align="right" width="13" style="padding-right:1px;padding-top:2px;"><a href="#" onClick="changeTd(3);return false;"><img src="./../../images/icon_arrow2.gif" align="right" width="11" height="10"></a></td><td style="text-align:left;" nowrap="true"><a href="#" onClick="changeTd(3);return false;" style="display:none;font-size: 9px;" id="img31">
+				UsefulLink
+			</a><a href="#" onClick="changeTd(3);return false;" style="display:table-cell;font-size: 9px;" id="img32">
+				Commuting ticket
+			</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="keiro clearfix">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table">
+<tr>
+<td width="60" rowspan="2" class="th">Time</td><td colspan="2" rowspan="2" class="th">Route</td><td width="65" rowspan="2" class="th">Fare</td><td width="140" rowspan="2" class="th">Seat Fee</td><td colspan="3" class="th2" id="reg3" style="display:none">
+						Commuting ticket
+            		</td><td width="229" rowspan="2" class="th" id="link3">
+						UsefulLink
+					</td>
+</tr>
+<tr>
+<td width="75" class="th" id="reg_31" style="display:none">
+						1Month
+					</td><td width="75" class="th" id="reg_33" style="display:none">
+						3Month
+					</td><td width="75" class="th" id="reg_36" style="display:none">
+						6Month
+					</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_l">14 Min
+
+					</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_hatu_en.gif" alt="begin" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">TOKYO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('TOKYO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_311" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_313" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_316" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeLink_31" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6809482672702,139.7669120666401' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?TOKYO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6809482672702,&#10;					139.7669120666401,&#10;					'TOKYO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?TOKYO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002846/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[173 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon8">Shinkansen Kodama Exp.</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;8,360</div>
+</div>
+</td><td class="td_w_c"><select name="rate_range[3]" style="width:130px" onchange="doOnRateChange(3)" onmouseover="FixWidth(this,1)" onfocus="FixWidth(this,2)"><option value="10360" title="green">Green seat:
+									&yen;10,360</option><option value="5490" title="reserved" selected>Reserved seat:
+									&yen;5,490</option><option value="4960" title="free">Unreserved seat:
+									&yen;4,960</option></select></td><td id="trainReg_311" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainReg_313" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainReg_316" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;"></td><td id="trainLink_31" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_p">187 Min<br>
+</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_chaku_en.gif" alt="end" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">KYOTO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('KYOTO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_321" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_323" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeReg_326" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;"></td><td id="nodeLink_32" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.98565313310233,135.75804198970008' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?KYOTO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.98565313310233,&#10;					135.75804198970008,&#10;					'KYOTO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?KYOTO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005491/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+</table>
+<input type="hidden" id="node_count3" value="2">
+</div>
+<div class="title2">
+<div class="title_l">Route4</div>
+<div class="title_r">
+				Take time:
+				<span class="text_blue">264</span>
+				 Minutes&nbsp;
+				Transfer:
+				<span class="text_blue">5</span>
+				Times&nbsp;
+				Distance:
+				<span class="text_blue">527.1</span>
+				km&nbsp;
+				<br>
+				Total:&yen;
+						<span class="text_blue" id="fare_total4">30,120</span>(<span class="faretype_en_0">Ticket</span>Fare:&yen;
+						<span class="text_blue" id="fare_unqin4">30,120</span>&nbsp;
+				Seat Fee:&yen;
+				<span class="text_blue" id="fare_ryokin4">0</span>)&nbsp;
+				Commuting ticket(1mon:&yen;
+				<span class="text_blue">49,660</span>&nbsp;
+				3mon:&yen;
+				<span class="text_blue">141,530</span>&nbsp;
+				6mon:&yen;
+				<span class="text_blue">255,050</span>)
+			</div>
+<div class="title_r2" style="width:80px">
+<table>
+<tr>
+<td align="right" width="13" style="padding-right:1px;padding-top:2px;"><a href="#" onClick="changeTd(4);return false;"><img src="./../../images/icon_arrow2.gif" align="right" width="11" height="10"></a></td><td style="text-align:left;" nowrap="true"><a href="#" onClick="changeTd(4);return false;" style="display:none;font-size: 9px;" id="img41">
+				UsefulLink
+			</a><a href="#" onClick="changeTd(4);return false;" style="display:table-cell;font-size: 9px;" id="img42">
+				Commuting ticket
+			</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="keiro clearfix">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table">
+<tr>
+<td width="60" rowspan="2" class="th">Time</td><td colspan="2" rowspan="2" class="th">Route</td><td width="65" rowspan="2" class="th">Fare</td><td width="140" rowspan="2" class="th">Seat Fee</td><td colspan="3" class="th2" id="reg4" style="display:none">
+						Commuting ticket
+            		</td><td width="229" rowspan="2" class="th" id="link4">
+						UsefulLink
+					</td>
+</tr>
+<tr>
+<td width="75" class="th" id="reg_41" style="display:none">
+						1Month
+					</td><td width="75" class="th" id="reg_43" style="display:none">
+						3Month
+					</td><td width="75" class="th" id="reg_46" style="display:none">
+						6Month
+					</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_l">2 Min
+
+					</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_hatu_en.gif" alt="begin" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">TOKYO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('TOKYO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_411" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_413" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_416" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_41" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6809482672702,139.7669120666401' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?TOKYO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6809482672702,&#10;					139.7669120666401,&#10;					'TOKYO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?TOKYO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002846/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[6 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon4">JR Yamanote Line(Outer loop)</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;160</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_411" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;4,940</div>
+</center>
+</td><td id="trainReg_413" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;14,090</div>
+</center>
+</td><td id="trainReg_416" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;23,710</div>
+</center>
+</td><td id="trainLink_41" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">8 Min<br>20 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">HAMAMATSUCHO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('HAMAMATSUCHO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_421" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_423" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_426" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeLink_42" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6555298101663,139.75724064618282' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?HAMAMATSUCHO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6555298101663,&#10;					139.75724064618282,&#10;					'HAMAMATSUCHO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?HAMAMATSUCHO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002932/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[17 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon6">Tokyo Monorail Haneda Express</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;500</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_421" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;11,280</div>
+</center>
+</td><td id="trainReg_423" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;32,150</div>
+</center>
+</td><td id="trainReg_426" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;60,910</div>
+</center>
+</td><td id="trainLink_42" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">37 Min<br>97 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">HANEDA AIRPORT TERMINAL 1</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('HANEDA AIRPORT TERMINAL 1','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_431" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_433" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_436" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_43" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.54903126421491,139.78469552693605' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?HANEDA AIRPORT TERMINAL 1' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.54903126421491,&#10;					139.78469552693605,&#10;					'HANEDA AIRPORT TERMINAL 1'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?HANEDA AIRPORT TERMINAL 1' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002398/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[65 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon2">Airline</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;28,460</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_431" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_433" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_436" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainLink_43" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link6"><a href="javascript:;" onclick="showJalSearch(9,1,97,'HND','ITM');return false;">Air-Ticket (JAL group)</a></span>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">162 Min<br>197 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">OSAKA AIRPORT</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('OSAKA AIRPORT','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_441" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_443" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_446" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_44" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.7903983348389,135.44313681195726' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?OSAKA AIRPORT' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.7903983348389,&#10;					135.44313681195726,&#10;					'OSAKA AIRPORT'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?OSAKA AIRPORT' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005958/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[3 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon6">Osaka Monorail Main Line</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;200</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_441" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;7,820</div>
+</center>
+</td><td id="trainReg_443" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;22,290</div>
+</center>
+</td><td id="trainReg_446" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;42,230</div>
+</center>
+</td><td id="trainLink_44" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">200 Min<br>209 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">HOTARUGAIKE</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('HOTARUGAIKE','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_451" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_453" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_456" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeLink_45" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.79482287863297,135.44908229501' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?HOTARUGAIKE' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.79482287863297,&#10;					135.44908229501,&#10;					'HOTARUGAIKE'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?HOTARUGAIKE' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005779/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[13 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon6">Hankyu Takarazuka Line Exp.</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;230</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_451" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;8,780</div>
+</center>
+</td><td id="trainReg_453" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;25,030</div>
+</center>
+</td><td id="trainReg_456" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;47,420</div>
+</center>
+</td><td id="trainLink_45" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">222 Min<br>222 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">OSAKA-UMEDA(HANKYU)</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('OSAKA-UMEDA(HANKYU)','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_461" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_463" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_466" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_46" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.70550711974831,135.49830107013562' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?OSAKA-UMEDA(HANKYU)' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.70550711974831,&#10;					135.49830107013562,&#10;					'OSAKA-UMEDA(HANKYU)'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?OSAKA-UMEDA(HANKYU)' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005678/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[8 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon1">Walk</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td><td class="td_w_c"></td><td id="trainReg_461" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_463" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_466" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainLink_46" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">230 Min<br>237 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">OSAKA</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('OSAKA','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_471" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_473" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_476" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_47" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.70228909645087,135.49535115948305' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?OSAKA' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.70228909645087,&#10;					135.49535115948305,&#10;					'OSAKA'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?OSAKA' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005953/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[29 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon4">JR Special Rapid Service</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;570</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_471" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;16,840</div>
+</center>
+</td><td id="trainReg_473" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;47,970</div>
+</center>
+</td><td id="trainReg_476" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;80,780</div>
+</center>
+</td><td id="trainLink_47" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_p">266 Min<br>
+</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_chaku_en.gif" alt="end" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">KYOTO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('KYOTO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_481" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_483" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_486" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_48" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.98565313310233,135.75804198970008' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?KYOTO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.98565313310233,&#10;					135.75804198970008,&#10;					'KYOTO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?KYOTO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005491/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+</table>
+<input type="hidden" id="node_count4" value="8">
+</div>
+<div class="title2">
+<div class="title_l">Route5</div>
+<div class="title_r">
+				Take time:
+				<span class="text_blue">266</span>
+				 Minutes&nbsp;
+				Transfer:
+				<span class="text_blue">5</span>
+				Times&nbsp;
+				Distance:
+				<span class="text_blue">527.9</span>
+				km&nbsp;
+				<br>
+				Total:&yen;
+						<span class="text_blue" id="fare_total5">34,970</span>(<span class="faretype_en_0">Ticket</span>Fare:&yen;
+						<span class="text_blue" id="fare_unqin5">34,970</span>&nbsp;
+				Seat Fee:&yen;
+				<span class="text_blue" id="fare_ryokin5">0</span>)&nbsp;
+				Commuting ticket(1mon:&yen;
+				<span class="text_blue">49,660</span>&nbsp;
+				3mon:&yen;
+				<span class="text_blue">141,530</span>&nbsp;
+				6mon:&yen;
+				<span class="text_blue">255,050</span>)
+			</div>
+<div class="title_r2" style="width:80px">
+<table>
+<tr>
+<td align="right" width="13" style="padding-right:1px;padding-top:2px;"><a href="#" onClick="changeTd(5);return false;"><img src="./../../images/icon_arrow2.gif" align="right" width="11" height="10"></a></td><td style="text-align:left;" nowrap="true"><a href="#" onClick="changeTd(5);return false;" style="display:none;font-size: 9px;" id="img51">
+				UsefulLink
+			</a><a href="#" onClick="changeTd(5);return false;" style="display:table-cell;font-size: 9px;" id="img52">
+				Commuting ticket
+			</a></td>
+</tr>
+</table>
+</div>
+</div>
+<div class="keiro clearfix">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table">
+<tr>
+<td width="60" rowspan="2" class="th">Time</td><td colspan="2" rowspan="2" class="th">Route</td><td width="65" rowspan="2" class="th">Fare</td><td width="140" rowspan="2" class="th">Seat Fee</td><td colspan="3" class="th2" id="reg5" style="display:none">
+						Commuting ticket
+            		</td><td width="229" rowspan="2" class="th" id="link5">
+						UsefulLink
+					</td>
+</tr>
+<tr>
+<td width="75" class="th" id="reg_51" style="display:none">
+						1Month
+					</td><td width="75" class="th" id="reg_53" style="display:none">
+						3Month
+					</td><td width="75" class="th" id="reg_56" style="display:none">
+						6Month
+					</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_l">2 Min
+
+					</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_hatu_en.gif" alt="begin" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">TOKYO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('TOKYO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_511" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_513" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_516" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_51" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6809482672702,139.7669120666401' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?TOKYO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6809482672702,&#10;					139.7669120666401,&#10;					'TOKYO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?TOKYO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002846/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[6 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon4">JR Yamanote Line(Outer loop)</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;160</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_511" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;4,940</div>
+</center>
+</td><td id="trainReg_513" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;14,090</div>
+</center>
+</td><td id="trainReg_516" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;23,710</div>
+</center>
+</td><td id="trainLink_51" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">8 Min<br>20 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">HAMAMATSUCHO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('HAMAMATSUCHO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_521" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_523" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_526" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeLink_52" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.6555298101663,139.75724064618282' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?HAMAMATSUCHO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.6555298101663,&#10;					139.75724064618282,&#10;					'HAMAMATSUCHO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?HAMAMATSUCHO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002932/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[19 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon6">Tokyo Monorail Haneda Express</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;500</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_521" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;11,280</div>
+</center>
+</td><td id="trainReg_523" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;32,150</div>
+</center>
+</td><td id="trainReg_526" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;60,910</div>
+</center>
+</td><td id="trainLink_52" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">39 Min<br>99 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">HANEDA AIRPORT TERMINAL 2</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('HANEDA AIRPORT TERMINAL 2','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_531" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_533" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_536" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_53" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=35.550912636108436,139.78828563694128' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?HANEDA AIRPORT TERMINAL 2' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					35.550912636108436,&#10;					139.78828563694128,&#10;					'HANEDA AIRPORT TERMINAL 2'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?HANEDA AIRPORT TERMINAL 2' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0002399/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[65 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon2">Airline</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;33,310</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_531" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_533" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_536" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainLink_53" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link6"><a href="javascript:;" onclick="&#10;											window.open('https://www.ana.co.jp/asw/index.jsp', '_blank');&#10;											return false;&#10;										">Air-Ticket (ANA group)</a></span>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">164 Min<br>199 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">OSAKA AIRPORT</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('OSAKA AIRPORT','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_541" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_543" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_546" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_54" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.7903983348389,135.44313681195726' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?OSAKA AIRPORT' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.7903983348389,&#10;					135.44313681195726,&#10;					'OSAKA AIRPORT'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?OSAKA AIRPORT' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005958/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[3 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon6">Osaka Monorail Main Line</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;200</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_541" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;7,820</div>
+</center>
+</td><td id="trainReg_543" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;22,290</div>
+</center>
+</td><td id="trainReg_546" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;42,230</div>
+</center>
+</td><td id="trainLink_54" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">202 Min<br>211 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">HOTARUGAIKE</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('HOTARUGAIKE','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_551" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_553" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeReg_556" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow03.gif" alt="" width="42" height="46"></center>
+<center></center>
+</td><td id="nodeLink_55" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.79482287863297,135.44908229501' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?HOTARUGAIKE' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.79482287863297,&#10;					135.44908229501,&#10;					'HOTARUGAIKE'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?HOTARUGAIKE' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005779/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[13 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon6">Hankyu Takarazuka Line Exp.</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;230</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_551" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;8,780</div>
+</center>
+</td><td id="trainReg_553" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;25,030</div>
+</center>
+</td><td id="trainReg_556" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+<center>
+<div class="text_b">
+									&yen;47,420</div>
+</center>
+</td><td id="trainLink_55" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">224 Min<br>224 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">OSAKA-UMEDA(HANKYU)</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('OSAKA-UMEDA(HANKYU)','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_561" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_563" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_566" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_56" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.70550711974831,135.49830107013562' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?OSAKA-UMEDA(HANKYU)' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.70550711974831,&#10;					135.49830107013562,&#10;					'OSAKA-UMEDA(HANKYU)'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?OSAKA-UMEDA(HANKYU)' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005678/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[8 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon1">Walk</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td><td class="td_w_c"></td><td id="trainReg_561" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_563" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainReg_566" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center></center>
+</td><td id="trainLink_56" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">232 Min<br>239 Min
+
+					</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_kae_en.gif" alt="transfer" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">OSAKA</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('OSAKA','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_571" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_573" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_576" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow01.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_57" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.70228909645087,135.49535115948305' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?OSAKA' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.70228909645087,&#10;					135.49535115948305,&#10;					'OSAKA'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?OSAKA' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005953/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+<tr>
+<td class="td_w_c">
+<div style="font-size: 12px;">[29 Min]</div>
+</td><td class="td_w_c noborder_r"><img src="./../../images/icon_line.gif" alt="through" width="3" height="46"></td><td class="td_w_l">
+<ul class="track clearfix">
+<li><span class="icon4">JR Special Rapid Service</span></li>
+</ul>
+</td><td style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;">
+<div align="center" class="text_b">
+<div class="fare_r clearfix" style="font-size: 12px;">
+                &yen;570</div>
+</div>
+</td><td class="td_w_c"></td><td id="trainReg_571" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;16,840</div>
+</center>
+</td><td id="trainReg_573" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;47,970</div>
+</center>
+</td><td id="trainReg_576" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;display:none;">
+<center>
+<div class="text_b">
+									&yen;80,780</div>
+</center>
+</td><td id="trainLink_57" class="td_w" style="border-right: 1px solid #CCCCCC;background-color:#FFFFFF;"></td>
+</tr>
+<tr>
+<td class="td_b_c">
+<div style="font-size: 12px;">
+<span class="text_blue_p">268 Min<br>
+</span>
+</div>
+</td><td width="35" class="td_b_c noborder_r"><img src="./../../images/icon_chaku_en.gif" alt="end" width="22" height="22"></td><td width="355" class="td_b_l"><span class="text_16">KYOTO</span><span style="font-size: 12px; font-weight: bold;"></span>
+<br>
+<span class="text_blue_s text_ndent"><a href="#" onclick="&#10;							setCookie('KYOTO','0','0');return false;&#10;						">
+						 Add to favorite
+						</a></span></td><td style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td class="td_b_c"></td><td id="nodeReg_581" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_583" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeReg_586" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;display:none;">
+<center>
+<img src="./../../images/icon_arrow02.gif" alt="" width="42" height="46"></center>
+</td><td id="nodeLink_58" class="td_b_c" style="border-right: 1px solid #CCCCCC;background-color:#E6EDFB;">
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link1"><a href="javascript:;" onclick="&#10;								window.open( encodeURI( 'http://maps.google.co.jp/maps?f=q&amp;hl=en&amp;ie=UTF8&amp;z=14&amp;ll=34.98565313310233,135.75804198970008' ), 'map' );&#10;								return false;&#10;							">
+							 Map
+						</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;				clickLog( encodeURI( 'hotel_click_en.html?KYOTO' )  );&#10;				showHotelHcEn(&#10;					2023,&#10;					9,&#10;					1,&#10;					34.98565313310233,&#10;					135.75804198970008,&#10;					'KYOTO'&#10;				);&#10;				return false;&#10;			">
+			 Hotel
+		</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help">
+<li>
+<span class="link3"><a href="javascript:;" onclick="window.open( 'http://www.japan-experience.com/car-rental-japan?ap=a2170h', 'JapanExperience' ); return false;">Rent-a-car</a></span>
+</li>
+<li>
+<span class="link2"><a href="javascript:;" onclick="&#10;									clickLog( encodeURI( 'gnavi_click_en.html?KYOTO' )  );&#10;									window.open( encodeURI( 'http://gaff.gurunavi.jp/track/gc.php?ga_bid=1263&amp;ga_pid=4267&amp;ga_red=http://r.gnavi.co.jp/eki/0005491/rs/' ) );&#10;									return false;&#10;								">
+								Restaurant
+							</a></span>
+</li>
+</ul>
+</div>
+<div class="oyaku clearfix">
+<ul class="help"></ul>
+</div>
+</td>
+</tr>
+</table>
+<input type="hidden" id="node_count5" value="8">
+</div>
+<input type="hidden" id="result_count" value="5">
+<div class="jrp_ban">
+<a href="javascript:;" onclick="window.open( 'redirect_acp.html', 'ACPRail' ); return false;"><img src="https://affiliates.acprail.com/accounts/default1/banners/hyperdia-banner-web.jpg" alt="Japan Rail Passes" title="Japan Rail Passes" width="870" height="48"></a><img style="border:0" src="https://affiliates.acprail.com/scripts/imp.php?a_aid=515de4ddc48f9&amp;a_bid=a237f0e0" width="1" height="1" alt=""></div>

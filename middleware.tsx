@@ -13,12 +13,12 @@ export default withAuth(
   }
 );
 
-export const config = { 
+export const config = {
   matcher: [
-    "/qreg/:path*", 
+    "/qreg/:path*",
     "/add-sightseeings/:path*",
     "/sightseeing-dashboard/:path*",
     "/admin/:path*",
     "/vehicle/:path*"
-  ] 
+  ]
 };

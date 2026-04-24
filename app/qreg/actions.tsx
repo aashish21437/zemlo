@@ -1,5 +1,6 @@
 "use server"
-
+ 
+import { getServerSession } from "next-auth";
 import { ObjectId } from 'mongodb';
 import { revalidatePath } from 'next/cache';
 import clientPromise, { dbConnect } from "@/lib/db";
@@ -88,10 +89,13 @@ export async function registerQuery(formData: FormData) {
     // 4. Construct Final Name: 00009 ASAHI 0004 JAPAN 1704 6N7D X 3 PAX
     const queryName = `${queryNumber} ASAHI ${agentCode} JAPAN ${ddmm} ${nights}N${days}D X ${pax} PAX`;
 
+    const session = await getServerSession();
+    const currentUserEmail = session?.user?.email;
+
     const data = {
       queryNumber,
       queryName,
-      owner: formData.get("owner"),
+      owner: currentUserEmail || formData.get("owner"),
       queryType: formData.get("queryType"),
       agentEmail: formData.get("email"),
       phone: formData.get("phone"),
@@ -148,7 +152,7 @@ export async function updateQuery(id: string, updateData: any) {
   try {
     await dbConnect();
     
-    const { _id, ...data } = updateData;
+    const { _id, owner, ...data } = updateData;
 
     // Recalculate everything for the new name
     const nights = parseInt(data.nights) || 0;
@@ -157,9 +161,15 @@ export async function updateQuery(id: string, updateData: any) {
     const ddmm = `${dateParts[2]}${dateParts[1]}`;
     
     // Update Name: 00009 ASAHI 0004 JAPAN 1704 6N7D X 3 PAX
-    data.queryName = `${data.queryNumber} ASAHI ${data.agentCode} JAPAN ${ddmm} ${nights}N${days}D X ${data.pax} PAX`;
+    data.queryName = `${data.queryNumber} ASAHI ${data.agentCode} JAPAN ${ddmm} ${nights}N${days}D X ${data.guests !== undefined ? data.guests : data.pax} PAX`;
 
-    await Query.findByIdAndUpdate(id, data);
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
+    if (isObjectId) {
+      await Query.findByIdAndUpdate(id, data);
+    } else {
+      await Query.findOneAndUpdate({ queryNumber: id }, data);
+    }
+
     revalidatePath('/qreg/query');
     return { success: true, queryNumber: data.queryNumber };
   } catch (e) {
@@ -206,7 +216,12 @@ export async function updateAgent(id: string, formData: FormData) {
       address: (formData.get("address") as string).trim(),
     };
 
-    await Agent.findByIdAndUpdate(id, updateData);
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
+    if (isObjectId) {
+      await Agent.findByIdAndUpdate(id, updateData);
+    } else {
+      await Agent.findOneAndUpdate({ agentNumber: id }, updateData);
+    }
     
     revalidatePath('/qreg');
     return { success: true };
@@ -223,7 +238,13 @@ export async function deleteQuery(id: string) {
   try {
     await dbConnect();
     
-    const result = await Query.findByIdAndDelete(id);
+    const isObjectId = /^[0-9a-fA-F]{24}$/.test(id);
+    let result;
+    if (isObjectId) {
+      result = await Query.findByIdAndDelete(id);
+    } else {
+      result = await Query.findOneAndDelete({ queryNumber: id });
+    }
 
     if (result) {
       return { success: true };
