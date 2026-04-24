@@ -28,6 +28,7 @@ const RowSchema = new mongoose.Schema({
 const ItinerarySchema = new mongoose.Schema({
   itinerary_code: { type: String, required: true, unique: true },
   query_id: { type: String, required: true },
+  version_name: { type: String, default: '' },
   rows: [RowSchema],          // new flat Excel-style rows
   updatedAt: { type: Date, default: Date.now }
 });

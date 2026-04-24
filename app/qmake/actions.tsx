@@ -39,7 +39,7 @@ export async function createItinerary(queryId: string, code: string, name: strin
     query_id: paddedId,
     itinerary_code: code,
     version_name: name,
-    days: [
+    rows: [
       { 
         date: "", 
         vehicle: "ALPHARD PVT", 
@@ -47,8 +47,9 @@ export async function createItinerary(queryId: string, code: string, name: strin
         serviceTime: "10HRS", 
         stayingCity: "", 
         hotelName: "", 
-        activities: [], 
-        meals: { breakfast: true, lunch: false, dinner: false } 
+        mealBreakfast: true, 
+        mealLunch: false, 
+        mealDinner: false 
       }
     ]
   });
