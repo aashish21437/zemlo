@@ -4,11 +4,28 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Loader2, Trash2, BookOpen, FileText, ChevronRight, AlertTriangle, Search, Plus, X } from 'lucide-react';
 import { getItineraryByCode, deleteItinerary, searchSightseeing, saveItineraryData } from '../../actions';
+import { searchHyperdia, type RouteData } from '@/app/trains/actions';
+import { TrainRouteCard, TrainIcon } from '@/components/TrainRouteCard';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface SightseeingEntry {
   name: string;
   adultPrice: number | null;
+}
+
+export interface TrainLeg {
+  id: string;
+  from: string;
+  train: string;
+  to: string;
+  duration: string;
+}
+
+export interface TrainEntry {
+  id: string;
+  ticketType: 'Standard' | 'Green';
+  price: number;
+  legs: TrainLeg[];
 }
 
 interface ItinRow {
@@ -26,6 +43,7 @@ interface ItinRow {
   mealDinner: boolean;
   hotelName: string;
   stayingCity: string;
+  trains: TrainEntry[];
 }
 
 const BLANK_ROW = (): ItinRow => ({
@@ -43,6 +61,7 @@ const BLANK_ROW = (): ItinRow => ({
   mealDinner: false,
   hotelName: '',
   stayingCity: '',
+  trains: [],
 });
 
 // ─── Delete Confirm Modal ─────────────────────────────────────────────────────
@@ -167,14 +186,13 @@ function ItineraryNavbar({
           </span>
 
           {/* Save status indicator */}
-          <span className={`hidden sm:block text-[10px] font-black uppercase tracking-widest ml-2 transition-colors ${
-            saveStatus === 'saving' ? 'text-yellow-500' :
-            saveStatus === 'saved'  ? 'text-emerald-500' :
-            saveStatus === 'error'  ? 'text-red-400' : 'text-zinc-700'
-          }`}>
+          <span className={`hidden sm:block text-[10px] font-black uppercase tracking-widest ml-2 transition-colors ${saveStatus === 'saving' ? 'text-yellow-500' :
+              saveStatus === 'saved' ? 'text-emerald-500' :
+                saveStatus === 'error' ? 'text-red-400' : 'text-zinc-700'
+            }`}>
             {saveStatus === 'saving' && '● Saving…'}
-            {saveStatus === 'saved'  && '● Saved'}
-            {saveStatus === 'error'  && '● Save failed'}
+            {saveStatus === 'saved' && '● Saved'}
+            {saveStatus === 'error' && '● Save failed'}
           </span>
         </div>
 
@@ -240,6 +258,87 @@ export default function ItineraryBuilder() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'itinerary' | 'costing'>('costing');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const [profitPercents, setProfitPercents] = useState<Record<string, number>>(() => {
+    const defaults: Record<string, number> = {};
+    COSTING_COLUMNS.forEach(col => {
+      defaults[col.key] = 10;
+    });
+    return defaults;
+  });
+
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>(() => {
+    const defaults: Record<string, number> = {};
+    COSTING_COLUMNS.forEach(col => {
+      if (col.width) defaults[col.key] = parseInt(col.width, 10);
+      else if (col.minWidth) defaults[col.key] = parseInt(col.minWidth, 10);
+      else defaults[col.key] = 120;
+    });
+    return defaults;
+  });
+
+  const [resizingCol, setResizingCol] = useState<string | null>(null);
+  const startXRef = useRef<number>(0);
+  const startWidthRef = useRef<number>(0);
+
+  const handleResizeStart = (e: React.MouseEvent, key: string) => {
+    setResizingCol(key);
+    startXRef.current = e.pageX;
+    startWidthRef.current = columnWidths[key] || 120;
+    e.preventDefault(); // prevent text selection
+  };
+
+  useEffect(() => {
+    if (!resizingCol) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const delta = e.pageX - startXRef.current;
+      const newWidth = Math.max(80, startWidthRef.current + delta); // minimum 80px
+      setColumnWidths(prev => ({ ...prev, [resizingCol]: newWidth }));
+    };
+
+    const handleMouseUp = () => {
+      setResizingCol(null);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [resizingCol]);
+
+  const [rowHeights, setRowHeights] = useState<Record<number, number>>({});
+  const [resizingRow, setResizingRow] = useState<number | null>(null);
+  const startYRef = useRef<number>(0);
+  const startHeightRef = useRef<number>(0);
+
+  const handleRowResizeStart = (e: React.MouseEvent, idx: number) => {
+    setResizingRow(idx);
+    startYRef.current = e.pageY;
+    startHeightRef.current = rowHeights[idx] || 80;
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    if (resizingRow === null) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const delta = e.pageY - startYRef.current;
+      const newHeight = Math.max(40, startHeightRef.current + delta); // minimum 40px
+      setRowHeights(prev => ({ ...prev, [resizingRow]: newHeight }));
+    };
+
+    const handleMouseUp = () => setResizingRow(null);
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [resizingRow]);
+
   const isFirstRender = useRef(true);
 
   // ── Load ───────────────────────────────────────────────────────────────
@@ -253,6 +352,7 @@ export default function ItineraryBuilder() {
           sightseeings: (row.sightseeings ?? []).map((s: any) =>
             typeof s === 'string' ? { name: s, adultPrice: null } : s
           ),
+          trains: row.trains ?? [],
         }));
         setRows(normalized);
       }
@@ -278,6 +378,16 @@ export default function ItineraryBuilder() {
   }, [rows, code]);
 
   // ── Row helpers ───────────────────────────────────────────────────────────
+  const getColumnTotal = (key: string) => {
+    if (key === 'col9') {
+      return rows.reduce((acc, row) => acc + row.trains.reduce((rAcc, t) => rAcc + (Number(t.price) || 0), 0), 0);
+    }
+    if (key === 'col10') {
+      return rows.reduce((acc, row) => acc + row.sightseeings.reduce((rAcc, s) => rAcc + (Number(s.adultPrice) || 0), 0), 0);
+    }
+    return 0;
+  };
+
   const updateRow = (idx: number, patch: Partial<ItinRow>) =>
     setRows(prev => { const n = [...prev]; n[idx] = { ...n[idx], ...patch }; return n; });
 
@@ -318,18 +428,22 @@ export default function ItineraryBuilder() {
             <div className="overflow-hidden border-b border-zinc-300">
 
               {/* Column header */}
-              <div className="flex w-full bg-zinc-900">
+              <div className="flex bg-zinc-900">
                 {COLUMNS.map((col, i) => (
                   <div
                     key={col.key}
+                    style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }}
                     className={`
-                      flex-shrink-0 flex items-center px-3 py-2
+                      relative flex items-center px-3 py-2
                       text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400
                       ${i < COLUMNS.length - 1 ? 'border-r border-zinc-700' : ''}
                     `}
-                    style={{ width: col.width, flexGrow: col.grow ?? 0, flexBasis: col.grow ? 0 : undefined }}
                   >
-                    {col.label}
+                    <span className="truncate flex-1 pr-2">{col.label}</span>
+                    <div
+                      onMouseDown={e => handleResizeStart(e, col.key)}
+                      className={`absolute right-0 top-0 bottom-0 w-2 cursor-col-resize hover:bg-emerald-500/50 z-10 ${resizingCol === col.key ? 'bg-emerald-500' : ''}`}
+                    />
                   </div>
                 ))}
               </div>
@@ -344,6 +458,10 @@ export default function ItineraryBuilder() {
                   onDelete={() => deleteDay(idx)}
                   canDelete={rows.length > 1}
                   isLast={idx === rows.length - 1}
+                  columnWidths={columnWidths}
+                  rowHeights={rowHeights}
+                  onRowResizeStart={handleRowResizeStart}
+                  resizingRow={resizingRow}
                 />
               ))}
             </div>
@@ -361,7 +479,7 @@ export default function ItineraryBuilder() {
               "
             >
               <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                <path d="M4.5 1.5v6M1.5 4.5h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                <path d="M4.5 1.5v6M1.5 4.5h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
               </svg>
               Add Day
             </button>
@@ -372,23 +490,26 @@ export default function ItineraryBuilder() {
         {/* ── COSTING TAB ── */}
         {activeTab === 'costing' && (
           <div className="w-full pt-6">
-            <div className="overflow-auto border-b border-zinc-300">
+            <div className="overflow-x-auto pb-10">
+              <div className="min-w-max">
 
-              {/* Column header — grid layout for pixel-perfect alignment with rows */}
-              <div
-                className="w-full bg-zinc-900"
-                style={{ display: 'grid', gridTemplateColumns: COSTING_GRID }}
-              >
+              {/* Column header */}
+              <div className="flex bg-zinc-900 min-w-[max-content]">
                 {COSTING_COLUMNS.map((col, i) => (
                   <div
                     key={col.key}
+                    style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }}
                     className={`
-                      flex items-center px-3 py-2
+                      relative flex items-center px-3 py-2
                       text-[10px] font-black uppercase tracking-[0.18em] text-zinc-400
                       ${i < COSTING_COLUMNS.length - 1 ? 'border-r border-zinc-700' : ''}
                     `}
                   >
-                    {col.label}
+                    <span className="truncate flex-1 pr-2">{col.label}</span>
+                    <div
+                      onMouseDown={e => handleResizeStart(e, col.key)}
+                      className={`absolute right-0 top-0 bottom-0 w-2 cursor-col-resize hover:bg-emerald-500/50 z-10 ${resizingCol === col.key ? 'bg-emerald-500' : ''}`}
+                    />
                   </div>
                 ))}
               </div>
@@ -403,44 +524,31 @@ export default function ItineraryBuilder() {
                   onDelete={() => deleteDay(idx)}
                   canDelete={rows.length > 1}
                   isLast={idx === rows.length - 1}
+                  columnWidths={columnWidths}
+                  rowHeights={rowHeights}
+                  onRowResizeStart={handleRowResizeStart}
+                  resizingRow={resizingRow}
                 />
               ))}
 
               {/* ── TOTALS ROW ── */}
-              <div
-                className="w-full bg-zinc-950 border-t border-black"
-                style={{ display: 'grid', gridTemplateColumns: COSTING_GRID }}
-              >
-                {/* Skip columns 1 to 9 */}
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <div key={i} className="min-h-[40px] border-r border-zinc-800" />
-                ))}
-
-                {/* Column 10: Sightseeing Total */}
-                <div className="min-h-[40px] border-r border-zinc-800 flex items-center justify-between px-3 py-2 bg-zinc-900 shadow-[inset_0_2px_10px_rgba(0,0,0,0.2)]">
-                  <span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">
-                    Total
-                  </span>
-                  <span className="text-[12px] font-black text-emerald-400">
-                    ¥ {rows.reduce(
-                      (acc, row) => acc + row.sightseeings.reduce((rAcc, s) => rAcc + (Number(s.adultPrice) || 0), 0),
-                      0
-                    ).toLocaleString()}
-                  </span>
-                </div>
-
-                {/* Skip columns 11 to 13 */}
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className={`min-h-[40px] ${i < 2 ? 'border-r border-zinc-800' : ''}`} />
+              <div className="flex bg-zinc-950 border-t border-black min-w-[max-content]">
+                {COSTING_COLUMNS.map((col, i) => (
+                  <div key={col.key} style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }} className={`min-h-[40px] border-r border-zinc-800 flex items-center justify-between px-3 py-2 ${['col9', 'col10', 'col11', 'col12', 'col13'].includes(col.key) ? 'bg-zinc-900 shadow-[inset_0_2px_10px_rgba(0,0,0,0.2)]' : ''}`}>
+                    {['col9', 'col10', 'col11', 'col12', 'col13'].includes(col.key) && (
+                      <>
+                        <span className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">Total</span>
+                        <span className="text-[12px] font-black text-emerald-400">¥ {getColumnTotal(col.key).toLocaleString()}</span>
+                      </>
+                    )}
+                  </div>
                 ))}
               </div>
 
-            </div>
-
-            {/* Add Day button (Costing Tab) */}
-            <button
-              onClick={addDay}
-              className="
+              {/* Add Day button (Costing Tab) */}
+              <button
+                onClick={addDay}
+                className="
                 w-full py-3 mt-4
                 border border-dashed border-zinc-300 rounded-lg
                 flex items-center justify-center gap-2
@@ -448,13 +556,83 @@ export default function ItineraryBuilder() {
                 bg-white hover:bg-zinc-50 hover:text-zinc-700 hover:border-zinc-400
                 transition-all duration-150
               "
-            >
-              <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                <path d="M4.5 1.5v6M1.5 4.5h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-              </svg>
-              Add Day
-            </button>
+              >
+                <Plus size={12} /> Add Day
+              </button>
 
+              <div className="mt-12 space-y-0 border border-zinc-200 rounded-2xl overflow-hidden shadow-xl shadow-zinc-200/20 w-max">
+                <div className="bg-zinc-50 px-6 py-3 border-b border-zinc-200">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 px-3">Margin & Profit Summary</h3>
+                </div>
+
+                <div className="w-full">
+                  {/* 1. Profit % Row */}
+                  <div className="flex bg-white border-b border-zinc-100">
+                    {COSTING_COLUMNS.map((col, i) => {
+                      const isCalculated = ['col9', 'col10', 'col11', 'col12', 'col13'].includes(col.key);
+                      return (
+                        <div key={col.key} style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }} className={`min-h-[50px] ${i < COSTING_COLUMNS.length - 1 ? 'border-r border-zinc-100' : ''} flex flex-col justify-center px-4 py-2`}>
+                          {isCalculated && (
+                            <>
+                              <span className="text-[9px] font-black uppercase text-zinc-400 tracking-tighter mb-1.5">Profit %</span>
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="number"
+                                  value={profitPercents[col.key] ?? 10}
+                                  onChange={e => setProfitPercents(prev => ({ ...prev, [col.key]: Number(e.target.value) }))}
+                                  className="w-16 bg-zinc-50 border border-zinc-200 rounded-md px-2 py-1 text-[11px] font-bold text-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-900"
+                                />
+                                <span className="text-[10px] font-bold text-zinc-400">%</span>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* 2. Profit Amount Row */}
+                  <div className="flex bg-white border-b border-zinc-100">
+                    {COSTING_COLUMNS.map((col, i) => {
+                      const isCalculated = ['col9', 'col10', 'col11', 'col12', 'col13'].includes(col.key);
+                      const profit = isCalculated ? getColumnTotal(col.key) * ((profitPercents[col.key] ?? 10) / 100) : 0;
+                      return (
+                        <div key={col.key} style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }} className={`min-h-[50px] ${i < COSTING_COLUMNS.length - 1 ? 'border-r border-zinc-100' : ''} flex flex-col justify-center px-4 py-2`}>
+                          {isCalculated && (
+                            <>
+                              <span className="text-[9px] font-black uppercase text-zinc-400 tracking-tighter mb-1">Profit Amount</span>
+                              <span className="text-[11px] font-black text-blue-600 font-mono tracking-tight">¥ {Math.round(profit).toLocaleString()}</span>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* 3. Grand Total Row */}
+                  <div className="flex bg-zinc-900 shadow-[0_-10px_20px_rgba(0,0,0,0.05)]">
+                    {COSTING_COLUMNS.map((col, i) => {
+                      const isCalculated = ['col9', 'col10', 'col11', 'col12', 'col13'].includes(col.key);
+                      const total = isCalculated ? getColumnTotal(col.key) : 0;
+                      const profit = isCalculated ? total * ((profitPercents[col.key] ?? 10) / 100) : 0;
+                      const grand = total + profit;
+                      return (
+                        <div key={col.key} style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }} className={`min-h-[60px] ${i < COSTING_COLUMNS.length - 1 ? 'border-r border-zinc-800' : ''} flex flex-col justify-center px-4 py-2 bg-zinc-950`}>
+                          {isCalculated && (
+                            <>
+                              <span className="text-[9px] font-black uppercase text-zinc-500 tracking-widest mb-1">Grand Total</span>
+                              <span className="text-[14px] font-black text-emerald-400 font-mono tracking-tight">¥ {Math.round(grand).toLocaleString()}</span>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              </div>
+            </div>
           </div>
         )}
 
@@ -469,10 +647,9 @@ export default function ItineraryBuilder() {
             className={`
               relative h-9 px-5 text-[10px] font-black uppercase tracking-widest
               border-l border-r border-t transition-colors
-              ${
-                activeTab === tab
-                  ? 'bg-white text-zinc-900 border-zinc-300 -mb-px z-10'
-                  : 'bg-[#e8e8e8] text-zinc-400 border-transparent hover:text-zinc-600 hover:bg-[#efefef]'
+              ${activeTab === tab
+                ? 'bg-white text-zinc-900 border-zinc-300 -mb-px z-10'
+                : 'bg-[#e8e8e8] text-zinc-400 border-transparent hover:text-zinc-600 hover:bg-[#efefef]'
               }
             `}
           >
@@ -488,30 +665,233 @@ export default function ItineraryBuilder() {
 type ColDef = { key: string; label: string; width?: string; minWidth?: string; grow?: number };
 
 const COLUMNS: ColDef[] = [
-  { key: 'date',        label: 'Date',        width: '176px' },
-  { key: 'col2',        label: 'Column 2',    grow: 1, minWidth: '120px' },
-  { key: 'col3',        label: 'Column 3',    grow: 1, minWidth: '120px' },
+  { key: 'date', label: 'Date', width: '176px' },
+  { key: 'col2', label: 'Column 2', grow: 1, minWidth: '120px' },
+  { key: 'col3', label: 'TRAINS', grow: 1, minWidth: '120px' },
   { key: 'sightseeing', label: 'Sightseeing', grow: 1, minWidth: '120px' },
-  { key: 'col5',        label: 'Column 5',    grow: 1, minWidth: '120px' },
-  { key: 'col6',        label: 'Column 6',    grow: 1, minWidth: '120px' },
-  { key: 'col7',        label: 'Column 7',    grow: 1, minWidth: '120px' },
+  { key: 'col5', label: 'Column 5', grow: 1, minWidth: '120px' },
+  { key: 'col6', label: 'Column 6', grow: 1, minWidth: '120px' },
+  { key: 'col7', label: 'Column 7', grow: 1, minWidth: '120px' },
 ];
 
 // Costing = all itinerary columns + 6 extra
 const COSTING_COLUMNS: ColDef[] = [
   ...COLUMNS,
-  { key: 'col8',  label: 'Column 8',  grow: 1, minWidth: '120px' },
-  { key: 'col9',  label: 'Column 9',  grow: 1, minWidth: '120px' },
+  { key: 'col8', label: 'Column 8', grow: 1, minWidth: '120px' },
+  { key: 'col9', label: 'TRAIN COST', grow: 1, minWidth: '120px' },
   { key: 'col10', label: 'SS COST', grow: 1, minWidth: '160px' },
   { key: 'col11', label: 'Column 11', grow: 1, minWidth: '120px' },
   { key: 'col12', label: 'Column 12', grow: 1, minWidth: '120px' },
   { key: 'col13', label: 'Column 13', grow: 1, minWidth: '120px' },
 ];
 
+// Grid template derived from COLUMNS — shared by header + every DayRow
+const ITINERARY_GRID = COLUMNS
+  .map(col => col.width ? col.width : `minmax(${col.minWidth ?? '120px'}, ${col.grow ?? 1}fr)`)
+  .join(' ');
+
 // Grid template derived from COSTING_COLUMNS — shared by header + every CostingRow
 const COSTING_GRID = COSTING_COLUMNS
-  .map(col => col.width ? col.width : `minmax(${col.minWidth ?? '120px'}, 1fr)`)
+  .map(col => col.width ? col.width : `minmax(${col.minWidth ?? '120px'}, ${col.grow ?? 1}fr)`)
   .join(' ');
+
+// ─── TrainSearchModal ────────────────────────────────────────────────────────
+function TrainSearchModal({
+  isOpen,
+  onClose,
+  onAddTrain,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onAddTrain: (entry: TrainEntry) => void;
+}) {
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [routes, setRoutes] = useState<RouteData[]>([]);
+  const [error, setError] = useState('');
+
+  if (!isOpen) return null;
+
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!from.trim() || !to.trim()) return;
+
+    setIsSearching(true);
+    setRoutes([]);
+    setError('');
+
+    try {
+      const result = await searchHyperdia({ from: from.trim(), to: to.trim() });
+      if (result.success) {
+        setRoutes(result.routes || []);
+      } else {
+        setError(result.error || 'Unknown error');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Request failed');
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectRoute = (route: RouteData, type: 'Standard' | 'Green', price: number) => {
+    // Reconstruct legs
+    const legs: TrainLeg[] = [];
+    let currentFrom = "";
+    route.segments.forEach((seg, i) => {
+      if (seg.type === "departure" || seg.type === "transfer") {
+        currentFrom = seg.stationName || "";
+      } else if (seg.type === "train") {
+        let toStation = "";
+        for (let j = i + 1; j < route.segments.length; j++) {
+          if (route.segments[j].type === "transfer" || route.segments[j].type === "arrival") {
+            toStation = route.segments[j].stationName || "";
+            break;
+          }
+        }
+        legs.push({
+          id: seg.id,
+          from: currentFrom,
+          train: seg.trainName || "Unknown",
+          to: toStation,
+          duration: seg.duration?.replace(/[\[\]]/g, "") || "",
+        });
+        currentFrom = toStation;
+      }
+    });
+
+    onAddTrain({
+      id: crypto.randomUUID(),
+      ticketType: type,
+      price,
+      legs,
+    });
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-[#f4f4f6] rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden">
+        <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-zinc-200">
+          <h2 className="text-sm font-black text-zinc-900 uppercase tracking-widest">Search Train Routes</h2>
+          <button onClick={onClose} className="text-zinc-400 hover:text-zinc-900"><X size={16} /></button>
+        </div>
+
+        <div className="p-6 bg-white border-b border-zinc-200">
+          <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-end gap-4">
+            <div className="flex-1 w-full">
+              <label className="block text-[11px] font-bold text-muted-foreground uppercase tracking-tighter mb-1.5">Origin Station</label>
+              <input type="text" required value={from} onChange={(e) => setFrom(e.target.value)}
+                placeholder="e.g. TOKYO" className="w-full bg-zinc-100 border-none rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all uppercase" />
+            </div>
+
+            <div className="flex-1 w-full">
+              <label className="block text-[11px] font-bold text-muted-foreground uppercase tracking-tighter mb-1.5">Destination Station</label>
+              <input type="text" required value={to} onChange={(e) => setTo(e.target.value)}
+                placeholder="e.g. KYOTO" className="w-full bg-zinc-100 border-none rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900 transition-all uppercase" />
+            </div>
+
+            <button type="submit" disabled={isSearching}
+              className="h-[40px] px-8 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-bold shadow-sm min-w-[150px] w-full md:w-auto mt-4 md:mt-0 transition-colors disabled:opacity-50 flex justify-center items-center">
+              {isSearching ? <Loader2 className="animate-spin mx-auto" size={16} /> : "SEARCH"}
+            </button>
+          </form>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-6">
+          {error && (
+            <div className="bg-red-50 text-red-600 p-4 rounded-xl text-sm font-bold">{error}</div>
+          )}
+          {routes.map((route, idx) => (
+            <TrainRouteCard key={route.id} route={route} index={idx} onSelect={handleSelectRoute} />
+          ))}
+          {routes.length === 0 && !isSearching && !error && (
+            <div className="text-center text-zinc-500 font-medium py-10">Enter stations to search routes.</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── TrainCell ─────────────────────────────────────────────────────────────
+function TrainCell({
+  entries,
+  onChange,
+  mode = 'all',
+}: {
+  entries: TrainEntry[];
+  onChange: (entries: TrainEntry[]) => void;
+  mode?: 'all' | 'info' | 'price';
+}) {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleAddTrain = (entry: TrainEntry) => {
+    onChange([...entries, entry]);
+  };
+
+  const handleRemove = (id: string) => {
+    if (mode === 'price') return;
+    onChange(entries.filter(e => e.id !== id));
+  };
+
+  return (
+    <div className="flex flex-col h-full p-2 gap-2">
+      {entries.map((entry) => (
+        <div key={entry.id} className={`flex flex-col gap-1 p-2 rounded-lg relative group ${mode === 'price' ? 'border border-transparent' : 'bg-zinc-50 border border-zinc-200'}`}>
+          {mode !== 'price' && (
+            <button onClick={() => handleRemove(entry.id)} className="absolute top-1.5 right-1.5 text-zinc-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+              <X size={12} />
+            </button>
+          )}
+          <div className={`flex items-center gap-2 mb-1 ${mode === 'price' ? 'justify-end' : ''}`}>
+            <span className={`text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded ${mode === 'price' ? 'opacity-0 pointer-events-none' : 'bg-zinc-200 text-zinc-700'}`}>
+              {entry.ticketType}
+            </span>
+            <span className={`text-[10px] font-bold text-emerald-600 ${mode === 'info' ? 'opacity-0 pointer-events-none' : ''}`}>
+              ¥ {entry.price.toLocaleString()}
+            </span>
+          </div>
+          <div className={`flex flex-col gap-1 ${mode === 'price' ? 'opacity-0 pointer-events-none select-none' : ''}`}>
+            {entry.legs.map(leg => (
+              <div key={leg.id} className="flex items-center gap-1.5 text-[9px] font-medium text-zinc-600 leading-tight">
+                <span className="font-bold text-zinc-800 truncate max-w-[60px]">{leg.from}</span>
+                <span className="text-zinc-300">➔</span>
+                <span className="truncate max-w-[80px] flex items-center gap-1 text-zinc-500">
+                  <span className="w-3 h-3"><TrainIcon name={leg.train} /></span>
+                  {leg.train}
+                </span>
+                <span className="text-zinc-300">➔</span>
+                <span className="font-bold text-zinc-800 truncate max-w-[60px]">{leg.to}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {mode !== 'price' ? (
+        <button
+          onClick={() => setModalOpen(true)}
+          className="w-full py-2 mt-auto border border-dashed border-zinc-300 rounded flex items-center justify-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:bg-zinc-50 hover:text-zinc-700 hover:border-zinc-400 transition-all"
+        >
+          <Plus size={10} /> Add Train
+        </button>
+      ) : (
+        <button className="w-full py-2 mt-auto border border-transparent rounded flex items-center justify-center gap-1.5 text-[10px] opacity-0 pointer-events-none select-none">
+          <Plus size={10} /> Add Train
+        </button>
+      )}
+
+      <TrainSearchModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAddTrain={handleAddTrain}
+      />
+    </div>
+  );
+}
 
 // ─── DayRow ───────────────────────────────────────────────────────────────────
 function DayRow({
@@ -521,6 +901,10 @@ function DayRow({
   onDelete,
   canDelete,
   isLast,
+  columnWidths,
+  rowHeights,
+  onRowResizeStart,
+  resizingRow,
 }: {
   idx: number;
   row: ItinRow;
@@ -528,65 +912,71 @@ function DayRow({
   onDelete: () => void;
   canDelete: boolean;
   isLast: boolean;
+  columnWidths: Record<string, number>;
+  rowHeights: Record<number, number>;
+  onRowResizeStart: (e: React.MouseEvent, idx: number) => void;
+  resizingRow: number | null;
 }) {
   return (
-    <div className={`flex w-full bg-white ${
-      !isLast ? 'border-b border-zinc-200' : ''
-    }`}>
+    <div 
+      className={`flex w-full bg-white ${!isLast ? 'border-b border-zinc-200' : ''}`}
+      style={{ minHeight: rowHeights[idx] ? `${rowHeights[idx]}px` : undefined }}
+    >
+      {COLUMNS.map((col, i) => {
+        let content = null;
+        if (col.key === 'date') {
+          content = (
+            <div className="flex flex-col justify-center gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black text-zinc-400 tracking-widest">
+                  DAY {String(idx + 1).padStart(2, '0')}
+                </span>
+                <button
+                  onClick={onDelete}
+                  disabled={!canDelete}
+                  title={canDelete ? `Delete Day ${idx + 1}` : 'Cannot delete the only day'}
+                  className="w-6 h-6 flex items-center justify-center text-zinc-300 hover:text-red-500 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                >
+                  <Trash2 size={12} />
+                </button>
+              </div>
+              <input
+                type="date"
+                value={row.date}
+                onChange={e => onUpdate({ date: e.target.value })}
+                className="w-full h-7 px-2 border border-zinc-200 bg-white text-[11px] font-bold text-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 focus:border-transparent hover:border-zinc-400 transition-colors cursor-pointer"
+              />
+              {row.date && (
+                <span className="text-[10px] font-semibold text-zinc-400 leading-tight">
+                  {new Date(row.date + 'T00:00:00').toLocaleDateString('en-IN', {
+                    weekday: 'long', day: 'numeric', month: 'short',
+                  })}
+                </span>
+              )}
+            </div>
+          );
+        } else if (col.key === 'col3') {
+          content = <TrainCell entries={row.trains} onChange={trains => onUpdate({ trains })} />;
+        } else if (col.key === 'sightseeing') {
+          content = <SightseeingCell entries={row.sightseeings} onChange={sightseeings => onUpdate({ sightseeings })} />;
+        }
 
-      {/* ── COL 1: Date ── */}
-      <div className="flex-shrink-0 border-r border-zinc-200 flex flex-col justify-center gap-2 px-3 py-3 bg-zinc-50" style={{ width: '176px' }}>
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-black text-zinc-400 tracking-widest">
-            DAY {String(idx + 1).padStart(2, '0')}
-          </span>
-          <button
-            onClick={onDelete}
-            disabled={!canDelete}
-            title={canDelete ? `Delete Day ${idx + 1}` : 'Cannot delete the only day'}
-            className="w-6 h-6 flex items-center justify-center text-zinc-300 hover:text-red-500 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+        return (
+          <div
+            key={col.key}
+            style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }}
+            className={`min-h-[80px] px-3 py-3 ${i < COLUMNS.length - 1 ? 'border-r border-zinc-200' : ''} ${col.key === 'date' ? 'bg-zinc-50 relative' : ''} flex flex-col justify-center`}
           >
-            <Trash2 size={12} />
-          </button>
-        </div>
-        <input
-          type="date"
-          value={row.date}
-          onChange={e => onUpdate({ date: e.target.value })}
-          className="w-full h-7 px-2 border border-zinc-200 bg-white text-[11px] font-bold text-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 focus:border-transparent hover:border-zinc-400 transition-colors cursor-pointer"
-        />
-        {row.date && (
-          <span className="text-[10px] font-semibold text-zinc-400 leading-tight">
-            {new Date(row.date + 'T00:00:00').toLocaleDateString('en-IN', {
-              weekday: 'long', day: 'numeric', month: 'short',
-            })}
-          </span>
-        )}
-      </div>
-
-      {/* ── COL 2: placeholder ── */}
-      <div className="flex-1 min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 3: placeholder ── */}
-      <div className="flex-1 min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 4: Sightseeing ── */}
-      <div className="flex-1 min-h-[80px] border-r border-zinc-200">
-        <SightseeingCell
-          entries={row.sightseeings}
-          onChange={entries => onUpdate({ sightseeings: entries })}
-        />
-      </div>
-
-      {/* ── COL 5: placeholder ── */}
-      <div className="flex-1 min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 6: placeholder ── */}
-      <div className="flex-1 min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 7: placeholder ── */}
-      <div className="flex-1 min-h-[80px]" />
-
+            {content}
+            {col.key === 'date' && (
+              <div
+                onMouseDown={e => onRowResizeStart(e, idx)}
+                className={`absolute left-0 right-0 bottom-0 h-1.5 cursor-row-resize hover:bg-emerald-500/50 z-10 ${resizingRow === idx ? 'bg-emerald-500' : ''}`}
+              />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -595,14 +985,16 @@ function DayRow({
 function SightseeingCell({
   entries,
   onChange,
+  mode = 'all',
 }: {
   entries: SightseeingEntry[];
   onChange: (entries: SightseeingEntry[]) => void;
+  mode?: 'all' | 'info' | 'price';
 }) {
-  const [query, setQuery]     = useState('');
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
-  const [open, setOpen]       = useState(false);
-  const wrapRef               = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
 
   // Debounced search
   const doSearch = useCallback(async (q: string) => {
@@ -647,58 +1039,73 @@ function SightseeingCell({
       {entries.map((entry, eIdx) => (
         <div
           key={eIdx}
-          className="flex items-center justify-between gap-1 bg-zinc-100 border border-zinc-200 px-2 py-1 rounded"
+          className={`flex items-center justify-between gap-1 px-2 py-1 rounded ${mode === 'price' ? 'border border-transparent' : 'bg-zinc-100 border border-zinc-200'}`}
         >
-          <span className="text-[10px] font-bold text-zinc-700 leading-tight truncate">
+          <span className={`text-[10px] font-bold leading-tight truncate ${mode === 'price' ? 'opacity-0 pointer-events-none' : 'text-zinc-700'}`}>
             {entry.name}
           </span>
-          <button
-            onClick={() => removeEntry(entry.name)}
-            className="flex-shrink-0 text-zinc-300 hover:text-red-500 transition-colors"
-          >
-            <X size={10} />
-          </button>
+          {mode === 'price' ? (
+            <span className="text-[10px] font-black text-emerald-600 whitespace-nowrap flex-shrink-0">
+              {entry.adultPrice != null ? `¥ ${Number(entry.adultPrice).toLocaleString()}` : '—'}
+            </span>
+          ) : (
+            <button
+              onClick={() => removeEntry(entry.name)}
+              className="flex-shrink-0 text-zinc-300 hover:text-red-500 transition-colors"
+            >
+              <X size={10} />
+            </button>
+          )}
         </div>
       ))}
 
       {/* Search input */}
-      <div className="relative">
-        <div className="flex items-center gap-1 border border-zinc-200 bg-white px-2 py-1 focus-within:border-zinc-500 focus-within:ring-1 focus-within:ring-zinc-300 transition">
-          <Search size={9} className="text-zinc-300 flex-shrink-0" />
-          <input
-            value={query}
-            onFocus={() => setOpen(true)}
-            onChange={e => { setQuery(e.target.value); setOpen(true); }}
-            placeholder="Search sightseeing..."
-            className="flex-1 bg-transparent text-[11px] font-semibold text-zinc-700 outline-none placeholder:text-zinc-300 min-w-0"
-          />
-        </div>
-
-        {/* Results dropdown */}
-        {open && results.length > 0 && (
-          <div className="absolute top-full left-0 right-0 z-50 bg-white border border-zinc-300 shadow-lg max-h-48 overflow-y-auto">
-            {results.map((spot: any) => (
-              <div
-                key={spot._id}
-                className="flex items-center justify-between px-2 py-1.5 hover:bg-zinc-50 border-b border-zinc-100 last:border-b-0 group"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-[11px] font-semibold text-zinc-800 truncate">{spot.name_en}</p>
-                  {spot.municipality && (
-                    <p className="text-[10px] text-zinc-400 font-semibold truncate">{spot.municipality}</p>
-                  )}
-                </div>
-                <button
-                  onMouseDown={e => { e.preventDefault(); addEntry(spot); }}
-                  className="flex-shrink-0 ml-2 w-5 h-5 flex items-center justify-center bg-zinc-900 hover:bg-zinc-700 text-white transition"
-                >
-                  <Plus size={10} />
-                </button>
-              </div>
-            ))}
+      {mode !== 'price' ? (
+        <div className="relative">
+          <div className="flex items-center gap-1 border border-zinc-200 bg-white px-2 py-1 focus-within:border-zinc-500 focus-within:ring-1 focus-within:ring-zinc-300 transition">
+            <Search size={9} className="text-zinc-300 flex-shrink-0" />
+            <input
+              value={query}
+              onFocus={() => setOpen(true)}
+              onChange={e => { setQuery(e.target.value); setOpen(true); }}
+              placeholder="Search sightseeing..."
+              className="flex-1 bg-transparent text-[11px] font-semibold text-zinc-700 outline-none placeholder:text-zinc-300 min-w-0"
+            />
           </div>
-        )}
-      </div>
+
+          {/* Results dropdown */}
+          {open && results.length > 0 && (
+            <div className="absolute top-full left-0 right-0 z-50 bg-white border border-zinc-300 shadow-lg max-h-48 overflow-y-auto">
+              {results.map((spot: any) => (
+                <div
+                  key={spot._id}
+                  className="flex items-center justify-between px-2 py-1.5 hover:bg-zinc-50 border-b border-zinc-100 last:border-b-0 group"
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[11px] font-semibold text-zinc-800 truncate">{spot.name_en}</p>
+                    {spot.municipality && (
+                      <p className="text-[10px] text-zinc-400 font-semibold truncate">{spot.municipality}</p>
+                    )}
+                  </div>
+                  <button
+                    onMouseDown={e => { e.preventDefault(); addEntry(spot); }}
+                    className="flex-shrink-0 ml-2 w-5 h-5 flex items-center justify-center bg-zinc-900 hover:bg-zinc-700 text-white transition"
+                  >
+                    <Plus size={10} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="relative opacity-0 pointer-events-none select-none">
+          <div className="flex items-center gap-1 border border-transparent px-2 py-1">
+            <Search size={9} />
+            <input className="flex-1 min-w-0" disabled />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -711,6 +1118,10 @@ function CostingRow({
   onDelete,
   canDelete,
   isLast,
+  columnWidths,
+  rowHeights,
+  onRowResizeStart,
+  resizingRow,
 }: {
   idx: number;
   row: ItinRow;
@@ -718,101 +1129,75 @@ function CostingRow({
   onDelete: () => void;
   canDelete: boolean;
   isLast: boolean;
+  columnWidths: Record<string, number>;
+  rowHeights: Record<number, number>;
+  onRowResizeStart: (e: React.MouseEvent, idx: number) => void;
+  resizingRow: number | null;
 }) {
   return (
-    <div
-      className={`w-full bg-white ${!isLast ? 'border-b border-zinc-200' : ''}`}
-      style={{ display: 'grid', gridTemplateColumns: COSTING_GRID }}
+    <div 
+      className={`flex w-full bg-white ${!isLast ? 'border-b border-zinc-200' : ''}`}
+      style={{ minHeight: rowHeights[idx] ? `${rowHeights[idx]}px` : undefined }}
     >
-
-      {/* ── COL 1: Date (shared with itinerary) ── */}
-      <div className="border-r border-zinc-200 flex flex-col justify-center gap-2 px-3 py-3 bg-zinc-50">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-black text-zinc-400 tracking-widest">
-            DAY {String(idx + 1).padStart(2, '0')}
-          </span>
-          <button
-            onClick={onDelete}
-            disabled={!canDelete}
-            title={canDelete ? `Delete Day ${idx + 1}` : 'Cannot delete the only day'}
-            className="w-6 h-6 flex items-center justify-center text-zinc-300 hover:text-red-500 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
-          >
-            <Trash2 size={12} />
-          </button>
-        </div>
-        <input
-          type="date"
-          value={row.date}
-          onChange={e => onUpdate({ date: e.target.value })}
-          className="w-full h-7 px-2 border border-zinc-200 bg-white text-[11px] font-bold text-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 focus:border-transparent hover:border-zinc-400 transition-colors cursor-pointer"
-        />
-        {row.date && (
-          <span className="text-[10px] font-semibold text-zinc-400 leading-tight">
-            {new Date(row.date + 'T00:00:00').toLocaleDateString('en-IN', {
-              weekday: 'long', day: 'numeric', month: 'short',
-            })}
-          </span>
-        )}
-      </div>
-
-      {/* ── COL 2: placeholder ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 3: placeholder ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 4: Sightseeing (shared with itinerary) ── */}
-      <div className="min-h-[80px] border-r border-zinc-200">
-        <SightseeingCell
-          entries={row.sightseeings}
-          onChange={entries => onUpdate({ sightseeings: entries })}
-        />
-      </div>
-
-      {/* ── COL 5: placeholder ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 6: placeholder ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 7: placeholder ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 8 ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 9 ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 10: Sightseeing read-only summary ── */}
-      <div className="min-h-[80px] border-r border-zinc-200 flex flex-col gap-1 px-3 py-3">
-        {row.sightseeings.length === 0 ? (
-          <span className="text-[10px] text-zinc-300 font-semibold">—</span>
-        ) : (
-          row.sightseeings.map((entry, i) => (
-            <div key={i} className="flex items-center justify-between gap-2">
-              <span className="text-[11px] font-semibold text-zinc-700 truncate flex-1">
-                {entry.name}
-              </span>
-              <span className="text-[10px] font-black text-zinc-400 whitespace-nowrap flex-shrink-0">
-                {entry.adultPrice != null
-                  ? `¥ ${Number(entry.adultPrice).toLocaleString()}`
-                  : '—'}
-              </span>
+      {COSTING_COLUMNS.map((col, i) => {
+        let content = null;
+        if (col.key === 'date') {
+          content = (
+            <div className="flex flex-col justify-center gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-black text-zinc-400 tracking-widest">
+                  DAY {String(idx + 1).padStart(2, '0')}
+                </span>
+                <button
+                  onClick={onDelete}
+                  disabled={!canDelete}
+                  title={canDelete ? `Delete Day ${idx + 1}` : 'Cannot delete the only day'}
+                  className="w-6 h-6 flex items-center justify-center text-zinc-300 hover:text-red-500 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                >
+                  <Trash2 size={12} />
+                </button>
+              </div>
+              <input
+                type="date"
+                value={row.date}
+                onChange={e => onUpdate({ date: e.target.value })}
+                className="w-full h-7 px-2 border border-zinc-200 bg-white text-[11px] font-bold text-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 focus:border-transparent hover:border-zinc-400 transition-colors cursor-pointer"
+              />
+              {row.date && (
+                <span className="text-[10px] font-semibold text-zinc-400 leading-tight">
+                  {new Date(row.date + 'T00:00:00').toLocaleDateString('en-IN', {
+                    weekday: 'long', day: 'numeric', month: 'short',
+                  })}
+                </span>
+              )}
             </div>
-          ))
-        )}
-      </div>
+          );
+        } else if (col.key === 'col3') {
+           content = <TrainCell entries={row.trains} onChange={trains => onUpdate({ trains })} mode="info" />;
+        } else if (col.key === 'sightseeing') {
+           content = <SightseeingCell entries={row.sightseeings} onChange={sightseeings => onUpdate({ sightseeings })} mode="info" />;
+        } else if (col.key === 'col9') {
+          content = <TrainCell entries={row.trains} onChange={() => {}} mode="price" />;
+        } else if (col.key === 'col10') {
+          content = <SightseeingCell entries={row.sightseeings} onChange={() => {}} mode="price" />;
+        }
 
-      {/* ── COL 11 ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 12 ── */}
-      <div className="min-h-[80px] border-r border-zinc-200" />
-
-      {/* ── COL 13 ── */}
-      <div className="min-h-[80px]" />
-
+        return (
+          <div
+            key={col.key}
+            style={{ width: `${columnWidths[col.key]}px`, flexShrink: 0, flexGrow: 0 }}
+            className={`min-h-[80px] px-3 py-3 ${i < COSTING_COLUMNS.length - 1 ? 'border-r border-zinc-200' : ''} ${col.key === 'date' ? 'bg-zinc-50 relative' : ''} flex flex-col justify-center`}
+          >
+            {content}
+            {col.key === 'date' && (
+              <div
+                onMouseDown={e => onRowResizeStart(e, idx)}
+                className={`absolute left-0 right-0 bottom-0 h-1.5 cursor-row-resize hover:bg-emerald-500/50 z-10 ${resizingRow === idx ? 'bg-emerald-500' : ''}`}
+              />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

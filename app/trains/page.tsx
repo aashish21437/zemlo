@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { searchHyperdia, type RouteData, type SearchParams } from "./actions";
 import Navbar from "@/components/Navbar";
+import { TrainRouteCard } from "@/components/TrainRouteCard";
 
 // ─── COMPONENT ────────────────────────────────────────────────────────────────
 
@@ -116,7 +117,7 @@ export default function TrainsPage() {
           {hasSearched && !isSearching && routes.length > 0 && (
             <div className="mt-8">
               {routes.map((route, idx) => (
-                <RouteCard key={route.id} route={route} index={idx} />
+                <TrainRouteCard key={route.id} route={route} index={idx} />
               ))}
             </div>
           )}
@@ -127,151 +128,4 @@ export default function TrainsPage() {
   );
 }
 
-// ─── ROUTE CARD ───────────────────────────────────────────────────────────────
 
-function RouteCard({ route, index }: { route: RouteData; index: number }) {
-    const standardTotal = route.standardTotal;
-    const greenTotal = route.greenTotal;
-
-  return (
-    <Card className="mb-8 border-none rounded-[1.5rem] overflow-hidden shadow-md">
-      {/* Route header */}
-      <div className="bg-secondary/30 dark:bg-white/5 dark:backdrop-blur-md px-6 py-4 flex flex-col md:flex-row justify-between md:items-center gap-4">
-        <div className="flex items-center gap-4">
-          <div className="text-sm text-muted-foreground font-medium">
-            Time: <strong className="text-foreground">{route.totalTime}</strong>
-            <span className="mx-2 text-border">|</span>
-            Distance: <strong className="text-foreground">{route.distance}</strong>
-          </div>
-        </div>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-tighter">Standard</span>
-            <strong className="text-lg font-bold text-foreground font-mono tracking-tight">{standardTotal}</strong>
-            <Button variant="outline" size="icon-sm" className="font-black shadow-sm" type="button" title="Add to itinerary">
-              +
-            </Button>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-tighter">Green</span>
-            <strong className="text-lg font-bold text-foreground font-mono tracking-tight">{greenTotal}</strong>
-            <Button variant="outline" size="icon-sm" className="font-black shadow-sm" type="button" title="Add to itinerary">
-              +
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Route table */}
-      <table className="w-full text-left text-sm border-collapse bg-background">
-        <thead>
-          <tr className="border-b border-border">
-            <th className="px-6 py-3 font-bold text-muted-foreground uppercase tracking-wider text-[10px]">Station / Line</th>
-            <th className="px-6 py-3 font-bold text-muted-foreground uppercase tracking-wider text-[10px] text-right w-32">Time</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border">
-          {route.segments.map((seg) => {
-            if (seg.type === "departure") {
-              return (
-                <tr key={seg.id} className="hover:bg-muted/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="font-bold text-foreground text-base">{seg.stationName}</span>
-                  </td>
-                  <td className="px-6 py-4"></td>
-                </tr>
-              );
-            }
-
-            if (seg.type === "train") {
-              return (
-                <tr key={seg.id} className="hover:bg-muted/80 transition-colors bg-muted/20">
-                  <td className="px-6 py-3">
-                    <div className="flex items-center gap-3">
-                      <TrainIcon name={seg.trainName || ""} />
-                      <span className="text-muted-foreground font-medium">{seg.trainName}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-3 text-right text-muted-foreground font-medium text-xs">
-                    {seg.duration}
-                  </td>
-                </tr>
-              );
-            }
-
-            if (seg.type === "transfer") {
-              return (
-                <tr key={seg.id} className="hover:bg-muted/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="font-bold text-foreground text-base">{seg.stationName}</span>
-                  </td>
-                  <td className="px-6 py-4"></td>
-                </tr>
-              );
-            }
-
-            if (seg.type === "arrival") {
-              return (
-                <tr key={seg.id} className="hover:bg-muted/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <span className="font-bold text-foreground text-base">{seg.stationName}</span>
-                  </td>
-                  <td className="px-6 py-4"></td>
-                </tr>
-              );
-            }
-            return null;
-          })}
-        </tbody>
-      </table>
-    </Card>
-  );
-}
-
-// ─── TRAIN ICON ───────────────────────────────────────────────────────────────
-
-function TrainIcon({ name }: { name: string }) {
-  const lower = name.toLowerCase();
-
-  // Shinkansen
-  if (lower.includes("shinkansen")) {
-    return (
-      <svg width="20" height="14" viewBox="0 0 28 16" className="flex-shrink-0 text-foreground" fill="currentColor">
-        <rect x="2" y="1" width="24" height="11" rx="5" />
-        <rect x="5" y="3" width="6" height="4" rx="1" className="text-background" fill="currentColor" />
-        <rect x="13" y="3" width="6" height="4" rx="1" className="text-background" fill="currentColor" />
-        <circle cx="8" cy="14" r="1.5" className="text-primary" fill="currentColor" />
-        <circle cx="20" cy="14" r="1.5" className="text-primary" fill="currentColor" />
-      </svg>
-    );
-  }
-
-  // Airline
-  if (lower.includes("airline") || lower.includes("air")) {
-    return (
-      <svg width="16" height="16" viewBox="0 0 24 24" className="flex-shrink-0 text-muted-foreground" fill="currentColor">
-        <path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-      </svg>
-    );
-  }
-
-  // Walk
-  if (lower.includes("walk")) {
-    return (
-      <svg width="14" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 text-muted-foreground">
-        <circle cx="13" cy="4" r="2"/><path d="m7.5 16 1-4 4 1 2-3"/><path d="m10.5 21 1.5-5"/><path d="m16 21-2-5"/>
-      </svg>
-    );
-  }
-
-  // Default train
-  return (
-    <svg width="16" height="14" viewBox="0 0 24 20" fill="none" className="flex-shrink-0">
-      <rect x="4" y="2" width="16" height="12" rx="3" className="fill-muted-foreground" />
-      <rect x="6" y="4" width="4" height="3" rx="1" className="fill-background" />
-      <rect x="12" y="4" width="4" height="3" rx="1" className="fill-background" />
-      <circle cx="8" cy="17" r="1.5" className="fill-primary" />
-      <circle cx="16" cy="17" r="1.5" className="fill-primary" />
-    </svg>
-  );
-}

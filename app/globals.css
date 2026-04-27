@@ -35,13 +35,13 @@
   :root {
     /* --- MATERIAL YOU: LIGHT NAVY --- */
     --background: 210 20% 98%;    /* #F8F9FA */
-    --foreground: 210 100% 20%;   /* #003366 */
+    --foreground: 240 5.9% 10%;   /* zinc-900 */
     
     --card: 0 0% 100%;            /* #FFFFFF */
-    --card-foreground: 210 100% 20%;
+    --card-foreground: 240 5.9% 10%;
  
     --popover: 0 0% 100%;
-    --popover-foreground: 210 100% 20%;
+    --popover-foreground: 240 5.9% 10%;
  
     --primary: 208 100% 41%;      /* #0070D2 (Zemlo Blue) */
     --primary-foreground: 0 0% 100%;
